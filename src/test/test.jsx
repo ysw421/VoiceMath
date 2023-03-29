@@ -21,32 +21,50 @@ function LeftGrid() {
     // app.evalCommand('Polygon((0,0), (5,0), (0, 2))'); // 다각형
     // app.evalCommand('Point({2,4})'); // 점
     // app.evalCommand('Text("안녕??", (2,4))'); // 텍스트
+    // app.evalCommand('ZoomIn(5, (0.75,3))');
+    // app.evalCommand('ZoomOut(5, (0.75,3))');
   }
 
   return (
     <Geogebra
-      width="700"
-      height="700"
-      //   width={windowSize.width / 2}
-      //   height={windowSize.height}
-      // prerelease={false}
+      appName="app"
+      width={700}
+      height={700}
       showToolBar={false}
-      borderColor={null}
-      showMenuBar={false}
       showAlgebraInput={false}
-      showResetIcon={false}
-      // enableLabelDrags={false}
-      // enableShiftDragZoom={true}
-      // enableRightClick={true}
-      // capturingThreshold={null}
+      showMenuBar={false}
+      showZoomButtons={false}
       showToolBarHelp={false}
-      // errorDialogsActive={true}
-      // useBrowserForJS={true}
+      showResetIcon={false}
       showLogging={false}
-      ggbbase64="" // ggb 파일 불러오기
-      // debug
+      // autoHeight={true}
+      showAnimationButton={false}
+      showFullscreenButton={false}
+      showSuggestionButtons={false}
+      showStartTooltip={false}
+      reloadOnPropChange={false}
+      // width="700"
+      // height="700"
+      // //   width={windowSize.width / 2}
+      // //   height={windowSize.height}
+      // // prerelease={false}
+      // showToolBar={false}
+      // borderColor={null}
+      // showMenuBar={false}
+      // showAlgebraInput={false}
+      // showResetIcon={false}
+      // // enableLabelDrags={false}
+      // // enableShiftDragZoom={true}
+      // // enableRightClick={true}
+      // // capturingThreshold={null}
+      // showToolBarHelp={false}
+      // // errorDialogsActive={true}
+      // // useBrowserForJS={true}
+      // // showLogging={true
+      // ggbbase64="" // ggb 파일 불러오기
+      // // debug
       appletOnLoad={afterAppIsLoaded}
-      // onReady={() => <h1>⚠️ Loading</h1>s}
+      // // onReady={() => <h1>⚠️ Loading</h1>s}
       LoadComponent={() => (
         <div className={styles.rightGrid}>
           <h1>⚠️ Loading</h1>
