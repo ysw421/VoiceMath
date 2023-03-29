@@ -5,6 +5,7 @@
   align-items: center;
   flex-direction: row;
   justify-content: space-around;
+  overflow: hidden;
 }
 
 .rightGrid {

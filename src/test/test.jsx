@@ -13,6 +13,14 @@ function LeftGrid() {
     app.evalCommand(`a: y = 4x`);
     app.evalCommand(`b: y = 3`);
     app.evalCommand(`d: Intersect(a, b)`);
+
+    // app.evalCommand(`Intersect(a, b)`); // 교점
+    // app.evalCommand('Circle((5,4), 5)'); // 원
+    // app.evalCommand('Segment((5,4), (-2,-3))'); // 선분
+    // app.evalCommand('Line((5,4), (-2,-3))'); // 직선
+    // app.evalCommand('Polygon((0,0), (5,0), (0, 2))'); // 다각형
+    // app.evalCommand('Point({2,4})'); // 점
+    // app.evalCommand('Text("안녕??", (2,4))'); // 텍스트
   }
 
   return (
@@ -35,11 +43,15 @@ function LeftGrid() {
       // errorDialogsActive={true}
       // useBrowserForJS={true}
       showLogging={false}
-      ggbbase64=""
+      ggbbase64="" // ggb 파일 불러오기
       // debug
       appletOnLoad={afterAppIsLoaded}
       // onReady={() => <h1>⚠️ Loading</h1>s}
-      LoadComponent={() => <h1>⚠️ Loading</h1>}
+      LoadComponent={() => (
+        <div className={styles.rightGrid}>
+          <h1>⚠️ Loading</h1>
+        </div>
+      )}
     />
   );
 }
