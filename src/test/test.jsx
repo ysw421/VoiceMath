@@ -36,7 +36,7 @@ function LeftGrid() {
       // useBrowserForJS={true}
       showLogging={false}
       ggbbase64=""
-      debug
+      // debug
       appletOnLoad={afterAppIsLoaded}
       // onReady={() => <h1>⚠️ Loading</h1>s}
       LoadComponent={() => <h1>⚠️ Loading</h1>}
