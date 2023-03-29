@@ -1,0 +1,20 @@
+.backGrid {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.rightGrid {
+  width: 700px;
+  height: 700px;
+  text-align: left;
+}
+
+.bottomSign {
+  position: absolute;
+  bottom: 10px;
+  right: 20px;
+}
