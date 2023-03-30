@@ -13,6 +13,7 @@ function LeftGrid() {
     app.evalCommand(`a: y = 4x`);
     app.evalCommand(`b: y = 3`);
     app.evalCommand(`d: Intersect(a, b)`);
+    app.evalCommand(`O: Point({0, 0})`);
 
     // app.evalCommand(`Intersect(a, b)`); // 교점
     // app.evalCommand('Circle((5,4), 5)'); // 원
@@ -24,6 +25,58 @@ function LeftGrid() {
     // app.evalCommand('ZoomIn(5, (0.75,3))');
     // app.evalCommand('ZoomOut(5, (0.75,3))');
   }
+
+  // return (
+  //   <div style={{ width: '700px', height: '700px' }}>
+  //     <div style={{ position: 'relative', left: '-350px' }}>
+  //       <Geogebra
+  //         appName="app"
+  //         width={1050}
+  //         height={700}
+  //         showToolBar={false}
+  //         showAlgebraInput={false}
+  //         showMenuBar={false}
+  //         showZoomButtons={false}
+  //         showToolBarHelp={false}
+  //         showResetIcon={false}
+  //         showLogging={false}
+  //         // autoHeight={true}
+  //         showAnimationButton={false}
+  //         showFullscreenButton={false}
+  //         showSuggestionButtons={false}
+  //         showStartTooltip={false}
+  //         reloadOnPropChange={false}
+  //         // width="700"
+  //         // height="700"
+  //         // //   width={windowSize.width / 2}
+  //         // //   height={windowSize.height}
+  //         // // prerelease={false}
+  //         // showToolBar={false}
+  //         borderColor={null}
+  //         // showMenuBar={false}
+  //         // showAlgebraInput={false}
+  //         // showResetIcon={false}
+  //         // // enableLabelDrags={false}
+  //         // // enableShiftDragZoom={true}
+  //         // // enableRightClick={true}
+  //         // // capturingThreshold={null}
+  //         // showToolBarHelp={false}
+  //         // // errorDialogsActive={true}
+  //         // // useBrowserForJS={true}
+  //         // // showLogging={true
+  //         // ggbbase64="" // ggb 파일 불러오기
+  //         // // debug
+  //         appletOnLoad={afterAppIsLoaded}
+  //         // // onReady={() => <h1>⚠️ Loading</h1>s}
+  //         LoadComponent={() => (
+  //           <div className={styles.rightGrid}>
+  //             <h1>⚠️ Loading</h1>
+  //           </div>
+  //         )}
+  //       />
+  //     </div>
+  //   </div>
+  // );
 
   return (
     <Geogebra
@@ -49,7 +102,7 @@ function LeftGrid() {
       // //   height={windowSize.height}
       // // prerelease={false}
       // showToolBar={false}
-      // borderColor={null}
+      borderColor={null}
       // showMenuBar={false}
       // showAlgebraInput={false}
       // showResetIcon={false}
