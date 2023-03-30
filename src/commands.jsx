@@ -1,3 +1,7 @@
-export function moveCamera(app, x, y) {
-  app.evalCommand(`CenterView((${x}, ${y}))`);
+export function moveCamera(app, position) {
+  app.evalCommand(`CenterView(${position})`);
+}
+
+export function zoomCamera(app, zoom, position) {
+  app.evalCommand(`ZoomIn(${zoom}, ${position})`);
 }
