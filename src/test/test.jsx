@@ -5,6 +5,7 @@ import 'katex/dist/katex.min.css';
 import Latex from 'react-latex-next';
 import { atom, useAtom } from 'jotai';
 import { moveCamera, zoomCamera } from '../commands';
+import React from 'react';
 
 const appAtom = atom(null);
 const isLoadingAtom = atom(false);
