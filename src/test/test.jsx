@@ -129,7 +129,7 @@ function RightGrid() {
     <div className={styles.rightGrid}>
       <Latex>
         We give illustrations for the three processes $e^+e^-$, gluon-gluon and $\\gamma\\gamma \\to W t\\bar b$.
-        $\\f(x) = x^2 + 4x -1\\$11 $\\$⭐한글 한글, 한글! test
+        $\\f(x) = x^2 + 4x -1\\$11 $\\$⭐한글 한글, 한글! test test est
       </Latex>
     </div>
   );
