@@ -1,4 +1,3 @@
-import Geogebra from 'react-geogebra';
 import styles from './test.module.css';
 import 'katex/dist/katex.min.css';
 import Latex from 'react-latex-next';
@@ -15,7 +14,12 @@ function LeftGrid(props) {
       const script = document.createElement('script');
       script.src = 'https://cdn.geogebra.org/apps/deployggb.js';
       document.body.appendChild(script);
-  
+      
+      if (typeof window.GGBApplet == "function") {
+        console.log("deployggb.js was loaded twicewerewr");
+        return;
+      }
+
       script.onload = function () {
         const parameters = {
           prerelease: false,
@@ -44,7 +48,11 @@ function LeftGrid(props) {
     function evalInput(strInput) {
       if (window.ggbApplet) {
         window.ggbApplet.evalCommand(strInput);
+        console.log(strInput)
+      } else {
+        console.log("GeoGebra applet not found.");
       }
+      return false;
     }
   
     return (
