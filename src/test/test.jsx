@@ -1,17 +1,62 @@
 import Geogebra from 'react-geogebra';
 import styles from './test.module.css';
-import { useState, useEffect } from 'react';
 import 'katex/dist/katex.min.css';
 import Latex from 'react-latex-next';
 import { atom, useAtom } from 'jotai';
 import { moveCamera, zoomCamera } from '../commands';
-import React from 'react';
+import React, { useState, useEffect } from "react";
+
 
 const appAtom = atom(null);
 const isLoadingAtom = atom(false);
 
 function LeftGrid(props) {
+    useEffect(() => {
+      const script = document.createElement('script');
+      script.src = 'https://cdn.geogebra.org/apps/deployggb.js';
+      document.body.appendChild(script);
   
+      script.onload = function () {
+        const parameters = {
+          prerelease: false,
+          width: 600,
+          height: 600,
+          showToolBar: false,
+          borderColor: true,
+          showMenuBar: false,
+          showAlgebraInput: false,
+          showResetIcon: true,
+          enableLabelDrags: false,
+          enableShiftDragZoom: true,
+          enableRightClick: false,
+          capturingThreshold: null,
+          showToolBarHelp: false,
+          errorDialogsActive: true,
+          useBrowserForJS: false,
+          filename: '../ggb/triangle.ggb'
+        };
+  
+        const applet = new window.GGBApplet('5.0', parameters);
+        applet.inject('applet_container');
+      };
+    }, []);
+  
+    function evalInput(strInput) {
+      if (window.ggbApplet) {
+        window.ggbApplet.evalCommand(strInput);
+      }
+    }
+  
+    return (
+      <div>
+        <p>This is an example of an HTML file containing a GeoGebra applet with buttons triggering the GeoGebra Javascript API.</p>
+        <div id="applet_container"></div>
+        <form onSubmit={e => {e.preventDefault(); evalInput(e.target.inputField.value); e.target.inputField.value = '';}}>
+          Input field: <input type="text" name="inputField" size="30" />
+          <button type="submit">Submit</button>
+        </form>
+      </div>
+    );
 }
 
 function RightGrid() {
