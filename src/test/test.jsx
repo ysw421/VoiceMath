@@ -49,7 +49,6 @@ function LeftGrid(props) {
   
     return (
       <div>
-        <p>This is an example of an HTML file containing a GeoGebra applet with buttons triggering the GeoGebra Javascript API.</p>
         <div id="applet_container"></div>
         <form onSubmit={e => {e.preventDefault(); evalInput(e.target.inputField.value); e.target.inputField.value = '';}}>
           Input field: <input type="text" name="inputField" size="30" />
