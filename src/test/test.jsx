@@ -17,8 +17,8 @@ function LeftGrid(props) {
       script.onload = function () {
         const parameters = {
           prerelease: false,
-          width: 600,
-          height: 600,
+          width: 650,
+          height: 700,
           showToolBar: false,
           borderColor: true,
           showMenuBar: false,
@@ -30,35 +30,32 @@ function LeftGrid(props) {
           capturingThreshold: null,
           showToolBarHelp: false,
           errorDialogsActive: true,
-          useBrowserForJS: false,
+          useBrowserForJS: true,
         };
-        const applet = new window.GGBApplet('5.0', parameters);
+        const applet = new window.GGBApplet('6.0', parameters);
         applet.inject('applet_container');
       };
     }, []);
   
-    function evalInput(strInput) {
-      if (window.ggbApplet) {
-        window.ggbApplet.evalCommand(strInput);
-        console.log(strInput)
-      } else {
-        console.log("GeoGebra applet not found.");
-      }
-      return false;
-    }
-  
     return (
       <div>
         <div id="applet_container"></div>
-        <form onSubmit={e => {e.preventDefault(); evalInput(e.target.inputField.value); e.target.inputField.value = '';}}>
-          Input field: <input type="text" name="inputField" size="30" />
-          <button type="submit">Submit</button>
-        </form>
       </div>
     );
 }
 
 function RightGrid() {
+
+  function evalInput(strInput) {
+    if (window.ggbApplet) {
+      window.ggbApplet.evalCommand(strInput);
+      console.log(strInput)
+    } else {
+      console.log("GeoGebra applet not found.");
+    }
+    return false;
+  }
+
   return (
     <div className={styles.rightGrid}>
       <Latex>
@@ -66,6 +63,10 @@ function RightGrid() {
         $\\f(x) = x^2 + 4x -1\\$11 $\\$⭐한글 한글, 한글! test test test Testsdfsdf
         
       </Latex>
+      <form className={styles.input} onSubmit={e => {e.preventDefault(); evalInput(e.target.inputField.value); e.target.inputField.value = '';}}>
+          Input field: <input type="text" name="inputField" size="50" />
+          <button className={styles.button}> Submit</button>
+        </form>
     </div>
   );
 }
