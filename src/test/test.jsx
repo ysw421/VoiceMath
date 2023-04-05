@@ -14,12 +14,6 @@ function LeftGrid(props) {
       const script = document.createElement('script');
       script.src = 'https://cdn.geogebra.org/apps/deployggb.js';
       document.body.appendChild(script);
-      
-      if (typeof window.GGBApplet == "function") {
-        console.log("deployggb.js was loaded twicewerewr");
-        return;
-      }
-
       script.onload = function () {
         const parameters = {
           prerelease: false,
@@ -37,9 +31,7 @@ function LeftGrid(props) {
           showToolBarHelp: false,
           errorDialogsActive: true,
           useBrowserForJS: false,
-          filename: '../ggb/triangle.ggb'
         };
-  
         const applet = new window.GGBApplet('5.0', parameters);
         applet.inject('applet_container');
       };
