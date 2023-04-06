@@ -3,55 +3,53 @@ import 'katex/dist/katex.min.css';
 import Latex from 'react-latex-next';
 import { atom, useAtom } from 'jotai';
 import { moveCamera, zoomCamera } from '../commands';
-import React, { useState, useEffect } from "react";
-
+import React, { useState, useEffect } from 'react';
 
 const appAtom = atom(null);
 const isLoadingAtom = atom(false);
 
 function LeftGrid(props) {
-    useEffect(() => {
-      const script = document.createElement('script');
-      script.src = 'https://cdn.geogebra.org/apps/deployggb.js';
-      document.body.appendChild(script);
-      script.onload = function () {
-        const parameters = {
-          prerelease: false,
-          width: 650,
-          height: 700,
-          showToolBar: false,
-          borderColor: true,
-          showMenuBar: false,
-          showAlgebraInput: false,
-          showResetIcon: true,
-          enableLabelDrags: false,
-          enableShiftDragZoom: true,
-          enableRightClick: false,
-          capturingThreshold: null,
-          showToolBarHelp: false,
-          errorDialogsActive: true,
-          useBrowserForJS: true,
-        };
-        const applet = new window.GGBApplet('6.0', parameters);
-        applet.inject('applet_container');
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.src = 'https://cdn.geogebra.org/apps/deployggb.js';
+    document.body.appendChild(script);
+    script.onload = function() {
+      const parameters = {
+        prerelease: false,
+        width: 650,
+        height: 700,
+        showToolBar: false,
+        borderColor: true,
+        showMenuBar: false,
+        showAlgebraInput: false,
+        showResetIcon: true,
+        enableLabelDrags: false,
+        enableShiftDragZoom: true,
+        enableRightClick: false,
+        capturingThreshold: null,
+        showToolBarHelp: false,
+        errorDialogsActive: true,
+        useBrowserForJS: true,
       };
-    }, []);
-  
-    return (
-      <div>
-        <div id="applet_container"></div>
-      </div>
-    );
+      const applet = new window.GGBApplet('6.0', parameters);
+      applet.inject('applet_container');
+    };
+  }, []);
+
+  return (
+    <div>
+      <div id="applet_container"></div>
+    </div>
+  );
 }
 
 function RightGrid() {
-
   function evalInput(strInput) {
     if (window.ggbApplet) {
       window.ggbApplet.evalCommand(strInput);
-      console.log(strInput)
+      console.log(strInput);
     } else {
-      console.log("GeoGebra applet not found.");
+      console.log('GeoGebra applet not found.');
     }
     return false;
   }
@@ -61,12 +59,18 @@ function RightGrid() {
       <Latex>
         We give illustrations for the three processes $e^+e^-$, gluon-gluon and $\\gamma\\gamma \\to W t\\bar b$.
         $\\f(x) = x^2 + 4x -1\\$11 $\\$⭐한글 한글, 한글! test test test Testsdfsdf
-        
       </Latex>
-      <form className={styles.input} onSubmit={e => {e.preventDefault(); evalInput(e.target.inputField.value); e.target.inputField.value = '';}}>
-          Input field: <input type="text" name="inputField" size="50" />
-          <button className={styles.button}> Submit</button>
-        </form>
+      <form
+        className={styles.input}
+        onSubmit={(e) => {
+          e.preventDefault();
+          evalInput(e.target.inputField.value);
+          e.target.inputField.value = '';
+        }}
+      >
+        Input field: <input type="text" name="inputField" size="50" />
+        <button className={styles.button}> Submit</button>
+      </form>
     </div>
   );
 }
