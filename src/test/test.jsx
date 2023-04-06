@@ -1,12 +1,8 @@
 import styles from './test.module.css';
 import 'katex/dist/katex.min.css';
 import Latex from 'react-latex-next';
-import { atom, useAtom } from 'jotai';
-import { moveCamera, zoomCamera } from '../commands';
+import { command, moveCamera, zoomCamera } from '../commands';
 import React, { useState, useEffect } from 'react';
-
-const appAtom = atom(null);
-const isLoadingAtom = atom(false);
 
 function LeftGrid(props) {
   useEffect(() => {
@@ -44,16 +40,6 @@ function LeftGrid(props) {
 }
 
 function RightGrid() {
-  function evalInput(strInput) {
-    if (window.ggbApplet) {
-      window.ggbApplet.evalCommand(strInput);
-      console.log(strInput);
-    } else {
-      console.log('GeoGebra applet not found.');
-    }
-    return false;
-  }
-
   return (
     <div className={styles.rightGrid}>
       <Latex>
@@ -64,7 +50,7 @@ function RightGrid() {
         className={styles.input}
         onSubmit={(e) => {
           e.preventDefault();
-          evalInput(e.target.inputField.value);
+          command(e.target.inputField.value);
           e.target.inputField.value = '';
         }}
       >
@@ -78,22 +64,20 @@ function RightGrid() {
 export default function Test() {
   const [camera, setCamera] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
-  const [isLoading, setIsLoading] = useAtom(isLoadingAtom);
-  const [app, setApp] = useAtom(appAtom);
 
   useEffect(() => {
-    if (isLoading) moveCamera(app, `(${camera.x}, ${camera.y})`);
-    // if (isLoading) moveCamera(app, `d`); // ex) 'd'점으로 이동
+    moveCamera(`(${camera.x}, ${camera.y})`);
+    // moveCamera(app, `d`); // ex) 'd'점으로 이동
   }, [camera]);
 
   useEffect(() => {
-    if (isLoading) zoomCamera(app, zoom, `(${camera.x}, ${camera.y})`);
+    zoomCamera(zoom, `(${camera.x}, ${camera.y})`);
   }, [zoom]);
 
   return (
     <div>
       <div className={styles.backGrid}>
-        <LeftGrid camer={camera} />
+        <LeftGrid camera={camera} />
         <RightGrid />
       </div>
       <div style={{ position: 'absolute', bottom: '50px', right: '50px', display: 'inline-grid' }}>
