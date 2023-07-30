@@ -12,7 +12,28 @@
   justify-content: space-evenly;
 }
 
-.mode1 {
+.mode1,
+.mode2,
+.mode3 {
+  width: 300px;
+  height: 300px;
+  position: relative;
+  border: solid 1px gray;
+  border-radius: 20px;
+  transition: transform 0.2s;
+}
+
+.mode1:hover,
+.mode2:hover,
+.mode3:hover {
+  transform: scale(0.98);
+}
+
+/* .mode2 {
+  padding: 60px;
+} */
+
+/* .mode1 {
   width: 300px;
   height: 300px;
   background-color: aqua;
@@ -31,7 +52,7 @@
   height: 300px;
   background-color: darkkhaki;
   position: relative;
-}
+} */
 
 .mode1 caption,
 .mode2 caption,
@@ -39,6 +60,7 @@
   width: 100%;
   position: absolute;
   bottom: 0;
+  margin-bottom: 20px;
 }
 
 .bottom {
@@ -46,4 +68,8 @@
   justify-content: center;
   align-items: center;
   gap: 10px;
+}
+
+.marginBox {
+  margin: 50px;
 }
