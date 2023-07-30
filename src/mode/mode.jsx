@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import { atom, useAtom } from 'jotai';
 
 function ModeBox(props) {}
-
+//커밋 되는지 확인
 const mode = atom(0);
 
 export default function Mode() {
