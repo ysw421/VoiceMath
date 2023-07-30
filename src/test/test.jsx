@@ -119,7 +119,8 @@ export default function Test() {
         <LeftGrid camera={camera} geogebra={location.geogebra} />
         <RightGrid text={location.text} />
       </div>
-      <div style={{ position: 'absolute', bottom: '50px', right: '50px', display: 'inline-grid' }}>
+      <div className={styles.answerBox}></div>
+      <div style={{ position: 'absolute', bottom: '80px', right: '50px', display: 'inline-grid' }}>
         <button onClick={() => setCamera({ x: camera.x - 0.5, y: camera.y })}>right</button>
         <button onClick={() => setCamera({ x: camera.x + 0.5, y: camera.y })}>left</button>
         <button onClick={() => setCamera({ x: camera.x, y: camera.y + 0.5 })}>down</button>

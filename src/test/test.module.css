@@ -22,7 +22,7 @@
   font-size: 16px;
   border-radius: 4px;
 }
-input[type=text] {
+input[type='text'] {
   border: 2px solid rgb(0, 0, 0);
   border-radius: 4px;
   width: 70%;
@@ -41,4 +41,14 @@ input[type=text] {
   position: absolute;
   bottom: 10px;
   right: 20px;
+}
+
+.answerBox {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  display: inline-grid;
+  width: 200px;
+  height: 60px;
+  background-color: antiquewhite;
 }
