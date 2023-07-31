@@ -50,7 +50,7 @@ function RightGrid(props) {
   return (
     <div className={styles.rightGrid}>
       <Latex>{latexText}</Latex>
-      <Latex macros={{ '\\f': '#1f(#2)' }}>{'<br/>$\\f\\relax{x} = x$ is rendered using macros'}</Latex>
+      {/* <Latex macros={{ '\\f': '#1f(#2)' }}>{'<br/>$\\f\\relax{x} = x$ is rendered using macros'}</Latex> */}
 
       <fieldset>
         --테스트용--

@@ -26,11 +26,13 @@ export default function Mode() {
   useEffect(() => {
     if (initialRender) {
       setTimeout(function() {
+        // console.log('speech');
         getSpeech(
           '원하는 모드를 선택하세요. 일번 그래프를 볼 수 없어요. 이번 종이에 필기하기 어려워요. 삼번 말이 정확하지 않아요.'
         );
-      }, 2200);
-      setInitialRender(false);
+        // getSpeech('원하는 모드');
+      }, 5000);
+      // setInitialRender(false);
     }
   }, [initialRender]);
 
@@ -91,6 +93,7 @@ export default function Mode() {
         <FaAssistiveListeningSystems size={30} />
         <span style={{ width: '202px', textAlign: 'left' }}>당신의 소리를 듣고 있어요{text}</span>
       </div>
+      <button onClick={() => getSpeech('안녕')}>button</button>
     </div>
   );
 }
