@@ -28,7 +28,7 @@ export default function Mode() {
       setTimeout(function() {
         // console.log('speech');
         getSpeech(
-          '원하는 모드를 선택하세요. 일번 그래프를 볼 수 없어요. 이번 종이에 필기하기 어려워요. 삼번 말이 정확하지 않아요.'
+          '원하는 모드를 선택하세요'
         );
         // getSpeech('원하는 모드');
       }, 5000);
@@ -50,16 +50,9 @@ export default function Mode() {
     };
   }, [text]);
 
-  // useEffect(() => {
-  // setInterval(() => {
-  //   console.log(getSpeech('원하는 모드를 선택하세요. 모드에는'));
-  // }, 200);
-  // clearInterval(intervalId)
-  // });
-
   return (
     <div className={styles.mainContainer}>
-      <h1>모드를 선택하세요</h1>
+      <h1>원하는 모드를 선택하세요</h1>
       <div className={styles.modeBox}>
         <div className={styles.mode1}>
           {/* <div>hello</div> */}
@@ -93,7 +86,6 @@ export default function Mode() {
         <FaAssistiveListeningSystems size={30} />
         <span style={{ width: '202px', textAlign: 'left' }}>당신의 소리를 듣고 있어요{text}</span>
       </div>
-      <button onClick={() => getSpeech('안녕')}>button</button>
     </div>
   );
 }
