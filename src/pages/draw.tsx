@@ -1,7 +1,7 @@
 import 'katex/dist/katex.min.css';
 
 import Button from '@components/Button';
-import { drawCircle, drawLine, drawSegment, moveCamera, zoomCamera } from '@lib/commands';
+import { drawCircle, drawLine, drawSegment, moveCamera, reset, zoomCamera } from '@lib/commands';
 import { GetServerSideProps } from 'next';
 import dynamic from 'next/dynamic';
 import { useEffect, useState } from 'react';
@@ -40,28 +40,31 @@ export default function Draw({
         <div className="tw-flex tw-flex-row tw-gap-x-4">
           <div className="tw-flex tw-flex-col tw-items-end tw-gap-y-2">
             <Button
-              className="tw-w-24"
+              className="tw-w-32"
               onClick={() => setCamera(new Point(camera.x - 0.5, camera.y))}
             >
               Right
             </Button>
             <Button
-              className="tw-w-24"
+              className="tw-w-32"
               onClick={() => setCamera(new Point(camera.x + 0.5, camera.y))}
             >
               Left
             </Button>
             <Button
-              className="tw-w-24"
+              className="tw-w-32"
               onClick={() => setCamera(new Point(camera.x, camera.y + 0.5))}
             >
               Down
             </Button>
             <Button
-              className="tw-w-24"
+              className="tw-w-32"
               onClick={() => setCamera(new Point(camera.x, camera.y - 0.5))}
             >
               Up
+            </Button>
+            <Button className="tw-w-32" onClick={() => reset()}>
+              Clear Space
             </Button>
           </div>
           <div className="tw-flex tw-flex-col tw-items-end tw-gap-y-2">
@@ -81,7 +84,7 @@ export default function Draw({
               Draw Line
             </Button>
             <Button
-              className="tw-w-24"
+              className="tw-w-32"
               onClick={() => drawSegment(camera, new Point(camera.x + 5, camera.y + 5))}
             >
               Draw Segment

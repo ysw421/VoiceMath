@@ -29,3 +29,7 @@ export function drawSegment(point1: Point, point2: Point) {
   if (hasLoaded())
     window.ggbApplet.evalCommand(`Segment(${point1.toString()}, ${point2.toString()})`);
 }
+
+export function reset() {
+  if (hasLoaded()) window.ggbApplet.reset();
+}
