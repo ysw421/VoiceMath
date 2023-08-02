@@ -6,64 +6,30 @@ export enum Form {
 }
 
 export class Point {
-  x: number;
-  y: number;
+  private _x: number;
+  private _y: number;
   constructor(x: number, y: number) {
-    this.x = x;
-    this.y = y;
+    this._x = x;
+    this._y = y;
   }
-  toString() {
-    return `(${this.x}, ${this.y})`;
+  public toString() {
+    return `(${this._x}, ${this._y})`;
+  }
+  get x(): number {
+    return this._x;
+  }
+  set x(value: number) {
+    this._x = value;
+  }
+  get y(): number {
+    return this._y;
+  }
+  set y(value: number) {
+    this._y = value;
   }
 }
 
 export type FormState = {
   state: Form;
   message?: string;
-};
-
-export type Subscribers = {
-  count: number;
-};
-
-export type Views = {
-  total: number;
-};
-
-export type Song = {
-  imageUrl: string;
-  songUrl: string;
-  artist: string;
-  title: string;
-};
-
-export type NowPlayingSong = {
-  album: string;
-  albumImageUrl: string;
-  artist: string;
-  isPlaying: boolean;
-  songUrl: string;
-  title: string;
-};
-
-export type TopTracks = {
-  tracks: Song[];
-};
-
-export type YouTube = {
-  subscriberCount: number;
-  viewCount: number;
-};
-
-export type GitHub = {
-  stars: number;
-};
-
-export type Gumroad = {
-  sales: number;
-};
-
-export type Unsplash = {
-  downloads: number;
-  views: number;
 };

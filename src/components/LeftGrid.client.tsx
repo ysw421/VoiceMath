@@ -10,10 +10,9 @@ export default function LeftGrid({ geogebra, camera }: { geogebra: string; camer
     script.onload = function () {
       const parameters = {
         prerelease: false,
-        width: 650,
-        height: 700,
+        width: 700,
         showToolBar: false,
-        borderColor: true,
+        borderColor: false,
         showMenuBar: false,
         showAlgebraInput: false,
         showResetIcon: true,

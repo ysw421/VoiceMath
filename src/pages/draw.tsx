@@ -19,47 +19,75 @@ export default function Draw({
   text: string;
   geogebra: string;
 }) {
-  const [camera, setCamera] = useState<Point>({ x: 0, y: 0 });
+  const [camera, setCamera] = useState<Point>(new Point(0, 0));
   const [zoom, setZoom] = useState(1);
 
   useEffect(() => {
     moveCamera(camera);
   }, [camera]);
+
   useEffect(() => {
     zoomCamera(zoom, camera);
-  }, [zoom, camera]);
+  }, [zoom]);
 
   return (
     <div className="tw-relative">
-      <div className="tw-flex tw-flex-row tw-items-center tw-justify-around tw-w-screen tw-h-screen tw-overflow-auto">
+      <div className="tw-grid tw-w-screen tw-h-screen tw-grid-flow-col tw-p-6 tw-gap-x-10">
         <LeftGrid camera={camera} geogebra={geogebra} />
         <RightGrid text={text} />
       </div>
-      <div
-        style={{
-          position: 'absolute',
-          bottom: '20px',
-          right: '20px',
-          display: 'inline-grid',
-          width: '200px',
-          height: '60px',
-          backgroundColor: 'antiquewhite'
-        }}
-      ></div>
-      <div style={{ position: 'absolute', bottom: '80px', right: '50px', display: 'inline-grid' }}>
-        <Button onClick={() => setCamera({ x: camera.x - 0.5, y: camera.y })}>Right</Button>
-        <Button onClick={() => setCamera({ x: camera.x + 0.5, y: camera.y })}>Left</Button>
-        <Button onClick={() => setCamera({ x: camera.x, y: camera.y + 0.5 })}>Down</Button>
-        <Button onClick={() => setCamera({ x: camera.x, y: camera.y - 0.5 })}>Up</Button>
-        <Button onClick={() => setZoom((e) => (e <= 1 ? 1.05 : e + 0.05))}>Zoom In</Button>
-        <Button onClick={() => setZoom((e) => (e >= 1 ? 0.95 : e - 0.05))}>Zoom Out</Button>
-        <Button onClick={() => drawCircle(camera, 0.5)}>Draw Circle</Button>
-        <Button onClick={() => drawLine(camera, new Point(camera.x + 5, camera.y + 5))}>
-          Draw Line
-        </Button>
-        <Button onClick={() => drawSegment(camera, new Point(camera.x + 5, camera.y + 5))}>
-          Draw Segment
-        </Button>
+      <div className="tw-absolute tw-bottom-10 tw-right-10">
+        <div className="tw-flex tw-flex-row tw-gap-x-4">
+          <div className="tw-flex tw-flex-col tw-items-end tw-gap-y-2">
+            <Button
+              className="tw-w-24"
+              onClick={() => setCamera(new Point(camera.x - 0.5, camera.y))}
+            >
+              Right
+            </Button>
+            <Button
+              className="tw-w-24"
+              onClick={() => setCamera(new Point(camera.x + 0.5, camera.y))}
+            >
+              Left
+            </Button>
+            <Button
+              className="tw-w-24"
+              onClick={() => setCamera(new Point(camera.x, camera.y + 0.5))}
+            >
+              Down
+            </Button>
+            <Button
+              className="tw-w-24"
+              onClick={() => setCamera(new Point(camera.x, camera.y - 0.5))}
+            >
+              Up
+            </Button>
+          </div>
+          <div className="tw-flex tw-flex-col tw-items-end tw-gap-y-2">
+            <Button className="tw-w-32" onClick={() => setZoom((e) => (e <= 1 ? 1.05 : e + 0.05))}>
+              Zoom In
+            </Button>
+            <Button className="tw-w-32" onClick={() => setZoom((e) => (e >= 1 ? 0.95 : e - 0.05))}>
+              Zoom Out
+            </Button>
+            <Button className="tw-w-32" onClick={() => drawCircle(camera, 0.5)}>
+              Draw Circle
+            </Button>
+            <Button
+              className="tw-w-32"
+              onClick={() => drawLine(camera, new Point(camera.x + 5, camera.y + 5))}
+            >
+              Draw Line
+            </Button>
+            <Button
+              className="tw-w-24"
+              onClick={() => drawSegment(camera, new Point(camera.x + 5, camera.y + 5))}
+            >
+              Draw Segment
+            </Button>
+          </div>
+        </div>
       </div>
     </div>
   );
