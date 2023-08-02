@@ -21,6 +21,7 @@
     "express": "^4.18.2",
     "http-proxy-middleware": "^2.0.6",
     "jotai": "^2.0.3",
+    "katex": "^0.16.8",
     "net": "^1.0.2",
     "node-fetch": "^3.3.2",
     "pino": "^8.14.2",
