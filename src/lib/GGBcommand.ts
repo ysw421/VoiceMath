@@ -65,8 +65,9 @@ export default function GGBcommand(Dialog: JSON) {
   if (intent == 'plot_line') {
     evalCommand(`Segment(${coordinates[0]}, ${coordinates[1]})`);
   } else if (intent == 'plot_polygon') {
-    evalCommand(`Polygon(${coordinates}`);
+    console.log(`Polygon(${coordinates})`);
+    evalCommand(`Polygon(${coordinates})`);
   }
-  console.log(`Segment(${coordinates[0]}, ${coordinates[1]}`);
+  console.log(`Segment(${coordinates[0]}, ${coordinates[1]})`);
   return values;
 }
