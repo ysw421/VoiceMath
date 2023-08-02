@@ -1,74 +1,124 @@
 {
-  "name": "geogebra-test",
-  "version": "0.1.0",
+  "name": "cliid.dev",
+  "version": "v2.0.0",
   "private": true,
+  "scripts": {
+    "start": "NODE_ENV='development' next-remote-watch ./data",
+    "dev": "NODE_ENV='development' next dev",
+    "build": "NODE_ENV='production' next build",
+    "serve": "next start",
+    "analyze": "cross-env ANALYZE=true next build",
+    "lint": "next lint --fix --dir pages --dir components --dir lib --dir layouts",
+    "prepare": "husky install"
+  },
   "dependencies": {
-    "@craco/craco": "^7.1.0",
     "@google-cloud/dialogflow": "^5.9.0",
     "@gradio/client": "^0.1.4",
-    "@pineappleaf/react-media-recorder": "^1.4.1-preview21",
-    "@testing-library/jest-dom": "^5.14.1",
-    "@testing-library/react": "^13.0.0",
-    "@testing-library/user-event": "^13.2.1",
-    "@types/express": "^4.17.17",
-    "assert": "^2.0.0",
-    "axios": "^1.4.0",
-    "babel-preset-es2015": "^6.24.1",
-    "browserify": "^17.0.0",
-    "browserify-zlib": "^0.2.0",
-    "buffer": "^6.0.3",
-    "dotenv": "^16.3.1",
-    "express": "^4.18.2",
-    "http-proxy-middleware": "^2.0.6",
-    "jotai": "^2.0.3",
-    "katex": "^0.16.8",
-    "net": "^1.0.2",
-    "node-fetch": "^3.3.2",
+    "@n8tb1t/use-scroll-position": "^2.0.3",
+    "@tippyjs/react": "^4.2.6",
+    "axios": "^0.22.0",
+    "classnames": "^2.3.2",
+    "date-fns": "^2.30.0",
+    "fontfaceobserver": "^2.3.0",
+    "fuse.js": "^6.6.2",
+    "image-size": "1.0.0",
+    "jotai": "^2.2.3",
+    "motion": "^10.16.2",
+    "next": "^13.4.4",
+    "next-auth": "4.22.1",
+    "next-compose-plugins": "^2.2.1",
+    "next-pwa": "^5.6.0",
+    "next-svgr": "^0.0.2",
+    "next-themes": "0.0.15",
+    "nextjs-progressbar": "^0.0.11",
     "pino": "^8.14.2",
-    "pino-pretty": "^10.2.0",
-    "process": "^0.11.10",
+    "preact": "^10.15.1",
     "react": "^18.2.0",
-    "react-app-rewired": "^2.2.1",
     "react-audio-voice-recorder": "^2.1.2",
     "react-dom": "^18.2.0",
     "react-geogebra": "^1.2.5",
-    "react-icons": "^4.10.1",
+    "react-icons": "^4.8.0",
     "react-latex-next": "^2.2.0",
     "react-media-recorder": "^1.6.6",
-    "react-router-dom": "^6.14.1",
-    "react-scripts": "^5.0.1",
-    "stream-browserify": "^3.0.0",
-    "util": "^0.12.5",
-    "uuid": "^9.0.0",
-    "web-vitals": "^2.1.0"
-  },
-  "scripts": {
-    "start": "craco start",
-    "build": "craco build",
-    "test": "craco test"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+    "react-useanimations": "^2.10.0",
+    "sass": "^1.62.1",
+    "sharp": "^0.29.3",
+    "smoothscroll-polyfill": "^0.4.4",
+    "swr": "^1.3.0",
+    "tailwindcss": "^3.3.2",
+    "use-delayed-render": "^0.0.7",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.22.9",
+    "@cjs-exporter/globby": "^13.1.3",
+    "@next/bundle-analyzer": "^12.3.4",
+    "@next/codemod": "^12.3.4",
+    "@next/eslint-plugin-next": "^12.3.4",
+    "@tailwindcss/typography": "^0.5.9",
+    "@types/fontfaceobserver": "^2.1.0",
+    "@types/node": "^18.16.16",
+    "@types/prettier": "^2.7.2",
+    "@types/react": "^17.0.60",
+    "@types/rss": "^0.0.30",
+    "@types/smoothscroll-polyfill": "^0.3.1",
     "@types/uuid": "^9.0.2",
-    "babel-loader": "^9.1.3",
-    "eslint-config-react-app": "^7.0.1"
-  }
+    "@typescript-eslint/eslint-plugin": "^4.33.0",
+    "@typescript-eslint/parser": "^4.33.0",
+    "autoprefixer": "^10.4.14",
+    "brotli-webpack-plugin": "^1.1.0",
+    "compression-webpack-plugin": "^9.2.0",
+    "cross-env": "^7.0.3",
+    "cssnano": "^5.1.15",
+    "dedent": "^0.7.0",
+    "eslint": "^7.32.0",
+    "eslint-config-next": "^13.4.4",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-import-resolver-typescript": "^2.7.1",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-jsx-a11y": "^6.7.1",
+    "eslint-plugin-next": "^0.0.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-simple-import-sort": "^7.0.0",
+    "eslint-plugin-unused-imports": "^1.1.5",
+    "file-loader": "^6.2.0",
+    "husky": "^6.0.0",
+    "lint-staged": "^11.2.6",
+    "next-remote-watch": "^1.0.0",
+    "postcss": "^8.4.23",
+    "postcss-flexbugs-fixes": "^5.0.2",
+    "postcss-import": "^14.1.0",
+    "postcss-preset-env": "^7.8.3",
+    "postcss-scss": "^4.0.6",
+    "prettier": "^2.8.8",
+    "reading-time": "^1.5.0",
+    "rss": "1.2.2",
+    "stylelint": "^14.16.1",
+    "stylelint-config-prettier": "^9.0.5",
+    "stylelint-config-standard": "^23.0.0",
+    "stylelint-order": "^5.0.0",
+    "stylelint-prettier": "^1.2.0",
+    "stylelint-scss": "^4.7.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.9.5"
+  },
+  "peerDependencies": {
+    "postcss": "^8.3.11"
+  },
+  "lint-staged": {
+    "*.+(js|jsx|ts|tsx)": [
+      "eslint --fix"
+    ],
+    "*.+(css|sass|scss)": [
+      "stylelint --fix"
+    ],
+    "*.+(js|jsx|ts|tsx|json|css|scss|sass)": [
+      "prettier --write"
+    ]
+  },
+  "browserslist": [
+    ">0.3%",
+    "not ie 11",
+    "not dead",
+    "not op_mini all"
+  ]
 }

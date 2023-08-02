@@ -1,0 +1,69 @@
+export enum Form {
+  Initial,
+  Loading,
+  Success,
+  Error
+}
+
+export class Point {
+  x: number;
+  y: number;
+  constructor(x: number, y: number) {
+    this.x = x;
+    this.y = y;
+  }
+  toString() {
+    return `(${this.x}, ${this.y})`;
+  }
+}
+
+export type FormState = {
+  state: Form;
+  message?: string;
+};
+
+export type Subscribers = {
+  count: number;
+};
+
+export type Views = {
+  total: number;
+};
+
+export type Song = {
+  imageUrl: string;
+  songUrl: string;
+  artist: string;
+  title: string;
+};
+
+export type NowPlayingSong = {
+  album: string;
+  albumImageUrl: string;
+  artist: string;
+  isPlaying: boolean;
+  songUrl: string;
+  title: string;
+};
+
+export type TopTracks = {
+  tracks: Song[];
+};
+
+export type YouTube = {
+  subscriberCount: number;
+  viewCount: number;
+};
+
+export type GitHub = {
+  stars: number;
+};
+
+export type Gumroad = {
+  sales: number;
+};
+
+export type Unsplash = {
+  downloads: number;
+  views: number;
+};
