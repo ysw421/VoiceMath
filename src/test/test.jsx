@@ -3,6 +3,8 @@ import 'katex/dist/katex.min.css';
 import Latex from 'react-latex-next';
 import { command, moveCamera, zoomCamera, drawCircle, drawLine, drawSegment } from '../commands/commands';
 import React, { useState, useEffect } from 'react';
+import { ReactMediaRecorder, useReactMediaRecorder  } from "react-media-recorder";
+import { sendAudioToModel } from '../asr/get_string_from_model.js'
 import { useLocation } from 'react-router-dom';
 
 function LeftGrid(props) {
@@ -43,15 +45,31 @@ function LeftGrid(props) {
 }
 
 function RightGrid(props) {
-  const [latexText, setLatexText] = useState(props.text);
-  // useState(`We give illustrations for the three processes $e^+e^-$, gluon-gluon and<br/>gamma<br/>gamma <br/>to W t<br/>bar b.
-  // <br/>$f(x) = x^2 + 4x -1\\$11 $\\$⭐한글 한글, 한글! test test test Testsdfsdf`);
+  var [latexText, setLatexText] = useState(props.text);
+  
+  const { status, startRecording, stopRecording, mediaBlobUrl } =
+    useReactMediaRecorder({ audio: true });
+  const [isRecording, setIsRecording] = useState(false);
 
+  const handleRecording = async () => {
+    if (isRecording) {
+      stopRecording();
+      const audioBlob = await fetch(mediaBlobUrl).then((r) => r.blob());
+      const audioUrl = URL.createObjectURL(audioFile);
+      console.log(audioUrl)
+      // const audioFile = new File([audioBlob], 'voice.wav', { type: 'audio/wav' });
+      sendAudioToModel()
+      // setLatexText = await (audioBlob)
+    
+      console.log(setLatexText)
+    } else {
+      startRecording();
+    }
+    setIsRecording(!isRecording);
+  }
+  
   return (
     <div className={styles.rightGrid}>
-      <Latex>{latexText}</Latex>
-      {/* <Latex macros={{ '\\f': '#1f(#2)' }}>{'<br/>$\\f\\relax{x} = x$ is rendered using macros'}</Latex> */}
-
       <fieldset>
         --테스트용--
         <div style={{ float: 'right', width: '100%' }}>
@@ -68,20 +86,14 @@ function RightGrid(props) {
             <button className={styles.button}> Submit</button>
           </form>
           <br />
-          <form
-            className={styles.input}
-            onSubmit={(e) => {
-              e.preventDefault();
-              setLatexText((prev) => prev + e.target.inputField.value);
-              // command(e.target.inputField.value);
-              e.target.inputField.value = '';
-            }}
-          >
-            Text: <input type="text" name="inputField" size="50" />
-            <button className={styles.button}> Submit</button>
-          </form>
+          <div>
+            <button className={styles.button} onClick={handleRecording}> 
+              {isRecording ? 'Stop Recording' : 'Start Recording'}
+            </button>
+          </div>
         </div>
       </fieldset>
+      <Latex>{latexText}</Latex>
     </div>
   );
 }
@@ -107,7 +119,6 @@ export default function Test() {
 
   useEffect(() => {
     moveCamera(`(${camera.x}, ${camera.y})`);
-    // moveCamera(app, `d`); // ex) 'd'점으로 이동
   }, [camera]);
   useEffect(() => {
     zoomCamera(zoom, `(${camera.x}, ${camera.y})`);
@@ -119,7 +130,7 @@ export default function Test() {
         <LeftGrid camera={camera} geogebra={location.geogebra} />
         <RightGrid text={location.text} />
       </div>
-      <div className={styles.answerBox}></div>
+      {/* <div className={styles.answerBox}></div>
       <div style={{ position: 'absolute', bottom: '80px', right: '50px', display: 'inline-grid' }}>
         <button onClick={() => setCamera({ x: camera.x - 0.5, y: camera.y })}>right</button>
         <button onClick={() => setCamera({ x: camera.x + 0.5, y: camera.y })}>left</button>
@@ -134,7 +145,7 @@ export default function Test() {
         <button onClick={() => drawSegment(`(${camera.x}, ${camera.y})`, `(${camera.x + 5}, ${camera.y + 5})`)}>
           draw Segment
         </button>
-      </div>
+  </div> */}
     </div>
   );
 }

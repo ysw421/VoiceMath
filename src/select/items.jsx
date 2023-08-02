@@ -1,11 +1,11 @@
 const Items = [
   {
-    name: 'p1',
+    name: 'Default',
     text: `새로운 메모에 오신 것을 환영합니다.<br/>마음껏 메모하세요! $y=x^2$`,
     geogebra: '',
   },
   {
-    name: 'p1',
+    name: 'Template_1',
     text:
       '그림과 같이 $\\angle{ABC}={\\pi \\over 2}$인 삼각형 $ABC$에 내접하고 반지름의 길이가 $3$인 원의 중심을 $O$라 하자. 직선 $AO$가 선분 $BC$와 만나는 점을 $D$라 할 때, $\\overline{DB} = 4$이다. 삼각형 $ADC$의 외접원의 넓이는?',
     geogebra:
