@@ -8,6 +8,18 @@ export function evalCommand(str: string) {
   if (hasLoaded()) window.ggbApplet.evalCommand(str);
 }
 
+export function evalCommandGetLabels(str: string) {
+  if (hasLoaded()) return window.ggbApplet.evalCommandGetLabels(str);
+}
+
+export function setLabelVisible(str: string, bool: boolean) {
+  if (hasLoaded()) return window.ggbApplet.setLabelVisible(str, bool);
+}
+
+// export function showAllObjects(): void {
+//   if (hasLoaded()) return window.ggbApplet.showAllObjects();
+// }
+
 export function moveCamera(point: Point) {
   console.log(point.toString());
   if (hasLoaded()) window.ggbApplet.evalCommand(`CenterView(${point.toString()})`);
@@ -32,4 +44,8 @@ export function drawSegment(point1: Point, point2: Point) {
 
 export function reset() {
   if (hasLoaded()) window.ggbApplet.reset();
+}
+
+export function undo() {
+  if (hasLoaded()) window.ggbApplet.registerClientListener();
 }
