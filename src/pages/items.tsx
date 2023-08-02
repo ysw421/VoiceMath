@@ -1,4 +1,4 @@
-const Items = [
+const items = [
   {
     name: 'Default',
     text: `새로운 메모에 오신 것을 환영합니다.<br/>마음껏 메모하세요! $y=x^2$`,
@@ -12,4 +12,4 @@ const Items = [
   }
 ];
 
-export default Items;
+export default items;
