@@ -13,8 +13,6 @@ export default async function stt(blob: Blob) {
 
   const text = (await response.json()).text as string;
 
-  console.log(text);
-
   const result = (
     await fetch('/api/dialogflow', {
       method: 'POST',
