@@ -16,14 +16,16 @@ export default function Mode() {
 
   // eslint-disable-next-line react/display-name
   const ModeSelect = memo(
-    ({ mode, imgSrc, caption }: { mode: number; imgSrc: string; caption: string }) => (
-      <div className="tw-relative tw-border-[20px] tw-w-72 tw-h-72 tw-border-gray hover:tw-scale-95">
+    ({ mode, src, caption }: { mode: number; src: string; caption: string }) => (
+      <div className="tw-flex tw-flex-col tw-justify-between tw-border-2 tw-rounded-2xl tw-p-4 tw-w-72 tw-h-72 tw-border-gray hover:tw-scale-[98%]">
         <Link href="/select" onClick={() => setGmode(mode)}>
           <div className="tw-relative tw-m-12">
-            <Image src={imgSrc} width="300" height="300" alt={caption} />
+            <Image src={src} width="250" height="250" alt={caption} />
           </div>
         </Link>
-        <caption className="tw-absolute tw-bottom-0 tw-w-full tw-mb-5">{caption}</caption>
+        <div className="tw-flex tw-items-center tw-justify-center tw-text-xl tw-font-semibold">
+          {caption}
+        </div>
       </div>
     )
   );
@@ -36,7 +38,7 @@ export default function Mode() {
           <ModeSelect
             key={index.toString()}
             mode={index + 1}
-            imgSrc={`/static/images/modes/${index + 1}.svg`}
+            src={`/static/images/modes/${index + 1}.svg`}
             caption={caption}
           />
         )
@@ -46,7 +48,7 @@ export default function Mode() {
 
   return (
     <div className="tw-flex tw-flex-col tw-h-screen tw-justify-evenly">
-      <div className="tw-flex tw-items-center tw-justify-center tw-text-2xl tw-font-bold">
+      <div className="tw-flex tw-items-center tw-justify-center tw-text-3xl tw-font-bold">
         원하는 모드를 선택하세요
       </div>
       <Modes />
