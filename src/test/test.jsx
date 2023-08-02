@@ -54,11 +54,11 @@ function RightGrid(props) {
   const handleRecording = async () => {
     if (isRecording) {
       stopRecording();
-      const audioBlob = await fetch(mediaBlobUrl).then((r) => r.blob());
-      const audioUrl = URL.createObjectURL(audioFile);
-      console.log(audioUrl)
-      // const audioFile = new File([audioBlob], 'voice.wav', { type: 'audio/wav' });
-      sendAudioToModel()
+      // const audioBlob = await fetch(mediaBlobUrl).then((r) => r.blob());
+      // const audioUrl = URL.createObjectURL(audioFile);
+      // console.log(audioUrl)
+      // // const audioFile = new File([audioBlob], 'voice.wav', { type: 'audio/wav' });
+      // sendAudioToModel()
       // setLatexText = await (audioBlob)
     
       console.log(setLatexText)
