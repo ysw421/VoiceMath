@@ -24,6 +24,7 @@ export default function RightGrid({ text }: { text: string }) {
         <div className="tw-w-full tw-mr-3 tw-h-11">
           <input
             type="text"
+            value={command}
             placeholder="Type a command!"
             className="tw-w-full tw-h-full tw-px-2 tw-py-1 tw-border-2 tw-rounded-md"
             onChange={(e) => setCommand(e.target.value)}
