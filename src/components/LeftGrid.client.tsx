@@ -10,7 +10,6 @@ export default function LeftGrid({ geogebra, camera }: { geogebra: string; camer
     script.onload = function () {
       const parameters = {
         prerelease: false,
-        width: 700,
         showToolBar: false,
         borderColor: false,
         showMenuBar: false,
@@ -27,9 +26,9 @@ export default function LeftGrid({ geogebra, camera }: { geogebra: string; camer
       };
       const applet = new window.GGBApplet('6.0', parameters);
       applet.inject('applet_container');
-      moveCamera(new Point(0, 0));
+      moveCamera(camera);
     };
-  }, [geogebra]);
+  }, [geogebra, camera]);
 
   return <div id="applet_container" className="tw-w-full tw-h-full" />;
 }

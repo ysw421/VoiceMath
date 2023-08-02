@@ -4,6 +4,7 @@ import { evalCommand } from '@lib/commands';
 import stt from '@lib/stt';
 import { useState } from 'react';
 import { AudioRecorder } from 'react-audio-voice-recorder';
+import Latex from 'react-latex-next';
 
 import Button from './Button';
 
@@ -13,6 +14,7 @@ export default function RightGrid({ text }: { text: string }) {
 
   return (
     <div className="tw-flex tw-flex-col tw-w-full tw-h-full tw-gap-y-4">
+      <Latex>{latexText}</Latex>
       <form
         className="tw-flex tw-flex-row tw-items-center tw-w-full"
         onSubmit={(e) => {
