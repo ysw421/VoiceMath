@@ -1,34 +1,36 @@
 import { evalCommand, evalCommandGetLabels, setLabelVisible } from '@lib/commands';
-export default function GGBcommand(Dialog: JSON) {
-  let values = Object.entries(Dialog);
+
+interface Value {
+  kind: string;
+  stringValue: string;
+}
+
+interface ListValue {
+  kind: string;
+  listValue: {
+    values: Value[];
+  };
+}
+interface Coordinate {
+  coordinate: ListValue;
+  label: ListValue;
+}
+
+export default function geogebraCommand(dialog: JSON) {
+  let values = Object.entries(dialog);
   // basic loop over the object
   const parameters = values[5][1]['fields']; //parameter name
   const input_sentence = values[2][1]; // input sentence
   const intent = values[10][1]['displayName']; // intent name
-  const confidence = values[11][1]; //confience_score
-  var GGBvalue;
+  const confidence = values[11][1]; //confidence_score
+  let geogebraValue;
 
-  interface Value {
-    kind: string;
-    stringValue: string;
-  }
-
-  interface ListValue {
-    kind: string;
-    listValue: {
-      values: Value[];
-    };
-  }
-  interface Coordinate {
-    coordinate: ListValue;
-    label: ListValue;
-  }
   let coordinates: string[] = [];
   let labels: string[] = [];
 
   if (intent == 'plot_graph') {
-    GGBvalue = parameters['math']['stringValue'];
-    const label = evalCommandGetLabels(GGBvalue);
+    geogebraValue = parameters['math']['stringValue'];
+    const label = evalCommandGetLabels(geogebraValue);
     setLabelVisible(label, true);
   } else {
     let coordinateValues = parameters.coordinate.listValue.values;
@@ -68,6 +70,8 @@ export default function GGBcommand(Dialog: JSON) {
     console.log(`Polygon(${coordinates})`);
     evalCommand(`Polygon(${coordinates})`);
   }
+
   console.log(`Segment(${coordinates[0]}, ${coordinates[1]})`);
+
   return values;
 }

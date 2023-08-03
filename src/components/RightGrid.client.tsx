@@ -1,7 +1,7 @@
 import 'katex/dist/katex.min.css';
 
 import { evalCommand } from '@lib/commands';
-import GGBcommand from '@lib/GGBcommand';
+import geogebraCommand from '@lib/geogebraCommand';
 import stt from '@lib/stt';
 import { useState } from 'react';
 import { AudioRecorder } from 'react-audio-voice-recorder';
@@ -38,7 +38,7 @@ export default function RightGrid({ text }: { text: string }) {
       <div className="tw-flex tw-flex-row tw-items-center tw-gap-x-3">
         <AudioRecorder
           onRecordingComplete={(blob) => {
-            stt(blob).then((value) => GGBcommand(value));
+            stt(blob).then((dialog: JSON) => geogebraCommand(dialog));
           }}
           audioTrackConstraints={{
             noiseSuppression: true,
