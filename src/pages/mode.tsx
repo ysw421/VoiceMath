@@ -23,9 +23,7 @@ export default function Mode() {
             <Image src={src} width="250" height="250" alt={caption} />
           </div>
         </Link>
-        <div className="tw-flex tw-items-center tw-justify-center tw-text-xl tw-font-semibold">
-          {caption}
-        </div>
+        <div className="tw-flex tw-items-center tw-justify-center tw-text-xl ">{caption}</div>
       </div>
     )
   );

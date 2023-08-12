@@ -49,7 +49,7 @@ export default function Draw() {
 
   return (
     <div className="tw-relative">
-      <div className="tw-grid tw-w-screen tw-h-screen tw-grid-flow-col tw-p-6 tw-gap-x-10">
+      <div className="tw-flex tw-items-center tw-w-screen tw-h-screen tw-grid-flow-col tw-p-6 tw-gap-x-10 ">
         <LeftGrid camera={camera} geogebra={geogebra} defaultCameraPosition={defalutCamera} />
         <RightGrid text={text} />
       </div>

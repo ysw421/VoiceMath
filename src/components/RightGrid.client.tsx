@@ -14,7 +14,7 @@ export default function RightGrid({ text }: { text: string }) {
   const [command, setCommand] = useState('');
 
   return (
-    <div className="tw-flex tw-flex-col tw-w-full tw-h-full tw-gap-y-4">
+    <div className="tw-flex tw-flex-col tw-w-full tw-h-full tw-gap-y-4" style={{ height: '670px' }}>
       <Latex>{latexText}</Latex>
       <form
         className="tw-flex tw-flex-row tw-items-center tw-w-full"
