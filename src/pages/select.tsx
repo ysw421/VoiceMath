@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import React from 'react';
 
-import items from './items';
+import { items, mockExam } from './items';
 import styles from './select.module.css';
 
 export default function Select() {
@@ -26,36 +26,19 @@ export default function Select() {
         </div>
         <h3>모의고사</h3>
         <div className={styles.group}>
-          <button
-            onClick={() => {
-              router.push({ pathname: '/draw', query: items[1] }, '/draw');
-            }}
-            className={styles.box}
-          >
-            2020년 고3
-            <br />
-            10월 17번
-          </button>
-          <button
-            onClick={() => {
-              router.push({ pathname: '/draw', query: items[2] }, '/draw');
-            }}
-            className={styles.box}
-          >
-            2022년 고2
-            <br />
-            9월 20번
-          </button>
-          <button
-            onClick={() => {
-              router.push({ pathname: '/draw', query: items[3] }, '/draw');
-            }}
-            className={styles.box}
-          >
-            2020년 고2
-            <br />
-            6월 10번
-          </button>
+          {mockExam.map((item, index) => (
+            <button
+              key={index}
+              onClick={() => {
+                router.push({ pathname: '/draw', query: item }, '/draw');
+              }}
+              className={styles.box}
+            >
+              {item.problem_year}
+              <br />
+              {item.problem_number}
+            </button>
+          ))}
           {/* <button
             onClick={() => {
               router.push(
