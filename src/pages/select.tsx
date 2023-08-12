@@ -8,10 +8,10 @@ export default function Select() {
   const router = useRouter();
   return (
     <div className="tw-relative tw-w-screen tw-h-screen tw-p-6 tw-overflow-y-scroll">
-      <div className="tw-flex tw-justify-center tw-w-full tw-text-3xl tw-font-bold">
+      <div className="tw-flex tw-justify-center tw-w-full tw-text-3xl tw-font-bold tw-mb-7">
         문제를 선택하세요
       </div>
-      <div>
+      <div className="tw-p-10">
         {/* <div className="tw-mb-4 tw-text-xl tw-font-semibold">빈 템플릿</div> */}
         <h3>빈 템플릿</h3>
         <div className={styles.group}>
@@ -39,24 +39,6 @@ export default function Select() {
               {item.problem_number}
             </button>
           ))}
-          {/* <button
-            onClick={() => {
-              router.push(
-                {
-                  pathname: '/draw',
-                  query: {
-                    name: 'p1',
-                    text: 'hello?',
-                    geogebra: ''
-                  }
-                },
-                '/draw'
-              );
-            }}
-            className={styles.box}
-          >
-            모의고사 2
-          </button> */}
         </div>
       </div>
     </div>
