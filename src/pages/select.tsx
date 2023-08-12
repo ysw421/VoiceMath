@@ -12,16 +12,9 @@ export default function Select() {
         문제를 선택하세요
       </div>
       <div>
-        <div className="tw-mb-4 tw-text-xl tw-font-semibold">빈 템플릿</div>
+        {/* <div className="tw-mb-4 tw-text-xl tw-font-semibold">빈 템플릿</div> */}
+        <h3>빈 템플릿</h3>
         <div className={styles.group}>
-          <button
-            onClick={() => {
-              router.push({ pathname: '/draw', query: items[0] }, '/draw');
-            }}
-            className={styles.box}
-          >
-            빈 템플릿
-          </button>
           <button
             onClick={() => {
               router.push({ pathname: '/draw', query: items[0] }, '/draw');
@@ -39,9 +32,31 @@ export default function Select() {
             }}
             className={styles.box}
           >
-            모의고사 1
+            2020년 고3
+            <br />
+            10월 17번
           </button>
           <button
+            onClick={() => {
+              router.push({ pathname: '/draw', query: items[2] }, '/draw');
+            }}
+            className={styles.box}
+          >
+            2022년 고2
+            <br />
+            9월 20번
+          </button>
+          <button
+            onClick={() => {
+              router.push({ pathname: '/draw', query: items[3] }, '/draw');
+            }}
+            className={styles.box}
+          >
+            2020년 고2
+            <br />
+            6월 10번
+          </button>
+          {/* <button
             onClick={() => {
               router.push(
                 {
@@ -58,7 +73,7 @@ export default function Select() {
             className={styles.box}
           >
             모의고사 2
-          </button>
+          </button> */}
         </div>
       </div>
     </div>
