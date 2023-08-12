@@ -2,10 +2,19 @@ import { moveCamera } from '@lib/commands';
 import { useEffect } from 'react';
 import { Point } from 'typings';
 
-export default function LeftGrid({ geogebra, camera }: { geogebra: string; camera: Point }) {
+export default function LeftGrid({
+  geogebra,
+  camera,
+  defaultCameraPosition
+}: {
+  geogebra: string;
+  camera: Point;
+  defaultCameraPosition: Point;
+}) {
   useEffect(() => {
     const script = document.createElement('script');
     script.src = 'https://cdn.geogebra.org/apps/deployggb.js';
+
     document.body.appendChild(script);
     script.onload = function () {
       const parameters = {
@@ -20,6 +29,9 @@ export default function LeftGrid({ geogebra, camera }: { geogebra: string; camer
         enableShiftDragZoom: true,
         enableRightClick: false,
         capturingThreshold: null,
+        appletOnLoad: function (api: object) {
+          api.evalCommand(`CenterView(${defaultCameraPosition.toString()})`);
+        },
         showToolBarHelp: false,
         errorDialogsActive: true,
         useBrowserForJS: true,
@@ -27,9 +39,12 @@ export default function LeftGrid({ geogebra, camera }: { geogebra: string; camer
       };
       const applet = new window.GGBApplet('6.0', parameters);
       applet.inject('applet_container');
-      moveCamera(camera);
     };
-  }, [geogebra, camera]);
+  }, [geogebra]);
+
+  useEffect(() => {
+    moveCamera(camera);
+  }, [camera]);
 
   return <div id="applet_container" className="tw-w-full tw-h-full" />;
 }

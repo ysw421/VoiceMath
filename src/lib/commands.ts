@@ -21,7 +21,6 @@ export function setLabelVisible(str: string, bool: boolean) {
 // }
 
 export function moveCamera(point: Point) {
-  console.log(point.toString());
   if (hasLoaded()) window.ggbApplet.evalCommand(`CenterView(${point.toString()})`);
 }
 

@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import React from 'react';
 
-import { items, mockExam } from './items';
+import { Default, mockExam } from './items';
 import styles from './select.module.css';
 
 export default function Select() {
@@ -17,7 +17,7 @@ export default function Select() {
         <div className={styles.group}>
           <button
             onClick={() => {
-              router.push({ pathname: '/draw', query: items[0] }, '/draw');
+              router.push({ pathname: '/draw', query: Default }, '/draw');
             }}
             className={styles.box}
           >
