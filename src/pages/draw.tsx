@@ -11,9 +11,6 @@ const LeftGrid = dynamic(() => import('@components/LeftGrid.client'));
 const RightGrid = dynamic(() => import('@components/RightGrid.client'));
 
 export default function Draw() {
-  const defaultPosition = new Point(0, 0);
-  const [camera, setCamera] = useState<Point>(defaultPosition);
-  const [zoom, setZoom] = useState(1);
   const router = useRouter();
   let { text, geogebra, name, defaultCameraPosition } = router.query;
   name = (name instanceof Array ? name.join('') : name) ?? 'None';
@@ -27,6 +24,8 @@ export default function Draw() {
       : defaultCameraPosition) ?? '0,0';
   const defalutCamera_list = defaultCameraPosition.split(',').map(parseFloat);
   const defalutCamera = new Point(defalutCamera_list[0], defalutCamera_list[1]);
+  const [camera, setCamera] = useState<Point>(defalutCamera);
+  const [zoom, setZoom] = useState(1);
 
   useEffect(() => {
     moveCamera(camera);
@@ -56,7 +55,7 @@ export default function Draw() {
       <div className="tw-absolute tw-bottom-6 tw-right-6">
         <div className="tw-flex tw-flex-row tw-gap-x-4">
           <div className="tw-flex tw-flex-col tw-items-end tw-gap-y-2">
-            <Button className="tw-w-32" onClick={() => reset()}>
+            <Button className="tw-w-32" onClick={() => reset(camera)}>
               Clear Space
             </Button>
             <MoveBtn newPoint={new Point(camera.x + 0.5, camera.y)} text="Left" />
@@ -69,7 +68,7 @@ export default function Draw() {
             </Button>
           </div>
           <div className="tw-flex tw-flex-col tw-items-end tw-gap-y-2">
-            <MoveBtn newPoint={defaultPosition} text={`Return to\n(0, 0)`} />
+            <MoveBtn newPoint={defalutCamera} text={`Return to\nstarting point`} />
             <MoveBtn newPoint={new Point(camera.x - 0.5, camera.y)} text="Right" />
             <MoveBtn newPoint={new Point(camera.x, camera.y + 0.5)} text="Down" />
             <Button className="tw-w-32" onClick={() => setZoom((e) => (e >= 1 ? 0.95 : e - 0.05))}>

@@ -51,8 +51,8 @@ export default function Mode() {
       </div>
       <Modes />
       <div className="tw-flex tw-items-center tw-justify-center tw-gap-2">
-        <FaAssistiveListeningSystems size={30} />
-        <span className="tw-text-left">당신의 소리를 듣고 있어요{text}</span>
+        <FaAssistiveListeningSystems size={30} className="tw-relative tw-bottom-0.5" />
+        <span className="tw-font-semibold tw-text-left">당신의 소리를 듣고 있어요{text}</span>
       </div>
     </div>
   );

@@ -41,10 +41,17 @@ export function drawSegment(point1: Point, point2: Point) {
     window.ggbApplet.evalCommand(`Segment(${point1.toString()}, ${point2.toString()})`);
 }
 
-export function reset() {
-  if (hasLoaded()) window.ggbApplet.reset();
+export async function reset(point: Point) {
+  if (hasLoaded()) {
+    window.ggbApplet.reset();
+    // await new Promise((resolve) => setTimeout(resolve, 10));
+
+    moveCamera(point);
+  }
 }
 
+// Not working!
 export function undo() {
-  if (hasLoaded()) window.ggbApplet.registerClientListener();
+  // if (hasLoaded()) window.ggbApplet.registerClientListener();
+  // if (hasLoaded()) window.ggbApplet.undo();
 }
