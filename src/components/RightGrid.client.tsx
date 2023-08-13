@@ -18,7 +18,8 @@ export default function RightGrid({
   zoom,
   setZoom,
   defalutCamera,
-  isDefalut
+  isDefalut,
+  problemAnswer
 }: {
   text: string;
   camera: Point;
@@ -27,9 +28,12 @@ export default function RightGrid({
   setZoom: Function;
   defalutCamera: Point;
   isDefalut: boolean;
+  problemAnswer: number;
 }) {
-  const [latexText, setLatexText] = useState(text);
+  const [templateText, SetTemplateText] = useState(text);
+  const [latexText, setLatexText] = useState('hello?');
   const [command, setCommand] = useState('');
+  const [answer, setAnswer] = useState('');
 
   function MoveBtn({ newPoint, text }: { newPoint: Point; text: string }) {
     return (
@@ -48,6 +52,7 @@ export default function RightGrid({
         className="tw-flex tw-flex-col tw-w-full tw-h-full tw-gap-y-4"
         // style={{ height: '670px' }}
       >
+        <Latex>{templateText}</Latex>
         <Latex>{latexText}</Latex>
         <form
           className="tw-flex tw-flex-row tw-items-center tw-w-full"
@@ -116,17 +121,22 @@ export default function RightGrid({
               className="tw-flex tw-flex-row tw-items-center tw-w-full"
               onSubmit={(e) => {
                 e.preventDefault();
-                evalCommand(command);
-                setCommand('');
+                // evalCommand(command);
+                if (problemAnswer === parseInt(answer)) {
+                  console.log('맞은');
+                } else {
+                  console.log('맞지 아니한');
+                }
+                setAnswer('');
               }}
             >
               <div className="tw-w-full tw-mr-3 tw-h-11">
                 <input
-                  type="text"
-                  value={command}
+                  type="number"
+                  value={answer}
                   placeholder="Type a answer!"
                   className="tw-w-full tw-h-full tw-px-2 tw-py-1 tw-border-2 tw-rounded-md"
-                  onChange={(e) => setCommand(e.target.value)}
+                  onChange={(e) => setAnswer(e.target.value)}
                 />
               </div>
               <Button>Submit</Button>

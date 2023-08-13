@@ -3,7 +3,6 @@ import 'katex/dist/katex.min.css';
 import Button from '@components/Button';
 import { moveCamera, zoomCamera } from '@lib/commands';
 import dynamic from 'next/dynamic';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { IoIosArrowBack } from 'react-icons/io';
@@ -14,7 +13,8 @@ const RightGrid = dynamic(() => import('@components/RightGrid.client'));
 
 export default function Draw() {
   const router = useRouter();
-  let { text, geogebra, name, defaultCameraPosition, isDefalut } = router.query;
+  let { text, geogebra, name, defaultCameraPosition, isDefalut, info, answer } = router.query;
+  info = info === undefined ? '빈 템플릿' : info;
   name = (name instanceof Array ? name.join('') : name) ?? 'None';
   const isDefalut_bool = isDefalut === undefined ? true : isDefalut === '1' ? true : false;
   text =
@@ -25,6 +25,7 @@ export default function Draw() {
     (defaultCameraPosition instanceof Array
       ? defaultCameraPosition.join('')
       : defaultCameraPosition) ?? '0,0';
+  const answer_int = answer === undefined ? 0 : parseInt(answer[0]);
   const defalutCamera_list = defaultCameraPosition.split(',').map(parseFloat);
   const defalutCamera = new Point(defalutCamera_list[0], defalutCamera_list[1]);
   const [camera, setCamera] = useState<Point>(defalutCamera);
@@ -51,15 +52,21 @@ export default function Draw() {
 
   return (
     <div className="tw-relative tw-w-screen tw-h-screen">
-      <div className="tw-flex tw-items-center tw-px-6" style={{ height: '50px' }}>
-        <Link href={'/select'} className="tw-flex tw-text-black">
+      <div className="tw-absolute tw-flex tw-items-center tw-gap-4 tw-px-6 tw-h-14">
+        <Button
+          onClick={() => {
+            router.push({ pathname: '/select' }, '/select');
+          }}
+          className="tw-flex tw-p-0"
+        >
           <IoIosArrowBack size={20} />
           <span>돌아가기</span>
-        </Link>
+        </Button>
+        <span>{info}</span>
       </div>
       <div
-        className="tw-flex tw-flex-row tw-w-full tw-grid-flow-col tw-p-6 tw-pt-0 tw-items-full tw-gap-x-10 "
-        style={{ height: 'calc(100% - 50px)' }}
+        className="tw-flex tw-flex-row tw-w-full tw-h-full tw-grid-flow-col tw-p-6 tw-pt-14 tw-items-full tw-gap-x-10 "
+        // style={{ height: 'calc(100% - 50px)' }}
       >
         <LeftGrid camera={camera} geogebra={geogebra} defaultCameraPosition={defalutCamera} />
         <RightGrid
@@ -70,6 +77,7 @@ export default function Draw() {
           setZoom={setZoom}
           defalutCamera={defalutCamera}
           isDefalut={isDefalut_bool}
+          problemAnswer={answer_int}
         />
       </div>
     </div>

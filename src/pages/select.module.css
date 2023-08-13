@@ -1,13 +1,13 @@
 .screen {
-  width: 100vw;
   height: 100vh;
   overflow-y: scroll;
   position: relative;
+  width: 100vw;
 }
 
 .screen::-webkit-scrollbar {
-  width: 10px;
   height: 10px;
+  width: 10px;
 }
 .screen::-webkit-scrollbar-thumb {
   background-color: #596174;
@@ -18,6 +18,19 @@
   border-radius: 5px;
 }
 
+.scrollBar::-webkit-scrollbar {
+  height: 10px;
+  width: 10px;
+}
+.scrollBar::-webkit-scrollbar-thumb {
+  background-color: #596174;
+  border-radius: 5px;
+}
+.scrollBar::-webkit-scrollbar-track {
+  background-color: rgb(228, 228, 228);
+  /* border-radius: 5px; */
+}
+
 /* .screen > header {
   position: fixed;
   width: 100%;
@@ -26,24 +39,24 @@
 } */
 
 .groupContainer {
-  width: 100vw;
   padding: 0 40px;
+  width: 100vw;
 }
 
 .group {
-  width: calc(100% - 80px);
-  height: auto;
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
+  height: auto;
   margin-bottom: 40px;
+  width: calc(100% - 80px);
   /* padding: 0 5%; */
   /* overflow-x: scroll; */
 }
 
 .group::-webkit-scrollbar {
-  width: 5px;
   height: 5px;
+  width: 5px;
 }
 .group::-webkit-scrollbar-thumb {
   background-color: #2f3542;
@@ -55,15 +68,15 @@
 }
 
 .box {
-  width: 166px;
-  height: 166px;
   /* background-color: blue; */
   border: solid 1px gray;
   border-radius: 20px;
+  height: 166px;
   /* flex: 1 0 auto; */
   margin-bottom: 10px;
   padding: 20px;
   transition: transform 0.2s;
+  width: 166px;
 }
 
 .box:hover {
@@ -73,6 +86,6 @@
 .screenContainer {
   display: flex;
   flex-direction: column;
-  text-align: left;
   margin: 0 50px;
+  text-align: left;
 }
