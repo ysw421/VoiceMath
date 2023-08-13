@@ -9,7 +9,7 @@ export default function Select() {
 
   return (
     <div className="tw-relative tw-w-screen tw-h-screen tw-p-6 tw-overflow-y-scroll">
-      <div className="tw-flex tw-justify-center tw-w-full tw-mt-3 tw-text-3xl tw-font-bold tw-mb-7">
+      <div className="tw-flex tw-justify-center tw-w-full tw-mt-10 tw-mb-10 tw-text-3xl tw-font-bold">
         문제를 선택하세요
       </div>
       <div className="tw-p-10">

@@ -1,10 +1,12 @@
 import 'katex/dist/katex.min.css';
 
 import Button from '@components/Button';
-import { drawCircle, drawLine, drawSegment, moveCamera, reset, zoomCamera } from '@lib/commands';
+import { moveCamera, zoomCamera } from '@lib/commands';
 import dynamic from 'next/dynamic';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { IoIosArrowBack } from 'react-icons/io';
 import { Point } from 'typings';
 
 const LeftGrid = dynamic(() => import('@components/LeftGrid.client'));
@@ -12,8 +14,9 @@ const RightGrid = dynamic(() => import('@components/RightGrid.client'));
 
 export default function Draw() {
   const router = useRouter();
-  let { text, geogebra, name, defaultCameraPosition } = router.query;
+  let { text, geogebra, name, defaultCameraPosition, isDefalut } = router.query;
   name = (name instanceof Array ? name.join('') : name) ?? 'None';
+  const isDefalut_bool = isDefalut === undefined ? true : isDefalut === '1' ? true : false;
   text =
     (text instanceof Array ? text.join('') : text) ??
     '새로운 메모에 오신 것을 환영합니다.<br/>마음껏 메모하세요!';
@@ -47,47 +50,27 @@ export default function Draw() {
   }
 
   return (
-    <div className="tw-relative">
-      <div className="tw-flex tw-items-center tw-w-screen tw-h-screen tw-grid-flow-col tw-p-6 tw-gap-x-10 ">
-        <LeftGrid camera={camera} geogebra={geogebra} defaultCameraPosition={defalutCamera} />
-        <RightGrid text={text} />
+    <div className="tw-relative tw-w-screen tw-h-screen">
+      <div className="tw-flex tw-items-center tw-px-6" style={{ height: '50px' }}>
+        <Link href={'/select'} className="tw-flex tw-text-black">
+          <IoIosArrowBack size={20} />
+          <span>돌아가기</span>
+        </Link>
       </div>
-      <div className="tw-absolute tw-bottom-6 tw-right-6">
-        <div className="tw-flex tw-flex-row tw-gap-x-4">
-          <div className="tw-flex tw-flex-col tw-items-end tw-gap-y-2">
-            <Button className="tw-w-32" onClick={() => reset(camera)}>
-              Clear Space
-            </Button>
-            <MoveBtn newPoint={new Point(camera.x + 0.5, camera.y)} text="Left" />
-            <MoveBtn newPoint={new Point(camera.x, camera.y - 0.5)} text="Up" />
-            <Button className="tw-w-32" onClick={() => setZoom((e) => (e <= 1 ? 1.05 : e + 0.05))}>
-              Zoom In
-            </Button>
-            <Button className="tw-w-32" onClick={() => drawCircle(camera, 0.5)}>
-              Draw Circle
-            </Button>
-          </div>
-          <div className="tw-flex tw-flex-col tw-items-end tw-gap-y-2">
-            <MoveBtn newPoint={defalutCamera} text={`Return to\nstarting point`} />
-            <MoveBtn newPoint={new Point(camera.x - 0.5, camera.y)} text="Right" />
-            <MoveBtn newPoint={new Point(camera.x, camera.y + 0.5)} text="Down" />
-            <Button className="tw-w-32" onClick={() => setZoom((e) => (e >= 1 ? 0.95 : e - 0.05))}>
-              Zoom Out
-            </Button>
-            <Button
-              className="tw-w-32"
-              onClick={() => drawLine(camera, new Point(camera.x + 5, camera.y + 5))}
-            >
-              Draw Line
-            </Button>
-            <Button
-              className="tw-w-32"
-              onClick={() => drawSegment(camera, new Point(camera.x + 5, camera.y + 5))}
-            >
-              Draw Segment
-            </Button>
-          </div>
-        </div>
+      <div
+        className="tw-flex tw-flex-row tw-w-full tw-grid-flow-col tw-p-6 tw-pt-0 tw-items-full tw-gap-x-10 "
+        style={{ height: 'calc(100% - 50px)' }}
+      >
+        <LeftGrid camera={camera} geogebra={geogebra} defaultCameraPosition={defalutCamera} />
+        <RightGrid
+          text={text}
+          camera={camera}
+          setCamera={setCamera}
+          zoom={zoom}
+          setZoom={setZoom}
+          defalutCamera={defalutCamera}
+          isDefalut={isDefalut_bool}
+        />
       </div>
     </div>
   );
