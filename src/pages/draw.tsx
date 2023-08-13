@@ -51,7 +51,7 @@ export default function Draw() {
   }
 
   return (
-    <div className="tw-relative tw-w-screen tw-h-screen">
+    <div className="tw-relative tw-w-screen tw-h-screen tw-overflow-x-hidden">
       <div className="tw-absolute tw-flex tw-items-center tw-gap-4 tw-px-6 tw-h-14">
         <Button
           onClick={() => {

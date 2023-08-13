@@ -6,6 +6,8 @@ import geogebraCommand from '@lib/geogebraCommand';
 import stt from '@lib/stt';
 import { useState } from 'react';
 import { AudioRecorder } from 'react-audio-voice-recorder';
+import Latex from 'react-latex-next';
+import Swal from 'sweetalert2';
 import { Point } from 'typings';
 
 import Button from './Button';
@@ -31,7 +33,7 @@ export default function RightGrid({
 }) {
   const [command, setCommand] = useState('');
   const [answer, setAnswer] = useState('');
-  var [latexSentences, setLatexSentences] = useState<string[]>([text]);
+  const [latexSentences, setLatexSentences] = useState<string[]>(['']);
 
   const AddLatexSentence = (newSentence: string) => {
     const newSentence_Latex = getLaTeXString(newSentence);
@@ -56,6 +58,7 @@ export default function RightGrid({
         className="tw-flex tw-flex-col tw-w-full tw-h-full tw-gap-y-4"
         // style={{ height: '670px' }}
       >
+        <Latex>{text}</Latex>
         <ScrollableLatex latexSentences={latexSentences} />
         <form
           className="tw-flex tw-flex-row tw-items-center tw-w-full"
@@ -137,9 +140,23 @@ export default function RightGrid({
               onSubmit={(e) => {
                 e.preventDefault();
                 if (problemAnswer === parseInt(answer)) {
-                  console.log('맞은');
+                  // console.log('맞은');
+                  Swal.fire({
+                    title: 'Good job!!',
+                    html: '다른 문제도 풀어보세요.',
+                    icon: 'success',
+                    timer: 2000,
+                    timerProgressBar: true
+                  });
                 } else {
-                  console.log('맞지 아니한');
+                  // console.log('맞지 아니한');
+                  Swal.fire({
+                    title: 'Try Again',
+                    html: '다시 시도해 보세요!',
+                    icon: 'error',
+                    timer: 2000,
+                    timerProgressBar: true
+                  });
                 }
                 setAnswer('');
               }}
