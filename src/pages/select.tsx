@@ -14,7 +14,7 @@ export default function Select() {
       className={`tw-relative tw-w-screen tw-h-screen tw-p-6 tw-pt-0 tw-overflow-y-scroll ${styles.scrollBar}`}
     >
       <div
-        className="tw-fixed tw-flex tw-items-center tw-px-6"
+        className="tw-fixed tw-z-50 tw-flex tw-items-center tw-px-6"
         style={{
           height: '50px',
           backgroundColor: 'rgba(255, 255, 255, 0.7)',
