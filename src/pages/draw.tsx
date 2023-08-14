@@ -73,7 +73,6 @@ export default function Draw() {
           text={text}
           camera={camera}
           setCamera={setCamera}
-          zoom={zoom}
           setZoom={setZoom}
           defalutCamera={defalutCamera}
           isDefalut={isDefalut_bool}

@@ -16,7 +16,6 @@ export default function RightGrid({
   text,
   camera,
   setCamera,
-  zoom,
   setZoom,
   defalutCamera,
   isDefalut,
@@ -25,7 +24,6 @@ export default function RightGrid({
   text: string;
   camera: Point;
   setCamera: Function;
-  zoom: number;
   setZoom: Function;
   defalutCamera: Point;
   isDefalut: boolean;
