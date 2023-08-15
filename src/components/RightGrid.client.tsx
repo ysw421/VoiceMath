@@ -1,16 +1,15 @@
 import 'katex/dist/katex.min.css';
 
-import { evalCommand } from '@lib/commands';
+import { evalCommandGetLabels, getLaTeXString } from '@lib/commands';
 import { reset } from '@lib/commands';
 import geogebraCommand from '@lib/geogebraCommand';
 import stt from '@lib/stt';
 import { useState } from 'react';
 import { AudioRecorder } from 'react-audio-voice-recorder';
-import Latex from 'react-latex-next';
 import { Point } from 'typings';
 
 import Button from './Button';
-
+import ScrollableLatex from './ScrollableLatex';
 export default function RightGrid({
   text,
   camera,
@@ -30,10 +29,14 @@ export default function RightGrid({
   isDefalut: boolean;
   problemAnswer: number;
 }) {
-  const [templateText, SetTemplateText] = useState(text);
-  const [latexText, setLatexText] = useState('hello?');
   const [command, setCommand] = useState('');
   const [answer, setAnswer] = useState('');
+  var [latexSentences, setLatexSentences] = useState<string[]>([text]);
+
+  const AddLatexSentence = (newSentence: string) => {
+    const newSentence_Latex = getLaTeXString(newSentence);
+    setLatexSentences((prevSentences) => [...prevSentences, newSentence_Latex]);
+  };
 
   function MoveBtn({ newPoint, text }: { newPoint: Point; text: string }) {
     return (
@@ -52,13 +55,13 @@ export default function RightGrid({
         className="tw-flex tw-flex-col tw-w-full tw-h-full tw-gap-y-4"
         // style={{ height: '670px' }}
       >
-        <Latex>{templateText}</Latex>
-        <Latex>{latexText}</Latex>
+        <ScrollableLatex latexSentences={latexSentences} />
         <form
           className="tw-flex tw-flex-row tw-items-center tw-w-full"
           onSubmit={(e) => {
             e.preventDefault();
-            evalCommand(command);
+            const objLatex = evalCommandGetLabels(command);
+            AddLatexSentence(objLatex);
             setCommand('');
           }}
         >
@@ -66,7 +69,7 @@ export default function RightGrid({
             <input
               type="text"
               value={command}
-              placeholder="Type a command!"
+              placeholder="키보드로 입력하세요!"
               className="tw-w-full tw-h-full tw-px-2 tw-py-1 tw-border-2 tw-rounded-md"
               onChange={(e) => setCommand(e.target.value)}
             />
@@ -76,21 +79,32 @@ export default function RightGrid({
         <div className="tw-flex tw-flex-row tw-items-center tw-gap-x-3">
           <AudioRecorder
             onRecordingComplete={(blob) => {
-              stt(blob).then((dialog: JSON) => geogebraCommand(dialog));
+              stt(blob).then((dialog: JSON) => {
+                const objLatex = geogebraCommand(dialog);
+                //iterate through objLatex and add to latexSentences
+                if (objLatex.intent == 'plot_graph') {
+                  AddLatexSentence(objLatex.labels[0]);
+                }
+              });
             }}
             audioTrackConstraints={{
               noiseSuppression: true,
               echoCancellation: true
             }}
           />
-          Input via voice!
+          음성으로 입력하세요!
         </div>
       </div>
-
       <div className="tw-flex tw-flex-row-reverse tw-items-end tw-w-full tw-gap-x-4">
         <div className="tw-flex tw-flex-row tw-gap-2">
           <div className="tw-flex tw-flex-col tw-items-end tw-gap-y-2">
-            <Button className="tw-w-32" onClick={() => reset(camera)}>
+            <Button
+              className="tw-w-32"
+              onClick={() => {
+                reset(camera);
+                latexSentences.length = 1;
+              }}
+            >
               Clear Space
             </Button>
             <MoveBtn newPoint={new Point(camera.x + 0.5, camera.y)} text="Left" />
@@ -121,7 +135,6 @@ export default function RightGrid({
               className="tw-flex tw-flex-row tw-items-center tw-w-full"
               onSubmit={(e) => {
                 e.preventDefault();
-                // evalCommand(command);
                 if (problemAnswer === parseInt(answer)) {
                   console.log('맞은');
                 } else {

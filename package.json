@@ -16,6 +16,8 @@
     "@gradio/client": "^0.1.4",
     "@n8tb1t/use-scroll-position": "^2.0.3",
     "@tippyjs/react": "^4.2.6",
+    "@types/katex": "^0.16.2",
+    "@types/react-katex": "^3.0.0",
     "axios": "^0.22.0",
     "classnames": "^2.3.2",
     "date-fns": "^2.30.0",

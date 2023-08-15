@@ -24,7 +24,6 @@ export default function geogebraCommand(dialog: JSON) {
   const intent = values[10][1]['displayName']; // intent name
   const confidence = values[11][1]; //confidence_score
   let geogebraValue;
-
   let coordinates: string[] = [];
   let labels: string[] = [];
 
@@ -32,6 +31,7 @@ export default function geogebraCommand(dialog: JSON) {
     geogebraValue = parameters['math']['stringValue'];
     const label = evalCommandGetLabels(geogebraValue);
     setLabelVisible(label, true);
+    labels.push(label);
   } else {
     let coordinateValues = parameters.coordinate.listValue.values;
     let labelValues = parameters?.label?.listValue?.values;
@@ -45,23 +45,18 @@ export default function geogebraCommand(dialog: JSON) {
 
     for (let i = 0; i < coordinatelen; i++) {
       let coordinate = parameters.coordinate.listValue.values[i].stringValue;
-      console.log(coordinate);
       coordinates.push(`(${coordinate})`);
+      let label;
       if (i < labellen) {
-        const label = parameters.label.listValue.values[i].stringValue;
+        label = parameters.label.listValue.values[i].stringValue;
         evalCommand(`${label}=(${coordinate})`);
-        setLabelVisible(label, true);
-        evalCommand(`SetLabelMode(${label}, 9)`);
-        evalCommand(`SetColor(${label}, "Blue")`);
-
-        labels.push(label);
       } else {
-        const label = evalCommandGetLabels(`Point({${coordinate}})`);
-        setLabelVisible(label, true);
-        evalCommand(`SetLabelMode(${label}, 9)`);
-        evalCommand(`SetColor(${label}, "Blue")`);
-        labels.push(label);
+        label = evalCommandGetLabels(`Point({${coordinate}})`);
       }
+      setLabelVisible(label, true);
+      evalCommand(`SetLabelMode(${label}, 9)`);
+      evalCommand(`SetColor(${label}, "Blue")`);
+      labels.push(label);
     }
   }
   if (intent == 'plot_line') {
@@ -70,8 +65,5 @@ export default function geogebraCommand(dialog: JSON) {
     console.log(`Polygon(${coordinates})`);
     evalCommand(`Polygon(${coordinates})`);
   }
-
-  console.log(`Segment(${coordinates[0]}, ${coordinates[1]})`);
-
-  return values;
+  return { intent, coordinates, labels };
 }

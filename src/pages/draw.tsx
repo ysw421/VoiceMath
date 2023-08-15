@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react';
 import { IoIosArrowBack } from 'react-icons/io';
 import { Point } from 'typings';
 
-const LeftGrid = dynamic(() => import('@components/LeftGrid.client'));
+const LeftGrid = dynamic(() => import('@components/LeftGrid'));
 const RightGrid = dynamic(() => import('@components/RightGrid.client'));
 
 export default function Draw() {

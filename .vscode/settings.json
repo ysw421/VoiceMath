@@ -3,7 +3,6 @@
   "typescript.updateImportsOnFileMove.enabled": "always",
   "javascript.updateImportsOnFileMove.enabled": "always",
   "tailwindCSS.emmetCompletions": true,
-  // Run ESLint each time you save a file
   "editor.codeActionsOnSave": {
     "source.fixAll": true
   },
@@ -12,6 +11,7 @@
   },
   "eslint.packageManager": "pnpm",
   "eslint.alwaysShowStatus": true,
+  "eslint.run": "onType",
   "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
   "css.validate": false,
   "less.validate": false,

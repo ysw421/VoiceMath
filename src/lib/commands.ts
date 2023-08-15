@@ -5,20 +5,31 @@ function hasLoaded() {
 }
 
 export function evalCommand(str: string) {
-  if (hasLoaded()) window.ggbApplet.evalCommand(str);
+  if (hasLoaded()) {
+    window.ggbApplet.evalCommand(str);
+    window.ggbApplet.setLabelVisible(str, true);
+  }
+}
+
+export function getLaTeXString(str: string): string {
+  var label = '';
+  if (hasLoaded()) {
+    label = `$${str} : ${window.ggbApplet.getLaTeXString(str)}$`;
+  }
+  return label;
 }
 
 export function evalCommandGetLabels(str: string) {
-  if (hasLoaded()) return window.ggbApplet.evalCommandGetLabels(str);
+  if (hasLoaded()) {
+    const label = window.ggbApplet.evalCommandGetLabels(str);
+    setLabelVisible(label, true);
+    return label;
+  }
 }
 
 export function setLabelVisible(str: string, bool: boolean) {
   if (hasLoaded()) return window.ggbApplet.setLabelVisible(str, bool);
 }
-
-// export function showAllObjects(): void {
-//   if (hasLoaded()) return window.ggbApplet.showAllObjects();
-// }
 
 export function moveCamera(point: Point) {
   if (hasLoaded()) window.ggbApplet.evalCommand(`CenterView(${point.toString()})`);
