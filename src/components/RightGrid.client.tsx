@@ -4,7 +4,8 @@ import { evalCommandGetLabels, getLaTeXString } from '@lib/commands';
 import { reset } from '@lib/commands';
 import geogebraCommand from '@lib/geogebraCommand';
 import stt from '@lib/stt';
-import { useState } from 'react';
+import tensorflowjsInit from '@lib/TensorflowJS';
+import React, { useLayoutEffect, useState } from 'react';
 import { AudioRecorder } from 'react-audio-voice-recorder';
 import Latex from 'react-latex-next';
 import Swal from 'sweetalert2';
@@ -32,13 +33,13 @@ export default function RightGrid({
   const [command, setCommand] = useState('');
   const [answer, setAnswer] = useState('');
   const [latexSentences, setLatexSentences] = useState<string[]>(['']);
-
   const AddLatexSentence = (newSentence: string) => {
     const newSentence_Latex = getLaTeXString(newSentence);
     console.log(newSentence_Latex);
     setLatexSentences((prevSentences) => [...prevSentences, newSentence_Latex]);
   };
-
+  const clearButtonRef = React.useRef<HTMLButtonElement>(null);
+  const startButtonRef = React.useRef<HTMLButtonElement>(null);
   function MoveBtn({ newPoint, text }: { newPoint: Point; text: string }) {
     return (
       <Button
@@ -49,7 +50,22 @@ export default function RightGrid({
       </Button>
     );
   }
+  useLayoutEffect(() => {
+    let recognizerInstance: any;
 
+    async function init() {
+      recognizerInstance = await tensorflowjsInit(
+        () => () => {
+          console.log('deleted');
+          reset(camera);
+          setLatexSentences(['']);
+        },
+        () => {}
+      );
+    }
+
+    init();
+  }, []);
   return (
     <div className="tw-flex tw-flex-col tw-w-full tw-h-full">
       <div
@@ -62,7 +78,8 @@ export default function RightGrid({
           className="tw-flex tw-flex-row tw-items-center tw-w-full"
           onSubmit={(e) => {
             e.preventDefault();
-            const objLatex = evalCommandGetLabels(command);
+            var objLatex = evalCommandGetLabels(command);
+            if (objLatex == null) objLatex = command;
             AddLatexSentence(objLatex);
             setCommand('');
           }}
@@ -101,10 +118,12 @@ export default function RightGrid({
         <div className="tw-flex tw-flex-row tw-gap-2">
           <div className="tw-flex tw-flex-col tw-items-end tw-gap-y-2">
             <Button
+              ref={clearButtonRef}
               className="tw-w-32"
               onClick={() => {
+                console.log('deleted');
                 reset(camera);
-                latexSentences.length = 1;
+                setLatexSentences(['']);
               }}
             >
               Clear Space

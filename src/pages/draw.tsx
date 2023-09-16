@@ -39,17 +39,6 @@ export default function Draw() {
     zoomCamera(zoom, camera);
   }, [zoom]);
 
-  function MoveBtn({ newPoint, text }: { newPoint: Point; text: string }) {
-    return (
-      <Button
-        className="tw-w-32 tw-leading-none tw-whitespace-pre-line"
-        onClick={() => setCamera(newPoint)}
-      >
-        {text}
-      </Button>
-    );
-  }
-
   return (
     <div className="tw-relative tw-w-screen tw-h-screen tw-overflow-x-hidden">
       <div className="tw-absolute tw-flex tw-items-center tw-gap-4 tw-px-6 tw-h-14">

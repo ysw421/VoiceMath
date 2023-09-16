@@ -13,8 +13,10 @@ export function evalCommand(str: string) {
 
 export function getLaTeXString(str: string): string {
   var label = '';
+  const LatexString = window.ggbApplet.getLaTeXString(str);
   if (hasLoaded()) {
-    label = `$${str} : ${window.ggbApplet.getLaTeXString(str)}$`;
+    label = `$${str} : ${LatexString}$`;
+    if (LatexString == '') label = `$${str}$`;
   }
   return label;
 }
