@@ -5,8 +5,8 @@ import { reset } from '@lib/commands';
 import geogebraCommand from '@lib/geogebraCommand';
 import stt from '@lib/stt';
 import tensorflowjsInit from '@lib/TensorflowJS';
-import React, { useLayoutEffect, useState } from 'react';
-import { AudioRecorder } from 'react-audio-voice-recorder';
+import React, { useState } from 'react';
+import { AudioRecorder, useAudioRecorder } from 'react-audio-voice-recorder';
 import Latex from 'react-latex-next';
 import Swal from 'sweetalert2';
 import { Point } from 'typings';
@@ -38,6 +38,17 @@ export default function RightGrid({
     console.log(newSentence_Latex);
     setLatexSentences((prevSentences) => [...prevSentences, newSentence_Latex]);
   };
+  const {
+    startRecording,
+    stopRecording,
+    togglePauseResume,
+    recordingBlob,
+    isRecording,
+    isPaused,
+    recordingTime,
+    mediaRecorder
+  } = useAudioRecorder();
+
   const clearButtonRef = React.useRef<HTMLButtonElement>(null);
   const startButtonRef = React.useRef<HTMLButtonElement>(null);
   function MoveBtn({ newPoint, text }: { newPoint: Point; text: string }) {
@@ -50,22 +61,16 @@ export default function RightGrid({
       </Button>
     );
   }
-  useLayoutEffect(() => {
-    let recognizerInstance: any;
-
-    async function init() {
-      recognizerInstance = await tensorflowjsInit(
-        () => () => {
-          console.log('deleted');
-          reset(camera);
-          setLatexSentences(['']);
-        },
-        () => {}
-      );
+  tensorflowjsInit(
+    () => () => {
+      console.log('deleted');
+      reset(camera);
+      setLatexSentences(['']);
+    },
+    () => {
+      startRecording();
     }
-
-    init();
-  }, []);
+  );
   return (
     <div className="tw-flex tw-flex-col tw-w-full tw-h-full">
       <div
