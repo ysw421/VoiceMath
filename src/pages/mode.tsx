@@ -1,18 +1,49 @@
+import TTS_box from '@components/ttsBox';
+import { useTTS } from '@hooks/use-tts';
 import { atom, useAtom } from 'jotai';
 import Image from 'next/image';
 import Link from 'next/link';
 import { memo, useEffect, useState } from 'react';
-import { FaAssistiveListeningSystems } from 'react-icons/fa';
 
-const modeAtom = atom(0);
+export const modeAtom = atom(0);
 
 export default function Mode() {
-  const [text, setText] = useState('');
   const [gmode, setGmode] = useAtom(modeAtom);
 
+  const { text, setText, isSpeaking, isPaused, isResumed, isEnded, speak, pause, resume, cancel } =
+    useTTS();
+
   useEffect(() => {
-    window.speechSynthesis.getVoices();
-  });
+    cancel();
+  }, []);
+
+  // useEffect(() => {
+  //   window.speechSynthesis.getVoices();
+  // });
+
+  const [exText, setExText] = useState(
+    '당신의 소리를 듣고 있어요. 모드를 선택해 주세요. 모드  하나, 그래프를 볼 수 없어요. 모드  둘, 종이에 필기하기 어려워요. 모드  셋, 말이 정확하지 않아요.'
+  );
+  useEffect(() => {
+    setText(exText);
+  }, []);
+
+  useEffect(() => {
+    if (text === exText) {
+      speak();
+    }
+  }, [text]);
+
+  useEffect(() => {
+    const speak_ = setInterval(() => {
+      if (text === exText) {
+        speak();
+      }
+    }, 30000);
+    return () => {
+      clearInterval(speak_);
+    };
+  }, [text]);
 
   // eslint-disable-next-line react/display-name
   const ModeSelect = memo(
@@ -44,16 +75,17 @@ export default function Mode() {
     </div>
   ));
 
+  useEffect(() => {
+    window.speechSynthesis.getVoices();
+  }, []);
+
   return (
     <div className="tw-flex tw-flex-col tw-h-screen tw-justify-evenly">
       <div className="tw-flex tw-items-center tw-justify-center tw-text-3xl tw-font-bold">
         원하는 모드를 선택하세요
       </div>
       <Modes />
-      <div className="tw-flex tw-items-center tw-justify-center tw-gap-2">
-        <FaAssistiveListeningSystems size={30} className="tw-relative tw-bottom-0.5" />
-        <span className="tw-font-semibold tw-text-left">당신의 소리를 듣고 있어요{text}</span>
-      </div>
+      <TTS_box />
     </div>
   );
 }
