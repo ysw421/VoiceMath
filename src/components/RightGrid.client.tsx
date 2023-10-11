@@ -4,7 +4,7 @@ import { evalCommandGetLabels, getLaTeXString } from '@lib/commands';
 import { reset } from '@lib/commands';
 import geogebraCommand from '@lib/geogebraCommand';
 import stt from '@lib/stt';
-import tensorflowjsInit from '@lib/TensorflowJS';
+import tensorflowJS from '@lib/TensorflowJS';
 import React, { useState } from 'react';
 import { AudioRecorder, useAudioRecorder } from 'react-audio-voice-recorder';
 import Latex from 'react-latex-next';
@@ -33,6 +33,8 @@ export default function RightGrid({
   const [command, setCommand] = useState('');
   const [answer, setAnswer] = useState('');
   const [latexSentences, setLatexSentences] = useState<string[]>(['']);
+
+  tensorflowJS();
   const AddLatexSentence = (newSentence: string) => {
     const newSentence_Latex = getLaTeXString(newSentence);
     console.log(newSentence_Latex);
@@ -48,9 +50,6 @@ export default function RightGrid({
     recordingTime,
     mediaRecorder
   } = useAudioRecorder();
-
-  const clearButtonRef = React.useRef<HTMLButtonElement>(null);
-  const startButtonRef = React.useRef<HTMLButtonElement>(null);
   function MoveBtn({ newPoint, text }: { newPoint: Point; text: string }) {
     return (
       <Button
@@ -61,16 +60,6 @@ export default function RightGrid({
       </Button>
     );
   }
-  tensorflowjsInit(
-    () => () => {
-      console.log('deleted');
-      reset(camera);
-      setLatexSentences(['']);
-    },
-    () => {
-      startRecording();
-    }
-  );
   return (
     <div className="tw-flex tw-flex-col tw-w-full tw-h-full">
       <div
@@ -86,7 +75,6 @@ export default function RightGrid({
             var objLatex = evalCommandGetLabels(command);
             if (objLatex == null) objLatex = command;
             AddLatexSentence(objLatex);
-            setCommand('');
           }}
         >
           <div className="tw-w-full tw-mr-3 tw-h-11">
@@ -123,12 +111,11 @@ export default function RightGrid({
         <div className="tw-flex tw-flex-row tw-gap-2">
           <div className="tw-flex tw-flex-col tw-items-end tw-gap-y-2">
             <Button
-              ref={clearButtonRef}
               className="tw-w-32"
               onClick={() => {
                 console.log('deleted');
                 reset(camera);
-                setLatexSentences(['']);
+                setLatexSentences([]);
               }}
             >
               Clear Space

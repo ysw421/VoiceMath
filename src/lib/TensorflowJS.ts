@@ -1,41 +1,35 @@
-const tf = require('@tensorflow/tfjs');
-const speechCommands = require('@tensorflow-models/speech-commands');
-let recognizerSingleton: any | null = null;
+import '@tensorflow/tfjs';
 
-export default async function tensorflowjsInit(
-  clearButtonCallback: Function,
-  startButtonCallback: Function
-) {
-  if (recognizerSingleton) {
-    return recognizerSingleton;
+import * as speechCommands from '@tensorflow-models/speech-commands';
+export default function tensorflowJS() {
+  const URL = 'https://teachablemachine.withgoogle.com/models/G-paON7fc/';
+
+  async function createModel() {
+    const checkpointURL = URL + 'model.json'; // model topology
+    const metadataURL = URL + 'metadata.json'; // model metadata
+    const recognizer = speechCommands.create('BROWSER_FFT', undefined, checkpointURL, metadataURL);
+    // check that model and metadata are loaded via HTTPS requests.
+    await recognizer.ensureModelLoaded();
+
+    return recognizer;
   }
 
-  const URL = 'https://teachablemachine.withgoogle.com/models/G-paON7fc/';
-  const checkpointURL = URL + 'model.json';
-  const metadataURL = URL + 'metadata.json';
-
-  const recognizer = speechCommands.create('BROWSER_FFT', undefined, checkpointURL, metadataURL);
-  await recognizer.ensureModelLoaded();
-
-  recognizerSingleton = recognizer;
-
-  recognizer.listen(
-    (result: any) => {
-      const { scores } = result;
-      const words = recognizer.wordLabels();
-      const highestScoreIndex = scores.indexOf(Math.max(...scores));
-      const detectedWord = words[highestScoreIndex];
-
-      if (detectedWord === '시작') {
-        startButtonCallback();
-        console.log('시작');
-      } else if (detectedWord === '삭제') {
-        clearButtonCallback();
-        console.log('삭제');
+  async function init() {
+    const recognizer = await createModel();
+    const classLabels = recognizer.wordLabels(); // get class labels
+    // listen() takes two arguments:
+    // 1. A callback function that is invoked anytime a word is recognized.
+    // 2. A configuration object with adjustable fields
+    await recognizer.listen(
+      (result): Promise<void> => {
+        alert(result.scores);
+        return Promise.resolve(undefined);
+      },
+      {
+        includeSpectrogram: true,
+        probabilityThreshold: 0.75
       }
-    },
-    { probabilityThreshold: 0.75 }
-  );
-
-  return recognizerSingleton;
+    );
+  }
+  init();
 }
