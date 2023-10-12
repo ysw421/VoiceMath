@@ -1,10 +1,10 @@
 import 'katex/dist/katex.min.css';
 
+import tensorflow from '@hooks/tensorflow';
 import { evalCommandGetLabels, getLaTeXString } from '@lib/commands';
 import { reset } from '@lib/commands';
 import geogebraCommand from '@lib/geogebraCommand';
 import stt from '@lib/stt';
-import tensorflowJS from '@lib/TensorflowJS';
 import React, { useState } from 'react';
 import { AudioRecorder, useAudioRecorder } from 'react-audio-voice-recorder';
 import Latex from 'react-latex-next';
@@ -33,8 +33,7 @@ export default function RightGrid({
   const [command, setCommand] = useState('');
   const [answer, setAnswer] = useState('');
   const [latexSentences, setLatexSentences] = useState<string[]>(['']);
-
-  tensorflowJS();
+  tensorflow();
   const AddLatexSentence = (newSentence: string) => {
     const newSentence_Latex = getLaTeXString(newSentence);
     console.log(newSentence_Latex);

@@ -1,16 +1,16 @@
 import '@tensorflow/tfjs';
 
 import * as speechCommands from '@tensorflow-models/speech-commands';
-export default function tensorflowJS() {
+import { useState } from 'react';
+export default function tensorflow(): number {
   const URL = 'https://teachablemachine.withgoogle.com/models/G-paON7fc/';
-
+  const [index, setIndex] = useState(0);
   async function createModel() {
     const checkpointURL = URL + 'model.json'; // model topology
     const metadataURL = URL + 'metadata.json'; // model metadata
     const recognizer = speechCommands.create('BROWSER_FFT', undefined, checkpointURL, metadataURL);
     // check that model and metadata are loaded via HTTPS requests.
     await recognizer.ensureModelLoaded();
-
     return recognizer;
   }
 
@@ -22,14 +22,15 @@ export default function tensorflowJS() {
     // 2. A configuration object with adjustable fields
     await recognizer.listen(
       (result): Promise<void> => {
-        alert(result.scores);
+        console.log(classLabels, result.scores);
         return Promise.resolve(undefined);
       },
       {
-        includeSpectrogram: true,
+        includeSpectrogram: false,
         probabilityThreshold: 0.75
       }
     );
   }
   init();
+  return 0;
 }
