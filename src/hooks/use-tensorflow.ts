@@ -2,9 +2,9 @@ import '@tensorflow/tfjs';
 
 import * as speechCommands from '@tensorflow-models/speech-commands';
 import { useState } from 'react';
-export default function tensorflow(): number {
+export function useTensorflow() {
   const URL = 'https://teachablemachine.withgoogle.com/models/G-paON7fc/';
-  const [index, setIndex] = useState(0);
+  const [detectedWord, setdetectedWord] = useState('');
   async function createModel() {
     const checkpointURL = URL + 'model.json'; // model topology
     const metadataURL = URL + 'metadata.json'; // model metadata
@@ -16,13 +16,14 @@ export default function tensorflow(): number {
 
   async function init() {
     const recognizer = await createModel();
-    const classLabels = recognizer.wordLabels(); // get class labels
     // listen() takes two arguments:
     // 1. A callback function that is invoked anytime a word is recognized.
     // 2. A configuration object with adjustable fields
     await recognizer.listen(
-      (result): Promise<void> => {
-        console.log(classLabels, result.scores);
+      (result: any): Promise<void> => {
+        const words = recognizer.wordLabels();
+        const highestScoreIndex = result.scores.indexOf(Math.max(...result.scores));
+        setdetectedWord(words[highestScoreIndex]);
         return Promise.resolve(undefined);
       },
       {
@@ -32,5 +33,5 @@ export default function tensorflow(): number {
     );
   }
   init();
-  return 0;
+  return detectedWord;
 }

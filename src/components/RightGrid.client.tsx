@@ -1,6 +1,6 @@
 import 'katex/dist/katex.min.css';
 
-import tensorflow from '@hooks/tensorflow';
+import { useTensorflow } from '@hooks/use-tensorflow';
 import { evalCommandGetLabels, getLaTeXString } from '@lib/commands';
 import { reset } from '@lib/commands';
 import geogebraCommand from '@lib/geogebraCommand';
@@ -33,7 +33,7 @@ export default function RightGrid({
   const [command, setCommand] = useState('');
   const [answer, setAnswer] = useState('');
   const [latexSentences, setLatexSentences] = useState<string[]>(['']);
-  tensorflow();
+  const keyWord = useTensorflow();
   const AddLatexSentence = (newSentence: string) => {
     const newSentence_Latex = getLaTeXString(newSentence);
     console.log(newSentence_Latex);
@@ -58,6 +58,16 @@ export default function RightGrid({
         {text}
       </Button>
     );
+  }
+  switch (keyWord) {
+    case '삭제':
+      console.log('삭제');
+      break;
+    case '시작':
+      console.log('시작');
+      break;
+    default:
+      console.log('background noise');
   }
   return (
     <div className="tw-flex tw-flex-col tw-w-full tw-h-full">
@@ -112,7 +122,6 @@ export default function RightGrid({
             <Button
               className="tw-w-32"
               onClick={() => {
-                console.log('deleted');
                 reset(camera);
                 setLatexSentences([]);
               }}
