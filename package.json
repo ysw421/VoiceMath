@@ -2,6 +2,11 @@
   "name": "codefair",
   "version": "v1.0.0",
   "private": true,
+  "browser": {
+    "fs": false,
+    "os": false,
+    "path": false
+  },
   "scripts": {
     "start": "NODE_ENV='development' next-remote-watch ./data",
     "dev": "NODE_ENV='development' next dev",
