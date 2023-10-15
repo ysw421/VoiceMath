@@ -1,6 +1,7 @@
 import 'katex/dist/katex.min.css';
 
 import Button from '@components/Button';
+import { useTTS } from '@hooks/use-tts';
 import { moveCamera, zoomCamera } from '@lib/commands';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
@@ -12,6 +13,23 @@ const LeftGrid = dynamic(() => import('@components/LeftGrid'));
 const RightGrid = dynamic(() => import('@components/RightGrid.client'));
 
 export default function Draw() {
+  const {
+    text: ttsText,
+    setText,
+    isSpeaking,
+    isPaused,
+    isResumed,
+    isEnded,
+    speak,
+    pause,
+    resume,
+    cancel
+  } = useTTS();
+
+  useEffect(() => {
+    cancel();
+  }, []);
+
   const router = useRouter();
   let { text, geogebra, name, defaultCameraPosition, isDefalut, info, answer } = router.query;
   info = info === undefined ? '빈 템플릿' : info;
