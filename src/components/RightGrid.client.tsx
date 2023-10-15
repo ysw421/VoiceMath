@@ -1,11 +1,10 @@
 import 'katex/dist/katex.min.css';
 
 import { useTensorflow } from '@hooks/use-tensorflow';
-import { evalCommandGetLabels, getLaTeXString } from '@lib/commands';
-import { reset } from '@lib/commands';
+import { evalCommandGetLabels, getLaTeXString, reset } from '@lib/commands';
 import geogebraCommand from '@lib/geogebraCommand';
 import stt from '@lib/stt';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { AudioRecorder, useAudioRecorder } from 'react-audio-voice-recorder';
 import Latex from 'react-latex-next';
 import Swal from 'sweetalert2';
@@ -59,16 +58,20 @@ export default function RightGrid({
       </Button>
     );
   }
-  switch (keyWord) {
-    case '삭제':
-      console.log('삭제');
-      break;
-    case '시작':
-      console.log('시작');
-      break;
-    default:
-      console.log('background noise');
-  }
+  useEffect(() => {
+    switch (keyWord) {
+      case '삭제':
+        console.log('삭제');
+        reset(camera);
+        setLatexSentences([]);
+        break;
+      case '시작':
+        console.log('시작');
+        break;
+      default:
+        console.log('background noise');
+    }
+  }, [keyWord]);
   return (
     <div className="tw-flex tw-flex-col tw-w-full tw-h-full">
       <div

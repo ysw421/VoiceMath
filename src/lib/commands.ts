@@ -57,8 +57,6 @@ export function drawSegment(point1: Point, point2: Point) {
 export async function reset(point: Point) {
   if (hasLoaded()) {
     window.ggbApplet.reset();
-    // await new Promise((resolve) => setTimeout(resolve, 10));
-
     moveCamera(point);
   }
 }
