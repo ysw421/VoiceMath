@@ -58,6 +58,13 @@ export default function RightGrid({
       </Button>
     );
   }
+  function handlestt(blob: Blob) {
+    stt(blob).then((dialog: JSON) => {
+      const objLatex = geogebraCommand(dialog);
+      //iterate through objLatex and add to latexSentences
+      AddLatexSentence(objLatex.labels[0]);
+    });
+  }
   useEffect(() => {
     switch (keyWord) {
       case '삭제':
@@ -67,11 +74,14 @@ export default function RightGrid({
         break;
       case '시작':
         console.log('시작');
+        startRecording;
+        setTimeout(stopRecording, 5000);
+        if (recordingBlob) handlestt(recordingBlob);
         break;
       default:
-        console.log('background noise');
+        console.log('잡음');
     }
-  }, [keyWord]);
+  }, [camera, keyWord]);
   return (
     <div className="tw-flex tw-flex-col tw-w-full tw-h-full">
       <div
@@ -103,13 +113,7 @@ export default function RightGrid({
         <div className="tw-flex tw-flex-row tw-items-center tw-gap-x-3">
           <AudioRecorder
             onRecordingComplete={(blob) => {
-              stt(blob).then((dialog: JSON) => {
-                const objLatex = geogebraCommand(dialog);
-                //iterate through objLatex and add to latexSentences
-                if (objLatex.intent == 'plot_graph') {
-                  AddLatexSentence(objLatex.labels[0]);
-                }
-              });
+              handlestt(blob);
             }}
             audioTrackConstraints={{
               noiseSuppression: true,
