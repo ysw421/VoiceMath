@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { IoIosArrowBack } from 'react-icons/io';
 
-import { Default, mockExam } from './items';
+import { Default, koreanUniversityScholasticAbilityTest, mockExam } from './items';
 import { modeAtom } from './mode';
 import styles from './select.module.css';
 
@@ -97,9 +97,9 @@ export default function Select() {
             ))}
           </div>
 
-          <h3 className="tw-mb-2">모의고사</h3>
+          <h3 className="tw-mb-2">수능</h3>
           <div className={styles.group}>
-            {mockExam.map((item, index) => (
+            {koreanUniversityScholasticAbilityTest.map((item, index) => (
               <button
                 key={index}
                 onClick={() => {
