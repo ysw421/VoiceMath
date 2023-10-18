@@ -132,10 +132,12 @@ export default function RightGrid({
           <Button>Submit</Button>
         </form>
         <div className="tw-flex tw-flex-row tw-items-center tw-gap-x-3">
-          <Button onClick={startCodeFairModel} disabled={!isListening}>
-            {' '}
-            음성으로 입력하세요!{' '}
-          </Button>
+          <div className={isListening ? 'tw-opacity-60' : 'tw-opacity-100'}>
+            <Button onClick={startCodeFairModel} disabled={!isListening}>
+              {' '}
+              음성으로 입력하세요!{' '}
+            </Button>
+          </div>
         </div>
       </div>
       <div className="tw-flex tw-flex-row-reverse tw-items-end tw-w-full tw-gap-x-4">
