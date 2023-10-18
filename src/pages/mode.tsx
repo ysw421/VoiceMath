@@ -2,14 +2,18 @@ import TTS_box from '@components/ttsBox';
 import { useTensorflow } from '@hooks/use-tensorflow';
 import { useTTS } from '@hooks/use-tts';
 import { atom, useAtom } from 'jotai';
+import { atomWithStorage } from 'jotai/utils';
 import Image from 'next/image';
 import Link from 'next/link';
 import { memo, useEffect, useState } from 'react';
+import { MdLanguage } from 'react-icons/md';
 
-export const modeAtom = atom(0);
+export const modeAtom = atom<number>(0);
+export const isKoreanAtom = atomWithStorage<boolean>('isKorean', true);
 
 export default function Mode() {
   const [gmode, setGmode] = useAtom(modeAtom);
+  const [isKorean, setIsKorean] = useAtom(isKoreanAtom);
   const { startRecordTeachable, stopRecordTeachable, init, detectedWord } = useTensorflow(1);
   const { text, setText, isSpeaking, isPaused, isResumed, isEnded, speak, pause, resume, cancel } =
     useTTS();
@@ -41,10 +45,23 @@ export default function Mode() {
   }, [detectedWord]);
 
   const [exText, setExText] = useState(
+    // isKorean
     '당신의 소리를 듣고 있어요. 모드를 선택해 주세요. 모드  하나, 그래프를 볼 수 없어요. 모드  둘, 종이에 필기하기 어려워요. 모드  셋, 말이 정확하지 않아요.'
+    // : 'I am listening to your voice. Please select a mode. Mode one, I cannot see the graph. Mode two, it is difficult to write on paper. Mode three, the words are not accurate.'
   );
+
+  useEffect(() => {
+    // cancel();
+    // setExText(
+    //   isKorean
+    //     ? '당신의 소리를 듣고 있어요. 모드를 선택해 주세요. 모드  하나, 그래프를 볼 수 없어요. 모드  둘, 종이에 필기하기 어려워요. 모드  셋, 말이 정확하지 않아요.'
+    //     : 'I am listening to your voice. Please select a mode. Mode one, I cannot see the graph. Mode two, it is difficult to write on paper. Mode three, the words are not accurate.'
+    // );
+  }, [isKorean]);
+
   useEffect(() => {
     setText(exText);
+    cancel();
   }, []);
 
   useEffect(() => {
@@ -101,10 +118,13 @@ export default function Mode() {
   return (
     <div className="tw-flex tw-flex-col tw-h-screen tw-justify-evenly">
       <div className="tw-flex tw-items-center tw-justify-center tw-text-3xl tw-font-bold">
-        원하는 모드를 선택하세요
+        {isKorean ? '원하는 모드를 선택하세요' : 'Select the mode you want'}
       </div>
       <Modes />
       <TTS_box />
+      <div className="tw-absolute tw-top-3 tw-right-3" onClick={() => setIsKorean((e) => !e)}>
+        <MdLanguage size={30} />
+      </div>
     </div>
   );
 }

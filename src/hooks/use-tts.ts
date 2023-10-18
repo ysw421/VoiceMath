@@ -1,11 +1,15 @@
+import { isKoreanAtom } from '@pages/mode';
 import { useAtomValue } from 'jotai';
 import { atomWithStorage } from 'jotai/utils';
 import { useCallback, useState } from 'react';
 
 export const ttsVoiceAtom = atomWithStorage<number>('voice_setting', 0);
+export const ttsVoiceEnAtom = atomWithStorage<number>('voice_setting', 0);
 
 export const useTTS = () => {
   const voiceAtom = useAtomValue(ttsVoiceAtom);
+  const voiceEnAtom = useAtomValue(ttsVoiceEnAtom);
+  const isKorean = useAtomValue(isKoreanAtom);
   const [text, setText] = useState<string>('hello');
   const [isSpeaking, setIsSpeaking] = useState<boolean>(false);
   const [isPaused, setIsPaused] = useState<boolean>(false);
@@ -23,6 +27,7 @@ export const useTTS = () => {
     // console.log(window.speechSynthesis.getVoices()[0]);
     // console.log(text);
     function speak() {
+      // msg.voice = window.speechSynthesis.getVoices()[isKorean ? voiceAtom : voiceEnAtom];
       msg.voice = window.speechSynthesis.getVoices()[voiceAtom];
       window.speechSynthesis.speak(msg);
     }
