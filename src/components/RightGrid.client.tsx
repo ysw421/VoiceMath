@@ -5,8 +5,8 @@ import { evalCommandGetLabels, getLaTeXString, reset } from '@lib/commands';
 import geogebraCommand from '@lib/geogebraCommand';
 import stt from '@lib/stt';
 import React, { useEffect, useState } from 'react';
-import { AudioRecorder, useAudioRecorder } from 'react-audio-voice-recorder';
 import Latex from 'react-latex-next';
+import { useReactMediaRecorder } from 'react-media-recorder';
 import Swal from 'sweetalert2';
 import { Point } from 'typings';
 
@@ -32,22 +32,13 @@ export default function RightGrid({
   const [command, setCommand] = useState('');
   const [answer, setAnswer] = useState('');
   const [latexSentences, setLatexSentences] = useState<string[]>(['']);
-  const keyWord = useTensorflow();
+  const [userListening, setUserListening] = useState<boolean>(false);
+  const keyWord = useTensorflow(userListening);
   const AddLatexSentence = (newSentence: string) => {
     const newSentence_Latex = getLaTeXString(newSentence);
     console.log(newSentence_Latex);
     setLatexSentences((prevSentences) => [...prevSentences, newSentence_Latex]);
   };
-  const {
-    startRecording,
-    stopRecording,
-    togglePauseResume,
-    recordingBlob,
-    isRecording,
-    isPaused,
-    recordingTime,
-    mediaRecorder
-  } = useAudioRecorder();
   function MoveBtn({ newPoint, text }: { newPoint: Point; text: string }) {
     return (
       <Button
@@ -58,13 +49,27 @@ export default function RightGrid({
       </Button>
     );
   }
-  function handlestt(blob: Blob) {
-    stt(blob).then((dialog: JSON) => {
-      const objLatex = geogebraCommand(dialog);
-      //iterate through objLatex and add to latexSentences
-      AddLatexSentence(objLatex.labels[0]);
-    });
-  }
+  const { status, startRecording, stopRecording, mediaBlobUrl } = useReactMediaRecorder({
+    audio: true,
+    onStop: (blobUrl, blob) => {
+      console.log('Blob URL: ', blobUrl);
+      console.log('Blob: ', blob);
+      handlestt(blob);
+    }
+  });
+  useEffect(() => {
+    if (userListening) {
+      startRecording();
+      const timerId = setTimeout(() => {
+        stopRecording();
+        setUserListening(false);
+      }, 5000);
+      // Cleanup timer if needed
+      return () => {
+        clearTimeout(timerId);
+      };
+    }
+  }, [userListening]);
   useEffect(() => {
     switch (keyWord) {
       case '삭제':
@@ -74,14 +79,21 @@ export default function RightGrid({
         break;
       case '시작':
         console.log('시작');
-        startRecording;
-        setTimeout(stopRecording, 5000);
-        if (recordingBlob) handlestt(recordingBlob);
+        setUserListening(true);
         break;
       default:
-        console.log('잡음');
+        break;
     }
-  }, [camera, keyWord]);
+  }, [keyWord]);
+  function handlestt(blob: Blob) {
+    console.log('Blob recieved');
+    stt(blob).then((dialog: JSON) => {
+      const objLatex = geogebraCommand(dialog);
+      //iterate through objLatex and add to latexSentences
+      AddLatexSentence(objLatex.labels[0]);
+      alert(objLatex.labels[0]);
+    });
+  }
   return (
     <div className="tw-flex tw-flex-col tw-w-full tw-h-full">
       <div
@@ -110,18 +122,7 @@ export default function RightGrid({
           </div>
           <Button>Submit</Button>
         </form>
-        <div className="tw-flex tw-flex-row tw-items-center tw-gap-x-3">
-          <AudioRecorder
-            onRecordingComplete={(blob) => {
-              handlestt(blob);
-            }}
-            audioTrackConstraints={{
-              noiseSuppression: true,
-              echoCancellation: true
-            }}
-          />
-          음성으로 입력하세요!
-        </div>
+        <div className="tw-flex tw-flex-row tw-items-center tw-gap-x-3">in[ut</div>
       </div>
       <div className="tw-flex tw-flex-row-reverse tw-items-end tw-w-full tw-gap-x-4">
         <div className="tw-flex tw-flex-row tw-gap-2">
