@@ -4,11 +4,13 @@ import { useTTS } from '@hooks/use-tts';
 import { atom, useAtom } from 'jotai';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { memo, useEffect, useState } from 'react';
 
 export const modeAtom = atom(0);
 
 export default function Mode() {
+  const router = useRouter();
   const [gmode, setGmode] = useAtom(modeAtom);
   const { startRecordTeachable, stopRecordTeachable, init, detectedWord } = useTensorflow(1);
   const { text, setText, isSpeaking, isPaused, isResumed, isEnded, speak, pause, resume, cancel } =
@@ -24,19 +26,17 @@ export default function Mode() {
       });
   }, []);
   useEffect(() => {
-    switch (detectedWord) {
-      case '하나':
-        console.log('하나');
-        setGmode(0);
-        break;
-      case '둘':
-        console.log('둘');
-        setGmode(1);
-        break;
-      case '셋':
-        console.log('셋');
-        setGmode(2);
-        break;
+    const wordToGModeMap: { [key: string]: number } = {
+      하나: 0,
+      둘: 1,
+      셋: 2
+    };
+
+    if (wordToGModeMap.hasOwnProperty(detectedWord)) {
+      stopRecordTeachable();
+      console.log(detectedWord);
+      setGmode(wordToGModeMap[detectedWord]);
+      router.push('/select');
     }
   }, [detectedWord]);
 
@@ -48,17 +48,11 @@ export default function Mode() {
   }, []);
 
   useEffect(() => {
-    if (text === exText) {
-      speak();
-    }
-  }, [text]);
-
-  useEffect(() => {
     const speak_ = setInterval(() => {
       if (text === exText) {
         speak();
       }
-    }, 1000);
+    }, 30000);
     return () => {
       clearInterval(speak_);
     };
@@ -97,7 +91,6 @@ export default function Mode() {
   useEffect(() => {
     window.speechSynthesis.getVoices();
   }, []);
-
   return (
     <div className="tw-flex tw-flex-col tw-h-screen tw-justify-evenly">
       <div className="tw-flex tw-items-center tw-justify-center tw-text-3xl tw-font-bold">
