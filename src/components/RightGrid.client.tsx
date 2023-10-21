@@ -32,8 +32,7 @@ export default function RightGrid({
   const [command, setCommand] = useState('');
   const [answer, setAnswer] = useState('');
   const [latexSentences, setLatexSentences] = useState<string[]>(['']);
-  const [userListening, setUserListening] = useState<boolean>(false);
-  const keyWord = useTensorflow(userListening);
+  const { detectedWord, init, stopRecordTeachable, startRecordTeachable } = useTensorflow();
   const AddLatexSentence = (newSentence: string) => {
     const newSentence_Latex = getLaTeXString(newSentence);
     console.log(newSentence_Latex);
@@ -52,26 +51,24 @@ export default function RightGrid({
   const { status, startRecording, stopRecording, mediaBlobUrl } = useReactMediaRecorder({
     audio: true,
     onStop: (blobUrl, blob) => {
-      console.log('Blob URL: ', blobUrl);
       console.log('Blob: ', blob);
       handlestt(blob);
     }
   });
+  function startCodeFairModel() {
+    stopRecordTeachable().then(startRecording);
+    const id = setInterval(() => {
+      stopRecording();
+    }, 5000);
+    return () => {
+      clearInterval(id);
+    };
+  }
   useEffect(() => {
-    if (userListening) {
-      startRecording();
-      const timerId = setTimeout(() => {
-        stopRecording();
-        setUserListening(false);
-      }, 5000);
-      // Cleanup timer if needed
-      return () => {
-        clearTimeout(timerId);
-      };
-    }
-  }, [userListening]);
+    init().then(startRecordTeachable);
+  }, []);
   useEffect(() => {
-    switch (keyWord) {
+    switch (detectedWord) {
       case '삭제':
         console.log('삭제');
         reset(camera);
@@ -79,19 +76,18 @@ export default function RightGrid({
         break;
       case '시작':
         console.log('시작');
-        setUserListening(true);
+        startCodeFairModel();
         break;
       default:
         break;
     }
-  }, [keyWord]);
+  }, [detectedWord]);
   function handlestt(blob: Blob) {
     console.log('Blob recieved');
     stt(blob).then((dialog: JSON) => {
       const objLatex = geogebraCommand(dialog);
-      //iterate through objLatex and add to latexSentences
-      AddLatexSentence(objLatex.labels[0]);
-      alert(objLatex.labels[0]);
+      if (objLatex) AddLatexSentence(objLatex.labels[0]);
+      else alert('다시 말해주실 수 있나요?');
     });
   }
   return (
