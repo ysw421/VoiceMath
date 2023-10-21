@@ -29,9 +29,6 @@ export default function LeftGrid({
         enableShiftDragZoom: true,
         enableRightClick: false,
         capturingThreshold: null,
-        appletOnLoad: function (api: object) {
-          api.evalCommand(`CenterView(${defaultCameraPosition.toString()})`);
-        },
         showToolBarHelp: false,
         errorDialogsActive: true,
         useBrowserForJS: true,

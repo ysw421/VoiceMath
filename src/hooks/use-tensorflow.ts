@@ -1,59 +1,65 @@
 import '@tensorflow/tfjs';
 
 import * as speechCommands from '@tensorflow-models/speech-commands';
-import { useEffect, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 
-export function useTensorflow(isUserRecording: boolean) {
-  const URL = 'https://teachablemachine.withgoogle.com/models/G-paON7fc/';
+export function useTensorflow(selectedPage: number) {
+  const URL = [
+    'https://teachablemachine.withgoogle.com/models/G-paON7fc/',
+    'https://teachablemachine.withgoogle.com/models/16fj9x2cL/'
+  ];
   const [detectedWord, setDetectedWord] = useState<string>('');
-  const [recognizer, setRecognizer] = useState<speechCommands.SpeechCommandRecognizer | null>(null);
+  const recognizer = useRef<speechCommands.SpeechCommandRecognizer>();
 
-  useEffect(() => {
-    async function createModel() {
-      const checkpointURL = URL + 'model.json';
-      const metadataURL = URL + 'metadata.json';
+  const init = useCallback(async () => {
+    try {
+      if (recognizer.current) return; // Exit early if already initialized
+      console.log('Init: Starting to load recognizer...');
+      const checkpointURL = URL[selectedPage] + 'model.json';
+      const metadataURL = URL[selectedPage] + 'metadata.json';
       const newRecognizer = speechCommands.create(
         'BROWSER_FFT',
         undefined,
         checkpointURL,
         metadataURL
       );
+      console.log('Init: Recognizer created. Loading model...');
       await newRecognizer.ensureModelLoaded();
-      setRecognizer(newRecognizer);
+      console.log(newRecognizer);
+      recognizer.current = newRecognizer;
+    } catch (error) {
+      console.error('Failed to load recognizer:', error);
     }
-
-    if (!recognizer) {
-      createModel();
-    }
-  }, [recognizer]);
-
-  useEffect(() => {
-    if (isUserRecording) {
-      recognizer?.stopListening();
+  }, [selectedPage]);
+  const stopRecordTeachable = useCallback(async () => {
+    try {
+      await recognizer.current?.stopListening();
       console.log('Stopped Listening');
-    } else {
-      recognizer
-        ?.listen(
-          async (result: any) => {
-            const words = recognizer.wordLabels();
-            const highestScoreIndex = result.scores.indexOf(Math.max(...result.scores));
-            setDetectedWord(words[highestScoreIndex]);
-            return Promise.resolve();
-          },
-          {
-            includeSpectrogram: false,
-            probabilityThreshold: 0.8,
-            overlapFactor: 0.9
-          }
-        )
-        .then(() => {
-          console.log('Started Listening');
-        })
-        .catch((err) => {
-          console.log('An error occurred:', err);
-        });
+    } catch (error) {
+      console.log('Cannot stop listening');
     }
-  }, [isUserRecording, recognizer]);
+  }, []);
 
-  return detectedWord;
+  const startRecordTeachable = useCallback(async () => {
+    try {
+      recognizer.current?.listen(
+        async (result: any) => {
+          console.log(result);
+          const words = recognizer.current?.wordLabels();
+          const highestScoreIndex = result.scores.indexOf(Math.max(...result.scores));
+          if (words) await setDetectedWord(words[highestScoreIndex]);
+          Promise.resolve();
+        },
+        {
+          includeSpectrogram: false,
+          probabilityThreshold: 0.8,
+          overlapFactor: 0.9
+        }
+      );
+      console.log('Started Listening' + recognizer);
+    } catch (error) {
+      console.log('Cannot Start listening');
+    }
+  }, []);
+  return { init, stopRecordTeachable, startRecordTeachable, detectedWord };
 }
