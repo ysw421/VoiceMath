@@ -1,7 +1,7 @@
 import '@tensorflow/tfjs';
 
 import * as speechCommands from '@tensorflow-models/speech-commands';
-import { useCallback, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 
 export function useTensorflow() {
   const URL = [
@@ -9,10 +9,12 @@ export function useTensorflow() {
     'https://teachablemachine.withgoogle.com/models/16fj9x2cL/'
   ];
   const [detectedWord, setDetectedWord] = useState<string>('');
-  const [recognizer, setRecognizer] = useState<speechCommands.SpeechCommandRecognizer>();
+  const recognizer = useRef<speechCommands.SpeechCommandRecognizer>();
 
   const init = useCallback(async () => {
     try {
+      if (recognizer.current) return; // Exit early if already initialized
+      console.log('Init: Starting to load recognizer...');
       const checkpointURL = URL[0] + 'model.json';
       const metadataURL = URL[0] + 'metadata.json';
       const newRecognizer = speechCommands.create(
@@ -21,10 +23,10 @@ export function useTensorflow() {
         checkpointURL,
         metadataURL
       );
-
+      console.log('Init: Recognizer created. Loading model...');
       await newRecognizer.ensureModelLoaded();
-      setRecognizer(newRecognizer);
-      console.log('loaded recognizer');
+      console.log(newRecognizer);
+      recognizer.current = newRecognizer;
     } catch (error) {
       console.error('Failed to load recognizer:', error);
     }
@@ -32,7 +34,7 @@ export function useTensorflow() {
 
   const stopRecordTeachable = useCallback(async () => {
     try {
-      await recognizer?.stopListening();
+      await recognizer.current?.stopListening();
       console.log('Stopped Listening');
     } catch (error) {
       console.log('Cannot stop listening');
@@ -41,11 +43,13 @@ export function useTensorflow() {
 
   const startRecordTeachable = useCallback(async () => {
     try {
-      recognizer?.listen(
+      recognizer.current?.listen(
         async (result: any) => {
-          const words = recognizer.wordLabels();
+          console.log(result);
+          const words = recognizer.current?.wordLabels();
           const highestScoreIndex = result.scores.indexOf(Math.max(...result.scores));
-          setDetectedWord(words[highestScoreIndex]);
+          if (words) await setDetectedWord(words[highestScoreIndex]);
+          Promise.resolve();
         },
         {
           includeSpectrogram: false,
@@ -53,7 +57,7 @@ export function useTensorflow() {
           overlapFactor: 0.9
         }
       );
-      console.log('Started Listening');
+      console.log('Started Listening' + recognizer);
     } catch (error) {
       console.log('Cannot Start listening');
     }

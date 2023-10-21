@@ -65,7 +65,14 @@ export default function RightGrid({
     };
   }
   useEffect(() => {
-    init().then(startRecordTeachable);
+    init()
+      .then(() => {
+        console.log('Init completed. Starting to record...'); // Added for debugging
+        startRecordTeachable();
+      })
+      .catch((error) => {
+        console.error('An error occurred:', error); // Added for error logging
+      });
   }, []);
   useEffect(() => {
     switch (detectedWord) {
@@ -88,6 +95,7 @@ export default function RightGrid({
       const objLatex = geogebraCommand(dialog);
       if (objLatex) AddLatexSentence(objLatex.labels[0]);
       else alert('다시 말해주실 수 있나요?');
+      startRecordTeachable();
     });
   }
   return (
