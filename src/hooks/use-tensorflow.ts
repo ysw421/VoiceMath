@@ -10,7 +10,7 @@ export function useTensorflow(selectedPage: number) {
   ];
   const [detectedWord, setDetectedWord] = useState<string>('');
   const recognizer = useRef<speechCommands.SpeechCommandRecognizer>();
-
+  const [isListening, setisListening] = useState<boolean>(false);
   const init = useCallback(async () => {
     try {
       if (recognizer.current) return; // Exit early if already initialized
@@ -23,7 +23,7 @@ export function useTensorflow(selectedPage: number) {
         checkpointURL,
         metadataURL
       );
-      console.log('Init: Recognizer created. Loading model...');
+      console.log('Init: Recognizer created with ' + selectedPage);
       await newRecognizer.ensureModelLoaded();
       console.log(newRecognizer);
       recognizer.current = newRecognizer;
@@ -32,6 +32,7 @@ export function useTensorflow(selectedPage: number) {
     }
   }, [selectedPage]);
   const stopRecordTeachable = useCallback(async () => {
+    setisListening(false);
     try {
       await recognizer.current?.stopListening();
       console.log('Stopped Listening');
@@ -41,10 +42,10 @@ export function useTensorflow(selectedPage: number) {
   }, []);
 
   const startRecordTeachable = useCallback(async () => {
+    setisListening(true);
     try {
       recognizer.current?.listen(
         async (result: any) => {
-          console.log(result);
           const words = recognizer.current?.wordLabels();
           const highestScoreIndex = result.scores.indexOf(Math.max(...result.scores));
           if (words) await setDetectedWord(words[highestScoreIndex]);
@@ -52,14 +53,14 @@ export function useTensorflow(selectedPage: number) {
         },
         {
           includeSpectrogram: false,
-          probabilityThreshold: 0.8,
+          probabilityThreshold: 0.85,
           overlapFactor: 0.9
         }
       );
-      console.log('Started Listening' + recognizer);
+      console.log('Started Listening');
     } catch (error) {
       console.log('Cannot Start listening');
     }
   }, []);
-  return { init, stopRecordTeachable, startRecordTeachable, detectedWord };
+  return { init, stopRecordTeachable, startRecordTeachable, detectedWord, isListening };
 }

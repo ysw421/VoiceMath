@@ -32,7 +32,8 @@ export default function RightGrid({
   const [command, setCommand] = useState('');
   const [answer, setAnswer] = useState('');
   const [latexSentences, setLatexSentences] = useState<string[]>(['']);
-  const { detectedWord, init, stopRecordTeachable, startRecordTeachable } = useTensorflow(0);
+  const { isListening, detectedWord, init, stopRecordTeachable, startRecordTeachable } =
+    useTensorflow(0);
   const AddLatexSentence = (newSentence: string) => {
     const newSentence_Latex = getLaTeXString(newSentence);
     console.log(newSentence_Latex);
@@ -56,13 +57,17 @@ export default function RightGrid({
     }
   });
   function startCodeFairModel() {
-    stopRecordTeachable().then(startRecording);
-    const id = setInterval(() => {
-      stopRecording();
-    }, 5000);
-    return () => {
-      clearInterval(id);
-    };
+    if (isListening) {
+      stopRecordTeachable().then(() => {
+        startRecording();
+        const id = setInterval(() => {
+          stopRecording();
+        }, 5000);
+        return () => {
+          clearInterval(id);
+        };
+      });
+    }
   }
   useEffect(() => {
     init()
@@ -126,7 +131,12 @@ export default function RightGrid({
           </div>
           <Button>Submit</Button>
         </form>
-        <div className="tw-flex tw-flex-row tw-items-center tw-gap-x-3">in[ut</div>
+        <div className="tw-flex tw-flex-row tw-items-center tw-gap-x-3">
+          <Button onClick={startCodeFairModel} disabled={!isListening}>
+            {' '}
+            음성으로 입력하세요!{' '}
+          </Button>
+        </div>
       </div>
       <div className="tw-flex tw-flex-row-reverse tw-items-end tw-w-full tw-gap-x-4">
         <div className="tw-flex tw-flex-row tw-gap-2">
