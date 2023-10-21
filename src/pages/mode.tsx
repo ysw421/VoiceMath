@@ -27,24 +27,18 @@ export default function Mode() {
     switch (detectedWord) {
       case '하나':
         console.log('하나');
-        setGmode(1);
+        setGmode(0);
         break;
       case '둘':
         console.log('둘');
-        setGmode(2);
+        setGmode(1);
         break;
       case '셋':
         console.log('셋');
-        setGmode(3);
-        break;
-      default:
+        setGmode(2);
         break;
     }
   }, [detectedWord]);
-
-  // useEffect(() => {
-  //   window.speechSynthesis.getVoices();
-  // });
 
   const [exText, setExText] = useState(
     '당신의 소리를 듣고 있어요. 모드를 선택해 주세요. 모드  하나, 그래프를 볼 수 없어요. 모드  둘, 종이에 필기하기 어려워요. 모드  셋, 말이 정확하지 않아요.'
@@ -64,7 +58,7 @@ export default function Mode() {
       if (text === exText) {
         speak();
       }
-    }, 30000);
+    }, 1000);
     return () => {
       clearInterval(speak_);
     };
