@@ -3,7 +3,7 @@ import '@tensorflow/tfjs';
 import * as speechCommands from '@tensorflow-models/speech-commands';
 import { useCallback, useRef, useState } from 'react';
 
-export function useTensorflow() {
+export function useTensorflow(selectedPage: number) {
   const URL = [
     'https://teachablemachine.withgoogle.com/models/G-paON7fc/',
     'https://teachablemachine.withgoogle.com/models/16fj9x2cL/'
@@ -15,8 +15,8 @@ export function useTensorflow() {
     try {
       if (recognizer.current) return; // Exit early if already initialized
       console.log('Init: Starting to load recognizer...');
-      const checkpointURL = URL[0] + 'model.json';
-      const metadataURL = URL[0] + 'metadata.json';
+      const checkpointURL = URL[selectedPage] + 'model.json';
+      const metadataURL = URL[selectedPage] + 'metadata.json';
       const newRecognizer = speechCommands.create(
         'BROWSER_FFT',
         undefined,
@@ -30,8 +30,7 @@ export function useTensorflow() {
     } catch (error) {
       console.error('Failed to load recognizer:', error);
     }
-  }, []);
-
+  }, [selectedPage]);
   const stopRecordTeachable = useCallback(async () => {
     try {
       await recognizer.current?.stopListening();

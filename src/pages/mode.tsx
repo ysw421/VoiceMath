@@ -1,4 +1,5 @@
 import TTS_box from '@components/ttsBox';
+import { useTensorflow } from '@hooks/use-tensorflow';
 import { useTTS } from '@hooks/use-tts';
 import { atom, useAtom } from 'jotai';
 import Image from 'next/image';
@@ -9,13 +10,37 @@ export const modeAtom = atom(0);
 
 export default function Mode() {
   const [gmode, setGmode] = useAtom(modeAtom);
-
+  const { startRecordTeachable, stopRecordTeachable, init, detectedWord } = useTensorflow(1);
   const { text, setText, isSpeaking, isPaused, isResumed, isEnded, speak, pause, resume, cancel } =
     useTTS();
-
   useEffect(() => {
-    cancel();
+    init()
+      .then(() => {
+        console.log('Init completed. Starting to record...'); // Added for debugging
+        startRecordTeachable();
+      })
+      .catch((error) => {
+        console.error('An error occurred:', error); // Added for error logging
+      });
   }, []);
+  useEffect(() => {
+    switch (detectedWord) {
+      case '하나':
+        console.log('하나');
+        setGmode(1);
+        break;
+      case '둘':
+        console.log('둘');
+        setGmode(2);
+        break;
+      case '셋':
+        console.log('셋');
+        setGmode(3);
+        break;
+      default:
+        break;
+    }
+  }, [detectedWord]);
 
   // useEffect(() => {
   //   window.speechSynthesis.getVoices();

@@ -32,7 +32,7 @@ export default function RightGrid({
   const [command, setCommand] = useState('');
   const [answer, setAnswer] = useState('');
   const [latexSentences, setLatexSentences] = useState<string[]>(['']);
-  const { detectedWord, init, stopRecordTeachable, startRecordTeachable } = useTensorflow();
+  const { detectedWord, init, stopRecordTeachable, startRecordTeachable } = useTensorflow(0);
   const AddLatexSentence = (newSentence: string) => {
     const newSentence_Latex = getLaTeXString(newSentence);
     console.log(newSentence_Latex);
