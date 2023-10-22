@@ -53,8 +53,8 @@ export function useTensorflow(selectedPage: number) {
         },
         {
           includeSpectrogram: false,
-          probabilityThreshold: 0.85,
-          overlapFactor: 0.9
+          probabilityThreshold: 0.75,
+          overlapFactor: 0.75
         }
       );
       console.log('Started Listening');

@@ -62,7 +62,7 @@ export default function RightGrid({
         startRecording();
         const id = setInterval(() => {
           stopRecording();
-        }, 5000);
+        }, 10000);
         return () => {
           clearInterval(id);
         };
@@ -79,21 +79,24 @@ export default function RightGrid({
         console.error('An error occurred:', error); // Added for error logging
       });
   }, []);
+
   useEffect(() => {
-    switch (detectedWord) {
-      case '삭제':
-        console.log('삭제');
-        reset(camera);
-        setLatexSentences([]);
-        break;
-      case '시작':
-        console.log('시작');
-        startCodeFairModel();
-        break;
-      default:
-        break;
-    }
+    const actions = {
+      삭제: () => setLatexSentences([]),
+      시작: startCodeFairModel,
+      위: () => updateCamera(0, 0.5),
+      아래: () => updateCamera(0, -0.5),
+      왼쪽: () => updateCamera(-0.5, 0),
+      오른쪽: () => updateCamera(0.5, 0)
+    };
+    if (actions[detectedWord as keyof typeof actions])
+      actions[detectedWord as keyof typeof actions]();
+    if (detectedWord !== 'Background Noise') console.log(detectedWord);
   }, [detectedWord]);
+  const updateCamera = (dx: number, dy: number) => {
+    const point = new Point(camera.x + dx, camera.y + dy);
+    setCamera(point);
+  };
   function handlestt(blob: Blob) {
     console.log('Blob recieved');
     stt(blob).then((dialog: JSON) => {
@@ -152,23 +155,11 @@ export default function RightGrid({
             </Button>
             <MoveBtn newPoint={new Point(camera.x + 0.5, camera.y)} text="Left" />
             <MoveBtn newPoint={new Point(camera.x, camera.y - 0.5)} text="Up" />
-            <Button
-              className="tw-w-32"
-              onClick={() => setZoom((e: number) => (e <= 1 ? 1.05 : e + 0.05))}
-            >
-              Zoom In
-            </Button>
           </div>
           <div className="tw-flex tw-flex-col tw-items-end tw-gap-y-2">
             <MoveBtn newPoint={defalutCamera} text={`Return to\nstarting point`} />
             <MoveBtn newPoint={new Point(camera.x - 0.5, camera.y)} text="Right" />
             <MoveBtn newPoint={new Point(camera.x, camera.y + 0.5)} text="Down" />
-            <Button
-              className="tw-w-32"
-              onClick={() => setZoom((e: number) => (e >= 1 ? 0.95 : e - 0.05))}
-            >
-              Zoom Out
-            </Button>
           </div>
         </div>
         {!isDefalut && (

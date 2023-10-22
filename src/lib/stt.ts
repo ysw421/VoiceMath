@@ -4,7 +4,7 @@ export default async function stt(blob: Blob) {
       'https://api-inference.huggingface.co/models/hoonsung/CodeFairModel_asdf',
       {
         headers: {
-          Authorization: 'Bearer YOUR_SECURED_TOKEN',
+          Authorization: 'Bearer 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',
           'Content-Type': blob.type
         },
         method: 'POST',
