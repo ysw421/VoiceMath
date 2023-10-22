@@ -1,0 +1,6 @@
+{
+  "tfjsSpeechCommandsVersion": "0.4.0",
+  "modelName": "TMv2",
+  "timeStamp": "2023-10-22T06:52:47.736Z",
+  "wordLabels": ["Background Noise", "뒤로", "삭제", "시작", "아래", "오른쪽", "왼쪽", "위"]
+}

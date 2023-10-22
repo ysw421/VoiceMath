@@ -5,7 +5,7 @@ import { useCallback, useRef, useState } from 'react';
 
 export function useTensorflow(selectedPage: number) {
   const URL = [
-    'https://teachablemachine.withgoogle.com/models/G-paON7fc/',
+    'http://localhost:3000/static/tensorflow_model/',
     'https://teachablemachine.withgoogle.com/models/16fj9x2cL/'
   ];
   const [detectedWord, setDetectedWord] = useState<string>('');
