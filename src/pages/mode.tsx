@@ -55,7 +55,7 @@ export default function Mode() {
     // setExText(
     //   isKorean
     //     ? '당신의 소리를 듣고 있어요. 모드를 선택해 주세요. 모드  하나, 그래프를 볼 수 없어요. 모드  둘, 종이에 필기하기 어려워요. 모드  셋, 말이 정확하지 않아요.'
-    //     : 'I am listening to your voice. Please select a mode. Mode one, I cannot see the graph. Mode two, it is difficult to write on paper. Mode three, the words are not accurate.'
+    //     : 'I am listening to your voice. Please select a mode. Mode one, I cannot see. Mode two, it's difficult for me to write on paper. Mode three, my words are not accurate.'
     // );
   }, [isKorean]);
 

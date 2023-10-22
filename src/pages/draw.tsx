@@ -26,10 +26,6 @@ export default function Draw() {
     cancel
   } = useTTS();
 
-  useEffect(() => {
-    cancel();
-  }, []);
-
   const router = useRouter();
   let { text, geogebra, name, defaultCameraPosition, isDefalut, info, answer } = router.query;
   info = info === undefined ? '빈 템플릿' : info;
