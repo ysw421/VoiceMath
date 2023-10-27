@@ -1,11 +1,14 @@
 import '@tensorflow/tfjs';
 
-import { modeAtom } from '@pages/mode';
+import { isKoreanAtom, modeAtom } from '@pages/mode';
 import * as speechCommands from '@tensorflow-models/speech-commands';
-import { useAtomValue } from 'jotai/index';
+import { useAtom, useAtomValue } from 'jotai/index';
 import { useRouter } from 'next/router';
 import { useCallback, useRef, useState } from 'react';
+
 export function useTensorflow() {
+  const [isKorean, setIsKorean] = useAtom(isKoreanAtom);
+  const mode = useAtomValue(modeAtom);
   const router = useRouter();
   let URL = '';
   if (router.pathname === '/draw') URL = 'http://localhost:3000/static/tensorflowmodel-draw/';
@@ -14,19 +17,16 @@ export function useTensorflow() {
   const [detectedWord, setDetectedWord] = useState<string>('');
   const recognizer = useRef<speechCommands.SpeechCommandRecognizer>();
   const [isListening, setisListening] = useState<boolean>(false);
-  const mode = useAtomValue(modeAtom);
   const init = useCallback(async () => {
     try {
       if (recognizer.current) return; // Exit early if already initialized
       console.log('Init: Starting to load recognizer...');
       const checkpointURL = URL + 'model.json';
       const metadataURL = URL + 'metadata.json';
-      const newRecognizer = speechCommands.create(
-        'BROWSER_FFT',
-        undefined,
-        checkpointURL,
-        metadataURL
-      );
+      var newRecognizer;
+      if (isKorean)
+        newRecognizer = speechCommands.create('BROWSER_FFT', undefined, checkpointURL, metadataURL);
+      else newRecognizer = speechCommands.create('BROWSER_FFT', '18w');
       await newRecognizer.ensureModelLoaded();
       console.log(newRecognizer.wordLabels());
       recognizer.current = newRecognizer;
