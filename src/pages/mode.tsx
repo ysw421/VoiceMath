@@ -60,11 +60,6 @@ export default function Mode() {
   }, [isKorean]);
 
   useEffect(() => {
-    setText(exText);
-    cancel();
-  }, []);
-
-  useEffect(() => {
     const speak_ = setInterval(() => {
       if (text === exText) {
         speak();

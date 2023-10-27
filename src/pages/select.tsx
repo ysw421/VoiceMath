@@ -2,10 +2,8 @@ import TTS_box from '@components/ttsBox';
 import { useTensorflow } from '@hooks/use-tensorflow';
 import { useTTS } from '@hooks/use-tts';
 import { useAtomValue } from 'jotai';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useEffect, useRef, useState } from 'react';
-import { IoIosArrowBack } from 'react-icons/io';
 import { TemplateInfo } from 'typings';
 
 import { allTemplates } from './items';
@@ -56,7 +54,7 @@ export default function Select() {
   }, [text]);
   //manual refs
   const refs = useRef(
-    Array(allTemplates.length)
+    Array(allTemplates.length + 1)
       .fill(null)
       .map(() => React.createRef<HTMLButtonElement>())
   );
@@ -67,7 +65,6 @@ export default function Select() {
           (ref) => ref.current === document.activeElement
         );
         const nextIndex = (focusedIndex + 1) % refs.current.length;
-        console.log(focusedIndex + '   ' + nextIndex + '  ' + refs.current.length);
         refs.current[nextIndex].current?.focus();
       },
       뒤: () => {
@@ -80,9 +77,6 @@ export default function Select() {
       선택: () => {
         const focusedElement = document.activeElement as HTMLElement;
         focusedElement.click();
-      },
-      뒤로: () => {
-        router.back();
       }
     };
     if (actions[detectedWord as keyof typeof actions])
@@ -123,10 +117,15 @@ export default function Select() {
             width: 'calc(100% - 48px)'
           }}
         >
-          <Link href={'/mode'} className="tw-flex tw-text-black">
-            <IoIosArrowBack size={20} />
-            <span>돌아가기</span>
-          </Link>
+          <button
+            onClick={() => {
+              router.push('/mode');
+            }}
+            ref={refs.current[refs.current.length - 1]}
+            className="tw-flex tw-text-black"
+          >
+            돌아가기
+          </button>
         </div>
         <div className="tw-w-full tw-h-7"></div>
         <div className="tw-flex tw-justify-center tw-w-full tw-mt-10 tw-mb-10 tw-text-3xl tw-font-bold">

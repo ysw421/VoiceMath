@@ -4,6 +4,7 @@ import { useTensorflow } from '@hooks/use-tensorflow';
 import { evalCommandGetLabels, getLaTeXString, reset } from '@lib/commands';
 import geogebraCommand from '@lib/geogebraCommand';
 import stt from '@lib/stt';
+import { router } from 'next/client';
 import React, { useEffect, useState } from 'react';
 import Latex from 'react-latex-next';
 import { useReactMediaRecorder } from 'react-media-recorder';
@@ -84,10 +85,11 @@ export default function RightGrid({
     const actions = {
       삭제: () => setLatexSentences([]),
       시작: startCodeFairModel,
-      위: () => updateCamera(0, 0.5),
-      아래: () => updateCamera(0, -0.5),
-      왼쪽: () => updateCamera(-0.5, 0),
-      오른쪽: () => updateCamera(0.5, 0)
+      상: () => updateCamera(0, 0.5),
+      하: () => updateCamera(0, -0.5),
+      좌: () => updateCamera(-0.5, 0),
+      우: () => updateCamera(0.5, 0),
+      뒤로: router.back
     };
     if (actions[detectedWord as keyof typeof actions])
       actions[detectedWord as keyof typeof actions]();

@@ -9,7 +9,7 @@ export function useTensorflow() {
   let URL = '';
   if (router.pathname === '/mode' || router.pathname === '/select')
     URL = 'http://localhost:3000/static/tensorflowmodel-mode/';
-  if (router.pathname === 'draw') URL = 'http://localhost:3000/static/tensorflowmodel-draw/';
+  if (router.pathname === '/draw') URL = 'http://localhost:3000/static/tensorflowmodel-draw/';
   const [detectedWord, setDetectedWord] = useState<string>('');
   const recognizer = useRef<speechCommands.SpeechCommandRecognizer>();
   const [isListening, setisListening] = useState<boolean>(false);
@@ -26,7 +26,7 @@ export function useTensorflow() {
         metadataURL
       );
       await newRecognizer.ensureModelLoaded();
-      console.log(newRecognizer);
+      console.log(newRecognizer.wordLabels());
       recognizer.current = newRecognizer;
     } catch (error) {
       console.error('Failed to load recognizer:', error);
@@ -55,7 +55,7 @@ export function useTensorflow() {
         {
           includeSpectrogram: false,
           probabilityThreshold: 0.7,
-          overlapFactor: 0.75
+          overlapFactor: 0.5
         }
       );
       console.log('Started Listening');
