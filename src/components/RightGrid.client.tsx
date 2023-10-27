@@ -90,10 +90,10 @@ export default function RightGrid({
     const actions = {
       삭제: () => setLatexSentences([]),
       시작: startCodeFairModel,
-      위: () => updateCamera(0, 0.5),
-      아래: () => updateCamera(0, -0.5),
-      왼쪽: () => updateCamera(-0.5, 0),
-      오른쪽: () => updateCamera(0.5, 0)
+      상: () => updateCamera(0, 0.5),
+      하: () => updateCamera(0, -0.5),
+      좌: () => updateCamera(-0.5, 0),
+      우: () => updateCamera(0.5, 0)
     };
     if (actions[detectedWord as keyof typeof actions])
       actions[detectedWord as keyof typeof actions]();

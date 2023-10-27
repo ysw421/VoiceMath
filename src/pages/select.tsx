@@ -1,14 +1,16 @@
 import TTS_box from '@components/ttsBox';
+import { useTensorflow } from '@hooks/use-tensorflow';
 import { useTTS } from '@hooks/use-tts';
 import { useAtomValue } from 'jotai';
 import { useAtom } from 'jotai';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { IoIosArrowBack } from 'react-icons/io';
 import { MdLanguage } from 'react-icons/md';
+import { TemplateInfo } from 'typings';
 
-import { Default, koreanUniversityScholasticAbilityTest, mockExam } from './items';
+import { allTemplates, Default, koreanUniversityScholasticAbilityTest, mockExam } from './items';
 import { modeAtom } from './mode';
 import { isKoreanAtom } from './mode';
 import styles from './select.module.css';
@@ -19,6 +21,17 @@ export default function Select() {
   const router = useRouter();
   const { text, setText, isSpeaking, isPaused, isResumed, isEnded, speak, pause, resume, cancel } =
     useTTS();
+  const { startRecordTeachable, stopRecordTeachable, init, detectedWord } = useTensorflow(1);
+  useEffect(() => {
+    init()
+      .then(() => {
+        console.log('Init completed. Starting to record...'); // Added for debugging
+        startRecordTeachable();
+      })
+      .catch((error) => {
+        console.error('An error occurred:', error); // Added for error logging
+      });
+  }, []);
 
   useEffect(() => {
     cancel();
@@ -49,6 +62,57 @@ export default function Select() {
       };
     }
   }, [text]);
+
+  const refs = useRef(
+    Array(allTemplates.length + 1)
+      .fill(null)
+      .map(() => React.createRef<HTMLButtonElement>())
+  );
+  useEffect(() => {
+    const actions = {
+      앞: () => {
+        const focusedIndex = refs.current.findIndex(
+          (ref) => ref.current === document.activeElement
+        );
+        const nextIndex = (focusedIndex + 1) % refs.current.length;
+        refs.current[nextIndex].current?.focus();
+      },
+      뒤: () => {
+        const focusedIndex = refs.current.findIndex(
+          (ref) => ref.current === document.activeElement
+        );
+        const prevIndex = (focusedIndex - 1 + refs.current.length) % refs.current.length;
+        refs.current[prevIndex].current?.focus();
+      },
+      선택: () => {
+        const focusedElement = document.activeElement as HTMLElement;
+        focusedElement.click();
+      }
+    };
+    if (actions[detectedWord as keyof typeof actions])
+      actions[detectedWord as keyof typeof actions]();
+    if (detectedWord !== 'Background Noise') console.log(detectedWord);
+  }, [detectedWord]);
+
+  const renderGroup = (title: String, templates: TemplateInfo[]) => (
+    <div>
+      <h3 className="tw-mb-2">{title}</h3>
+      <div className={styles.group}>
+        {templates.map((item, index) => (
+          <button
+            key={index}
+            ref={refs.current[index]} // Assign ref
+            onClick={() => {
+              router.push({ pathname: '/draw', query: item }, '/draw');
+            }}
+            className={`${styles.box} tw-leading-0.5 tw-whitespace-pre-line`}
+          >
+            {item.info}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
 
   return (
     <>
@@ -115,21 +179,6 @@ export default function Select() {
               </button>
             ))}
           </div>
-
-          {/* <h3 className="tw-mb-2">{isKorean ? '모의고사' : 'Mock exam'}</h3>
-          <div className={styles.group}>
-            {mockExam.map((item, index) => (
-              <button
-                key={index}
-                onClick={() => {
-                  router.push({ pathname: '/draw', query: item }, '/draw');
-                }}
-                className={`${styles.box} tw-leading-0.5 tw-whitespace-pre-line`}
-              >
-                {item.info}
-              </button>
-            ))}
-          </div> */}
         </div>
       </div>
       {mode === 2 && (
