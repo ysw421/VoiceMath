@@ -54,7 +54,7 @@ export function useTensorflow() {
         },
         {
           includeSpectrogram: false,
-          probabilityThreshold: 0.75,
+          probabilityThreshold: 0.7,
           overlapFactor: 0.75
         }
       );

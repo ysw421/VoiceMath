@@ -42,4 +42,5 @@ export type TemplateInfo = {
   defaultCameraPosition: string;
   isDefault: string;
   answer: string;
+  type: string;
 };
