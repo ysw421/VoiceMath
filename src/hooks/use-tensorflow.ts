@@ -10,30 +10,33 @@ export function useTensorflow() {
   const [isKorean, setIsKorean] = useAtom(isKoreanAtom);
   const mode = useAtomValue(modeAtom);
   const router = useRouter();
+  console.log('isKorean on use-tensorflow', isKorean);
   let URL = '';
-  if (router.pathname === '/draw') URL = 'http://localhost:3000/static/tensorflowmodel-draw/';
+  if (router.pathname === '/draw') URL = 'http://localhost:3000/static/tensorflowmodel-draw';
   else if (router.pathname === '/mode' || router.pathname === '/select')
-    URL = 'http://localhost:3000/static/tensorflowmodel-mode/';
+    URL = 'http://localhost:3000/static/tensorflowmodel-mode';
+  if (!isKorean) URL += '-eng/';
+  else URL += '/';
   const [detectedWord, setDetectedWord] = useState<string>('');
   const recognizer = useRef<speechCommands.SpeechCommandRecognizer>();
   const [isListening, setisListening] = useState<boolean>(false);
-  const init = useCallback(async () => {
+  const init = async () => {
     try {
       if (recognizer.current) return; // Exit early if already initialized
       console.log('Init: Starting to load recognizer...');
       const checkpointURL = URL + 'model.json';
       const metadataURL = URL + 'metadata.json';
       var newRecognizer;
-      if (isKorean)
-        newRecognizer = speechCommands.create('BROWSER_FFT', undefined, checkpointURL, metadataURL);
-      else newRecognizer = speechCommands.create('BROWSER_FFT', '18w');
+      console.log('isKorean on use-tensorflow', isKorean);
+      newRecognizer = speechCommands.create('BROWSER_FFT', undefined, checkpointURL, metadataURL);
       await newRecognizer.ensureModelLoaded();
       console.log(newRecognizer.wordLabels());
       recognizer.current = newRecognizer;
     } catch (error) {
       console.error('Failed to load recognizer:', error);
     }
-  }, []);
+  };
+
   const stopRecordTeachable = useCallback(async () => {
     setisListening(false);
     try {
@@ -51,14 +54,14 @@ export function useTensorflow() {
         async (result: any) => {
           const words = recognizer.current?.wordLabels();
           const highestScoreIndex = result.scores.indexOf(Math.max(...result.scores));
-          // console.log(result);
+          console.log(result);
           if (words) await setDetectedWord(words[highestScoreIndex]);
           Promise.resolve();
         },
         {
           includeSpectrogram: false,
           probabilityThreshold: mode == 3 ? 0.75 : 0.85,
-          overlapFactor: mode == 3 ? 0.5 : 0.8
+          overlapFactor: mode == 3 ? 0.5 : 0.7
         }
       );
       console.log('Started Listening');

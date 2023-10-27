@@ -3,8 +3,8 @@ import { useAtomValue } from 'jotai';
 import { atomWithStorage } from 'jotai/utils';
 import { useCallback, useState } from 'react';
 
-export const ttsVoiceAtom = atomWithStorage<number>('voice_setting', 0);
-export const ttsVoiceEnAtom = atomWithStorage<number>('voice_setting', 0);
+export const ttsVoiceAtom = atomWithStorage<number>('voice_setting', 331);
+export const ttsVoiceEnAtom = atomWithStorage<number>('voice_settings_en', 1);
 
 export const useTTS = () => {
   const voiceAtom = useAtomValue(ttsVoiceAtom);
@@ -21,22 +21,25 @@ export const useTTS = () => {
     const voices = window.speechSynthesis.getVoices();
     return voices;
   };
-  const speak = useCallback(() => {
-    const msg = new SpeechSynthesisUtterance();
-
-    msg.text = <string>text;
-    // console.log(window.speechSynthesis.getVoices()[0]);
-    // console.log(text);
-    function speak() {
-      console.log('isKorean', isKorean);
-      msg.voice = window.speechSynthesis.getVoices()[isKorean ? voiceAtom : voiceEnAtom];
-      // msg.voice = window.speechSynthesis.getVoices()[voiceAtom];
-      window.speechSynthesis.speak(msg);
-    }
-    speak();
-    setIsSpeaking(true);
-    setIsEnded(false);
-  }, [text]);
+  const speak = useCallback(
+    (sentence, lang) => {
+      const msg = new SpeechSynthesisUtterance();
+      msg.text = sentence;
+      // console.log(window.speechSynthesis.getVoices()[0]);
+      // console.log(text);
+      function speak() {
+        console.log('isKorean', isKorean, lang);
+        msg.voice = window.speechSynthesis.getVoices()[lang ? voiceAtom : voiceEnAtom];
+        console.log(window.speechSynthesis.getVoices().length);
+        console.log(msg.voice.name);
+        window.speechSynthesis.speak(msg);
+      }
+      speak();
+      setIsSpeaking(true);
+      setIsEnded(false);
+    },
+    [text]
+  );
 
   const pause = useCallback(() => {
     function pause() {

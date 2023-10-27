@@ -33,7 +33,6 @@ export default async function stt(blob: Blob) {
     if (!dialogResponse.ok) {
       throw new Error(`An error occurred: ${dialogResponse.statusText}`);
     }
-
     return await dialogResponse.json();
   } catch (error) {
     console.error('An error occurred:', error);

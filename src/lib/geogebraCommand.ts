@@ -23,16 +23,16 @@ export default function geogebraCommand(dialog: JSON) {
   const input_sentence = values[2][1]; // input sentence
   const intent = values[10][1]['displayName']; // intent name
   const confidence = values[11][1]; //confidence_score
+  const StringValue: string = '';
   let geogebraValue;
   let coordinates: string[] = [];
   let labels: string[] = [];
-
   if (intent == 'plot_graph') {
     geogebraValue = parameters['math']['stringValue'];
     const label = evalCommandGetLabels(geogebraValue);
     setLabelVisible(label, true);
     labels.push(label);
-  } else {
+  } else if (intent == 'plot_line' || intent == 'plot_point' || intent == 'plot_polygon') {
     let coordinateValues = parameters.coordinate.listValue.values;
     let labelValues = parameters?.label?.listValue?.values;
     let labellen;
@@ -58,6 +58,8 @@ export default function geogebraCommand(dialog: JSON) {
       evalCommand(`SetColor(${label}, "Blue")`);
       labels.push(label);
     }
+  } else {
+    return { StringValue };
   }
   if (intent == 'plot_line') {
     evalCommand(`Segment(${coordinates[0]}, ${coordinates[1]})`);

@@ -18,7 +18,7 @@ const App = ({ Component, pageProps: { session, ...pageProps } }: AppProps) => {
       <SessionProvider session={session}>
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
+          defaultTheme="light"
           value={{ dark: 'tw-dark', light: 'tw-light' }}
           disableTransitionOnChange
         >

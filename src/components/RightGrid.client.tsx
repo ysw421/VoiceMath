@@ -115,19 +115,29 @@ export default function RightGrid({
     };
   }, []);
 
+  const clearLatex = () => setLatexSentences([]);
+  const startModel = startCodeFairModel;
+  const moveCamera = (x: number, y: number) => updateCamera(x, y);
+
+  const actionKeys = isKorean
+    ? { stop: '삭제', go: '시작', up: '상', down: '하', left: '좌', right: '우' }
+    : { stop: 'stop', go: 'go', up: 'up', down: 'down', left: 'left', right: 'right' };
+  const actions = {
+    [actionKeys.stop]: clearLatex,
+    [actionKeys.go]: startModel,
+    [actionKeys.up]: () => moveCamera(0, 0.5),
+    [actionKeys.down]: () => moveCamera(0, -0.5),
+    [actionKeys.left]: () => moveCamera(-0.5, 0),
+    [actionKeys.right]: () => moveCamera(0.5, 0)
+  };
+
   useEffect(() => {
-    const actions = {
-      삭제: () => setLatexSentences([]),
-      시작: startCodeFairModel,
-      상: () => updateCamera(0, 0.5),
-      하: () => updateCamera(0, -0.5),
-      좌: () => updateCamera(-0.5, 0),
-      우: () => updateCamera(0.5, 0)
-    };
-    if (actions[detectedWord as keyof typeof actions])
+    if (actions[detectedWord as keyof typeof actions]) {
       actions[detectedWord as keyof typeof actions]();
+    }
     if (detectedWord !== 'Background Noise') console.log(detectedWord);
   }, [detectedWord]);
+
   const updateCamera = (dx: number, dy: number) => {
     const point = new Point(camera.x + dx, camera.y + dy);
     setCamera(point);
@@ -136,8 +146,8 @@ export default function RightGrid({
     console.log('Blob recieved');
     stt(blob).then((dialog: JSON) => {
       const objLatex = geogebraCommand(dialog);
-      if (objLatex) AddLatexSentence(objLatex.labels[0]);
-      else alert(isKorean ? '다시 말해주실 수 있나요?' : 'Could you say that again?');
+      if (objLatex.labels) AddLatexSentence(objLatex.labels[0]);
+      else AddLatexSentence(objLatex.StringValue);
       startRecordTeachable();
     });
   }

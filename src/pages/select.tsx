@@ -35,62 +35,51 @@ export default function Select() {
 
   useEffect(() => {
     cancel();
-  }, []);
+  }, [isKorean]);
 
   const [exText, setExText] = useState(
-    '원하는 템플릿을 선택하세요. 빈 템플릿를 말하여 빈 템플릿을 선택할 수 있어요. 또는 모의고사를 말한 후 모의고사 문제를 선택해 보세요.'
+    isKorean
+      ? '원하는 템플릿을 선택하세요. 빈 템플릿를 말하여 빈 템플릿을 선택할 수 있어요. 또는 모의고사를 말한 후 모의고사 문제를 선택해 보세요.'
+      : 'choose your template. You can choose your template using your voice. say go or back to navigate'
   );
-  useEffect(() => {
-    setText(exText);
-  }, []);
-
-  useEffect(() => {
-    if (mode === 2 && text === exText) {
-      speak();
-    }
-  }, [text]);
 
   useEffect(() => {
     if (mode === 2) {
-      const speak_ = setInterval(() => {
-        if (text === exText) {
-          speak();
-        }
-      }, 30000);
-      return () => {
-        clearInterval(speak_);
-      };
+      speak(exText, isKorean);
     }
-  }, [text]);
+  }, [exText]);
 
   const refs = useRef(
     Array(allTemplates.length + 1)
       .fill(null)
       .map(() => React.createRef<HTMLButtonElement>())
   );
+  const findFocusedIndex = () =>
+    refs.current.findIndex((ref) => ref.current === document.activeElement);
+  const focusNextElement = () => {
+    const nextIndex = (findFocusedIndex() + 1) % refs.current.length;
+    refs.current[nextIndex].current?.focus();
+  };
+  const focusPreviousElement = () => {
+    const prevIndex = (findFocusedIndex() - 1 + refs.current.length) % refs.current.length;
+    refs.current[prevIndex].current?.focus();
+  };
+  const triggerClick = () => {
+    const focusedElement = document.activeElement as HTMLElement;
+    focusedElement.click();
+  };
+  const actionKeys = isKorean
+    ? { left: '앞', right: '뒤', go: '선택' }
+    : { left: 'left', right: 'right', go: 'one' };
+  const actions = {
+    [actionKeys.left]: focusNextElement,
+    [actionKeys.right]: focusPreviousElement,
+    [actionKeys.go]: triggerClick
+  };
   useEffect(() => {
-    const actions = {
-      앞: () => {
-        const focusedIndex = refs.current.findIndex(
-          (ref) => ref.current === document.activeElement
-        );
-        const nextIndex = (focusedIndex + 1) % refs.current.length;
-        refs.current[nextIndex].current?.focus();
-      },
-      뒤: () => {
-        const focusedIndex = refs.current.findIndex(
-          (ref) => ref.current === document.activeElement
-        );
-        const prevIndex = (focusedIndex - 1 + refs.current.length) % refs.current.length;
-        refs.current[prevIndex].current?.focus();
-      },
-      선택: () => {
-        const focusedElement = document.activeElement as HTMLElement;
-        focusedElement.click();
-      }
-    };
-    if (actions[detectedWord as keyof typeof actions])
+    if (actions[detectedWord as keyof typeof actions]) {
       actions[detectedWord as keyof typeof actions]();
+    }
     if (detectedWord !== 'Background Noise') console.log(detectedWord);
   }, [detectedWord]);
 
@@ -107,7 +96,7 @@ export default function Select() {
             }}
             className={`${styles.box} tw-leading-0.5 tw-whitespace-pre-line`}
           >
-            {item.info}
+            {isKorean ? item.info : item.enInfo}
           </button>
         ))}
       </div>
