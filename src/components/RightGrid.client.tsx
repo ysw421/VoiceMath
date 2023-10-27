@@ -45,6 +45,8 @@ export default function RightGrid({
     console.log(newSentence_Latex);
     setLatexSentences((prevSentences) => [...prevSentences, newSentence_Latex]);
   };
+  const [isPressingQ, setIsPressingQ] = useState(false);
+
   function MoveBtn({ newPoint, text }: { newPoint: Point; text: string }) {
     return (
       <Button
@@ -84,6 +86,33 @@ export default function RightGrid({
       .catch((error) => {
         console.error('An error occurred:', error); // Added for error logging
       });
+  }, []);
+
+  useEffect(() => {
+    const isListening_ = isListening;
+    const handleKeyDown = (event: any) => {
+      if (event.key === 'q' && isListening_) {
+        console.log('q is pressed');
+        setIsPressingQ(true);
+        startRecording();
+      }
+    };
+
+    const handleKeyUp = (event: any) => {
+      if (event.key === 'q' && !isListening_) {
+        console.log('q is released');
+        setIsPressingQ(false);
+        stopRecording();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('keyup', handleKeyUp);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('keyup', handleKeyUp);
+    };
   }, []);
 
   useEffect(() => {

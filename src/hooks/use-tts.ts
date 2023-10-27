@@ -30,7 +30,7 @@ export const useTTS = () => {
     function speak() {
       console.log('isKorean', isKorean);
       msg.voice = window.speechSynthesis.getVoices()[isKorean ? voiceAtom : voiceEnAtom];
-      msg.voice = window.speechSynthesis.getVoices()[voiceAtom];
+      // msg.voice = window.speechSynthesis.getVoices()[voiceAtom];
       window.speechSynthesis.speak(msg);
     }
     speak();
