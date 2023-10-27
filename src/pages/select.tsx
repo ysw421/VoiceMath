@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { IoIosArrowBack } from 'react-icons/io';
+import { MdLanguage } from 'react-icons/md';
 
 import { Default, koreanUniversityScholasticAbilityTest, mockExam } from './items';
 import { modeAtom } from './mode';
@@ -138,6 +139,12 @@ export default function Select() {
           </div>
         </div>
       )}
+      <div
+        className="tw-absolute tw-z-50 tw-top-3 tw-right-3"
+        onClick={() => setIsKorean((e) => !e)}
+      >
+        <MdLanguage size={30} />
+      </div>
     </>
   );
 }
