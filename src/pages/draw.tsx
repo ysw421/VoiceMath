@@ -41,7 +41,7 @@ export default function Draw() {
     '새로운 메모에 오신 것을 환영합니다.<br/>마음껏 메모하세요!';
   enText =
     (enText instanceof Array ? enText.join('') : enText) ??
-    'Welcome to the new memo.<br/>Feel free to memo!';
+    'Welcome to a new memo.<br/>Feel free to write anything!';
   geogebra = (geogebra instanceof Array ? geogebra.join('') : geogebra) ?? '';
   defaultCameraPosition =
     (defaultCameraPosition instanceof Array

@@ -10,7 +10,7 @@ import { IoIosArrowBack } from 'react-icons/io';
 import { MdLanguage } from 'react-icons/md';
 import { TemplateInfo } from 'typings';
 
-import { allTemplates } from './items';
+import { allTemplates, Default, koreanUniversityScholasticAbilityTest, mockExam } from './items';
 import { modeAtom } from './mode';
 import { isKoreanAtom } from './mode';
 import styles from './select.module.css';
@@ -138,46 +138,51 @@ export default function Select() {
           {isKorean ? '템플릿을 선택하세요' : 'Select the template'}
         </div>
         <div className="tw-p-10">
-          {/*<h3 className="tw-mb-2">{isKorean ? '빈 템플릿' : 'Blank template'}</h3>*/}
-          {/*<div className={styles.group}>*/}
-          {/*  <button*/}
-          {/*    onClick={() => {*/}
-          {/*      router.push({ pathname: '/draw', query: Default }, '/draw');*/}
-          {/*    }}*/}
-          {/*    className={`${styles.box} tw-leading-0.5 tw-whitespace-pre-line`}*/}
-          {/*  >*/}
-          {/*    {isKorean ? Default.info : Default.enInfo}*/}
-          {/*  </button>*/}
-          {/*</div>*/}
-          {/*<h3 className="tw-mb-2">{isKorean ? '모의고사' : 'Mock exam'}</h3>*/}
-          {/*<div className={styles.group}>*/}
-          {/*  {mockExam.map((item, index) => (*/}
-          {/*    <button*/}
-          {/*      key={index}*/}
-          {/*      onClick={() => {*/}
-          {/*        router.push({ pathname: '/draw', query: item }, '/draw');*/}
-          {/*      }}*/}
-          {/*      className={`${styles.box} tw-leading-0.5 tw-whitespace-pre-line`}*/}
-          {/*    >*/}
-          {/*      {isKorean ? item.info : item.enInfo}*/}
-          {/*    </button>*/}
-          {/*  ))}*/}
-          {/*</div>*/}
-          {/*<h3 className="tw-mb-2">{isKorean ? '수능' : 'KSAT'}</h3>*/}
-          {/*<div className={styles.group}>*/}
-          {/*  {koreanUniversityScholasticAbilityTest.map((item, index) => (*/}
-          {/*    <button*/}
-          {/*      key={index}*/}
-          {/*      onClick={() => {*/}
-          {/*        router.push({ pathname: '/draw', query: item }, '/draw');*/}
-          {/*      }}*/}
-          {/*      className={`${styles.box} tw-leading-0.5 tw-whitespace-pre-line`}*/}
-          {/*    >*/}
-          {/*      {isKorean ? item.info : item.enInfo}*/}
-          {/*    </button>*/}
-          {/*  ))}*/}
-          {/*</div>*/}
-          {renderGroup('전체 템플릿', allTemplates)}
+          {mode == 2 ? (
+            renderGroup('전체 템플릿', allTemplates)
+          ) : (
+            <>
+              <h3 className="tw-mb-2">{isKorean ? '빈 템플릿' : 'Blank template'}</h3>
+              <div className={styles.group}>
+                <button
+                  onClick={() => {
+                    router.push({ pathname: '/draw', query: Default }, '/draw');
+                  }}
+                  className={`${styles.box} tw-leading-0.5 tw-whitespace-pre-line`}
+                >
+                  {isKorean ? Default.info : Default.enInfo}
+                </button>
+              </div>
+              <h3 className="tw-mb-2">{isKorean ? '모의고사' : 'Mock exam'}</h3>
+              <div className={styles.group}>
+                {mockExam.map((item, index) => (
+                  <button
+                    key={index}
+                    onClick={() => {
+                      router.push({ pathname: '/draw', query: item }, '/draw');
+                    }}
+                    className={`${styles.box} tw-leading-0.5 tw-whitespace-pre-line`}
+                  >
+                    {isKorean ? item.info : item.enInfo}
+                  </button>
+                ))}
+              </div>
+              <h3 className="tw-mb-2">{isKorean ? '수능' : 'KSAT'}</h3>
+              <div className={styles.group}>
+                {koreanUniversityScholasticAbilityTest.map((item, index) => (
+                  <button
+                    key={index}
+                    onClick={() => {
+                      router.push({ pathname: '/draw', query: item }, '/draw');
+                    }}
+                    className={`${styles.box} tw-leading-0.5 tw-whitespace-pre-line`}
+                  >
+                    {isKorean ? item.info : item.enInfo}
+                  </button>
+                ))}
+              </div>
+            </>
+          )}
         </div>
       </div>
       {mode === 2 && (
