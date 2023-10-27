@@ -6,7 +6,6 @@ import { moveCamera, zoomCamera } from '@lib/commands';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { IoIosArrowBack } from 'react-icons/io';
 import { Point } from 'typings';
 
 const LeftGrid = dynamic(() => import('@components/LeftGrid'));
@@ -62,7 +61,6 @@ export default function Draw() {
           }}
           className="tw-flex tw-p-0"
         >
-          <IoIosArrowBack size={20} />
           <span>돌아가기</span>
         </Button>
         <span>{info}</span>

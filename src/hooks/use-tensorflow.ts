@@ -6,7 +6,7 @@ import { useCallback, useRef, useState } from 'react';
 
 export function useTensorflow() {
   const router = useRouter();
-  let URL = '';
+  let URL = 'http://localhost:3000/static/tensorflowmodel-draw/';
   if (router.pathname === '/mode' || router.pathname === '/select')
     URL = 'http://localhost:3000/static/tensorflowmodel-mode/';
   if (router.pathname === '/draw') URL = 'http://localhost:3000/static/tensorflowmodel-draw/';
