@@ -1,6 +1,8 @@
 import '@tensorflow/tfjs';
 
+import { modeAtom } from '@pages/mode';
 import * as speechCommands from '@tensorflow-models/speech-commands';
+import { useAtomValue } from 'jotai/index';
 import { useRouter } from 'next/router';
 import { useCallback, useRef, useState } from 'react';
 export function useTensorflow() {
@@ -12,6 +14,7 @@ export function useTensorflow() {
   const [detectedWord, setDetectedWord] = useState<string>('');
   const recognizer = useRef<speechCommands.SpeechCommandRecognizer>();
   const [isListening, setisListening] = useState<boolean>(false);
+  const mode = useAtomValue(modeAtom);
   const init = useCallback(async () => {
     try {
       if (recognizer.current) return; // Exit early if already initialized
@@ -54,8 +57,8 @@ export function useTensorflow() {
         },
         {
           includeSpectrogram: false,
-          probabilityThreshold: 0.85,
-          overlapFactor: 0.8
+          probabilityThreshold: mode == 3 ? 0.75 : 0.85,
+          overlapFactor: mode == 3 ? 0.5 : 0.8
         }
       );
       console.log('Started Listening');
