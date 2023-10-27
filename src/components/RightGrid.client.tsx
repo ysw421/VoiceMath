@@ -147,7 +147,8 @@ export default function RightGrid({
     stt(blob).then((dialog: JSON) => {
       const objLatex = geogebraCommand(dialog);
       if (objLatex.labels) AddLatexSentence(objLatex.labels[0]);
-      else AddLatexSentence(objLatex.StringValue);
+      else if (objLatex.StringValue) AddLatexSentence(objLatex.StringValue);
+      else alert(isKorean ? '다시 말하실 수 있을까요?' : 'Can you try again?');
       startRecordTeachable();
     });
   }
@@ -177,13 +178,18 @@ export default function RightGrid({
               onChange={(e) => setCommand(e.target.value)}
             />
           </div>
-          <Button>Submit</Button>
+          <Button> {isKorean ? '제출' : 'Submit'}</Button>
         </form>
         <div className="tw-flex tw-flex-row tw-items-center tw-gap-x-3">
           <div className={isListening ? 'tw-opacity-60' : 'tw-opacity-100'}>
             <Button onClick={startCodeFairModel} disabled={!isListening}>
-              {' '}
-              {isKorean ? '음성으로 입력하세요!' : 'input using your voice!'}{' '}
+              {!isListening
+                ? isKorean
+                  ? '10초간 말하세요!'
+                  : 'Talk for 10 seconds!'
+                : isKorean
+                ? '음성으로 입력하세요!'
+                : 'Input using your voice!'}
             </Button>
           </div>
         </div>
@@ -198,15 +204,27 @@ export default function RightGrid({
                 setLatexSentences([]);
               }}
             >
-              Clear Space
+              {isKorean ? '전체 지우기' : 'Clear Space'}
             </Button>
-            <MoveBtn newPoint={new Point(camera.x + 0.5, camera.y)} text="Left" />
-            <MoveBtn newPoint={new Point(camera.x, camera.y - 0.5)} text="Up" />
+            <MoveBtn
+              newPoint={new Point(camera.x + 0.5, camera.y)}
+              text={isKorean ? '왼쪽' : 'Left'}
+            />
+            <MoveBtn newPoint={new Point(camera.x, camera.y - 0.5)} text={isKorean ? '위' : 'Up'} />
           </div>
           <div className="tw-flex tw-flex-col tw-items-end tw-gap-y-2">
-            <MoveBtn newPoint={defalutCamera} text={`Return to\nstarting point`} />
-            <MoveBtn newPoint={new Point(camera.x - 0.5, camera.y)} text="Right" />
-            <MoveBtn newPoint={new Point(camera.x, camera.y + 0.5)} text="Down" />
+            <MoveBtn
+              newPoint={defalutCamera}
+              text={isKorean ? '카메라 초기화' : `Return to\nstarting point`}
+            />
+            <MoveBtn
+              newPoint={new Point(camera.x - 0.5, camera.y)}
+              text={isKorean ? '오른쪽' : 'Right'}
+            />
+            <MoveBtn
+              newPoint={new Point(camera.x, camera.y + 0.5)}
+              text={isKorean ? '아래' : 'Down'}
+            />
           </div>
         </div>
         {!isDefalut && (
