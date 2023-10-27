@@ -1,17 +1,21 @@
 import TTS_box from '@components/ttsBox';
 import { useTTS } from '@hooks/use-tts';
 import { useAtomValue } from 'jotai';
+import { useAtom } from 'jotai';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { IoIosArrowBack } from 'react-icons/io';
+import { MdLanguage } from 'react-icons/md';
 
 import { Default, koreanUniversityScholasticAbilityTest, mockExam } from './items';
 import { modeAtom } from './mode';
+import { isKoreanAtom } from './mode';
 import styles from './select.module.css';
 
 export default function Select() {
   const mode = useAtomValue(modeAtom);
+  const [isKorean, setIsKorean] = useAtom(isKoreanAtom);
   const router = useRouter();
   const { text, setText, isSpeaking, isPaused, isResumed, isEnded, speak, pause, resume, cancel } =
     useTTS();
@@ -62,16 +66,16 @@ export default function Select() {
         >
           <Link href={'/mode'} className="tw-flex tw-text-black">
             <IoIosArrowBack size={20} />
-            <span>돌아가기</span>
+            <span>{isKorean ? '돌아가기' : 'Go Back'}</span>
           </Link>
         </div>
         <div className="tw-w-full tw-h-7"></div>
         <div className="tw-flex tw-justify-center tw-w-full tw-mt-10 tw-mb-10 tw-text-3xl tw-font-bold">
-          템플릿을 선택하세요
+          {isKorean ? '템플릿을 선택하세요' : 'Select the template'}
         </div>
         <div className="tw-p-10">
           {/* <div className="tw-mb-4 tw-text-xl tw-font-semibold">빈 템플릿</div> */}
-          <h3 className="tw-mb-2">빈 템플릿</h3>
+          <h3 className="tw-mb-2">{isKorean ? '빈 템플릿' : 'Blank template'}</h3>
           <div className={styles.group}>
             <button
               onClick={() => {
@@ -79,10 +83,10 @@ export default function Select() {
               }}
               className={`${styles.box} tw-leading-0.5 tw-whitespace-pre-line`}
             >
-              {Default.info}
+              {isKorean ? Default.info : Default.enInfo}
             </button>
           </div>
-          <h3 className="tw-mb-2">모의고사</h3>
+          <h3 className="tw-mb-2">{isKorean ? '모의고사' : 'Mock exam'}</h3>
           <div className={styles.group}>
             {mockExam.map((item, index) => (
               <button
@@ -92,12 +96,12 @@ export default function Select() {
                 }}
                 className={`${styles.box} tw-leading-0.5 tw-whitespace-pre-line`}
               >
-                {item.info}
+                {isKorean ? item.info : item.enInfo}
               </button>
             ))}
           </div>
 
-          <h3 className="tw-mb-2">수능</h3>
+          <h3 className="tw-mb-2">{isKorean ? '수능' : 'KSAT'}</h3>
           <div className={styles.group}>
             {koreanUniversityScholasticAbilityTest.map((item, index) => (
               <button
@@ -107,12 +111,12 @@ export default function Select() {
                 }}
                 className={`${styles.box} tw-leading-0.5 tw-whitespace-pre-line`}
               >
-                {item.info}
+                {isKorean ? item.info : item.enInfo}
               </button>
             ))}
           </div>
 
-          <h3 className="tw-mb-2">모의고사</h3>
+          {/* <h3 className="tw-mb-2">{isKorean ? '모의고사' : 'Mock exam'}</h3>
           <div className={styles.group}>
             {mockExam.map((item, index) => (
               <button
@@ -125,7 +129,7 @@ export default function Select() {
                 {item.info}
               </button>
             ))}
-          </div>
+          </div> */}
         </div>
       </div>
       {mode === 2 && (
@@ -135,6 +139,12 @@ export default function Select() {
           </div>
         </div>
       )}
+      <div
+        className="tw-absolute tw-z-50 tw-top-3 tw-right-3"
+        onClick={() => setIsKorean((e) => !e)}
+      >
+        <MdLanguage size={30} />
+      </div>
     </>
   );
 }

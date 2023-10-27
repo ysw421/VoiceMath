@@ -11,6 +11,7 @@ export const useTTS = () => {
   const voiceEnAtom = useAtomValue(ttsVoiceEnAtom);
   const isKorean = useAtomValue(isKoreanAtom);
   const [text, setText] = useState<string>('hello');
+  const [enText, setEnText] = useState<string>('hello');
   const [isSpeaking, setIsSpeaking] = useState<boolean>(false);
   const [isPaused, setIsPaused] = useState<boolean>(false);
   const [isResumed, setIsResumed] = useState<boolean>(false);
@@ -27,7 +28,8 @@ export const useTTS = () => {
     // console.log(window.speechSynthesis.getVoices()[0]);
     // console.log(text);
     function speak() {
-      // msg.voice = window.speechSynthesis.getVoices()[isKorean ? voiceAtom : voiceEnAtom];
+      console.log('isKorean', isKorean);
+      msg.voice = window.speechSynthesis.getVoices()[isKorean ? voiceAtom : voiceEnAtom];
       msg.voice = window.speechSynthesis.getVoices()[voiceAtom];
       window.speechSynthesis.speak(msg);
     }

@@ -16,7 +16,7 @@ export default function Mode() {
   const router = useRouter();
   const [gmode, setGmode] = useAtom(modeAtom);
   const [isKorean, setIsKorean] = useAtom(isKoreanAtom);
-  const { startRecordTeachable, stopRecordTeachable, init, detectedWord } = useTensorflow();
+  const { startRecordTeachable, stopRecordTeachable, init, detectedWord } = useTensorflow(1);
   const { text, setText, isSpeaking, isPaused, isResumed, isEnded, speak, pause, resume, cancel } =
     useTTS();
   useEffect(() => {
@@ -44,25 +44,60 @@ export default function Mode() {
     }
   }, [detectedWord]);
 
+  console.log(isKorean);
   const [exText, setExText] = useState(
-    // isKorean
-    '당신의 소리를 듣고 있어요. 모드를 선택해 주세요. 모드  하나, 그래프를 볼 수 없어요. 모드  둘, 종이에 필기하기 어려워요. 모드  셋, 말이 정확하지 않아요.'
-    // : 'I am listening to your voice. Please select a mode. Mode one, I cannot see the graph. Mode two, it is difficult to write on paper. Mode three, the words are not accurate.'
+    isKorean
+      ? '당신의 소리를 듣고 있어요. 모드를 선택해 주세요. 모드  하나, 그래프를 볼 수 없어요. 모드  둘, 종이에 필기하기 어려워요. 모드  셋, 말이 정확하지 않아요.'
+      : 'I am listening to your voice. Please select a mode. Mode one, I cannot see the graph. Mode two, it is difficult to write on paper. Mode three, the words are not accurate.'
   );
 
   useEffect(() => {
-    // cancel();
-    // setExText(
-    //   isKorean
-    //     ? '당신의 소리를 듣고 있어요. 모드를 선택해 주세요. 모드  하나, 그래프를 볼 수 없어요. 모드  둘, 종이에 필기하기 어려워요. 모드  셋, 말이 정확하지 않아요.'
-    //     : 'I am listening to your voice. Please select a mode. Mode one, I cannot see. Mode two, it's difficult for me to write on paper. Mode three, my words are not accurate.'
-    // );
+    cancel();
+    setExText(
+      isKorean
+        ? '당신의 소리를 듣고 있어요. 모드를 선택해 주세요. 모드  하나, 그래프를 볼 수 없어요. 모드  둘, 종이에 필기하기 어려워요. 모드  셋, 말이 정확하지 않아요.'
+        : "I am listening to your voice. Please select a mode. Mode one, I cannot see. Mode two, it's difficult for me to write on paper. Mode three, my words are not accurate."
+    );
   }, [isKorean]);
 
   useEffect(() => {
-    setText(exText);
     cancel();
+    const timeout = setTimeout(() => {
+      console.log(isKorean);
+      setExText(
+        isKorean
+          ? '당신의 소리를 듣고 있어요. 모드를 선택해 주세요. 모드  하나, 그래프를 볼 수 없어요. 모드  둘, 종이에 필기하기 어려워요. 모드  셋, 말이 정확하지 않아요.'
+          : "I am listening to your voice. Please select a mode. Mode one, I cannot see. Mode two, it's difficult for me to write on paper. Mode three, my words are not accurate."
+      );
+      setText(
+        isKorean
+          ? '당신의 소리를 듣고 있어요. 모드를 선택해 주세요. 모드  하나, 그래프를 볼 수 없어요. 모드  둘, 종이에 필기하기 어려워요. 모드  셋, 말이 정확하지 않아요.'
+          : "I am listening to your voice. Please select a mode. Mode one, I cannot see. Mode two, it's difficult for me to write on paper. Mode three, my words are not accurate."
+      );
+    }, 500);
+    setExText(
+      isKorean
+        ? '당신의 소리를 듣고 있어요. 모드를 선택해 주세요. 모드  하나, 그래프를 볼 수 없어요. 모드  둘, 종이에 필기하기 어려워요. 모드  셋, 말이 정확하지 않아요.'
+        : "I am listening to your voice. Please select a mode. Mode one, I cannot see. Mode two, it's difficult for me to write on paper. Mode three, my words are not accurate."
+    );
+    setText(
+      isKorean
+        ? '당신의 소리를 듣고 있어요. 모드를 선택해 주세요. 모드  하나, 그래프를 볼 수 없어요. 모드  둘, 종이에 필기하기 어려워요. 모드  셋, 말이 정확하지 않아요.'
+        : "I am listening to your voice. Please select a mode. Mode one, I cannot see. Mode two, it's difficult for me to write on paper. Mode three, my words are not accurate."
+    );
+
+    return () => clearTimeout(timeout);
   }, []);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      if (text === exText) {
+        speak();
+      }
+    }, 1000);
+
+    return () => clearTimeout(timeout);
+  }, [text]);
 
   useEffect(() => {
     const speak_ = setInterval(() => {
@@ -92,16 +127,18 @@ export default function Mode() {
   // eslint-disable-next-line react/display-name
   const Modes = memo(() => (
     <div className="tw-flex tw-w-screen tw-h-auto tw-justify-evenly">
-      {['그래프를 볼 수 없어요', '종이에 필기하기 어려워요', '말이 정확하지 않아요'].map(
-        (caption, index) => (
-          <ModeSelect
-            key={index.toString()}
-            mode={index + 1}
-            src={`/static/images/modes/${index + 1}.svg`}
-            caption={caption}
-          />
-        )
-      )}
+      {[
+        isKorean ? '그래프를 볼 수 없어요' : "I can't see the graph",
+        isKorean ? '종이에 필기하기 어려워요' : 'I find it difficult to take notes',
+        isKorean ? '말이 정확하지 않아요' : 'The words are not precise'
+      ].map((caption, index) => (
+        <ModeSelect
+          key={index.toString()}
+          mode={index + 1}
+          src={`/static/images/modes/${index + 1}.svg`}
+          caption={caption}
+        />
+      ))}
     </div>
   ));
 
