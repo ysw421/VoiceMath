@@ -38,6 +38,8 @@ export type TemplateInfo = {
   name: string;
   info: string;
   text: string;
+  enInfo: string;
+  enText: string;
   geogebra: string;
   defaultCameraPosition: string;
   isDefault: string;
