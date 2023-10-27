@@ -3,9 +3,12 @@ import 'katex/dist/katex.min.css';
 import Button from '@components/Button';
 import { useTTS } from '@hooks/use-tts';
 import { moveCamera, zoomCamera } from '@lib/commands';
+import { isKoreanAtom } from '@pages/mode';
+import { useAtom } from 'jotai';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { IoIosArrowBack } from 'react-icons/io';
 import { Point } from 'typings';
 
 const LeftGrid = dynamic(() => import('@components/LeftGrid'));
@@ -24,15 +27,18 @@ export default function Draw() {
     resume,
     cancel
   } = useTTS();
+  const [isKorean, setIsKorean] = useAtom(isKoreanAtom);
 
   const router = useRouter();
-  let { text, geogebra, name, defaultCameraPosition, isDefalut, info, answer } = router.query;
-  info = info === undefined ? '빈 템플릿' : info;
+  let { text, enText, geogebra, name, defaultCameraPosition, isDefalut, info, enInfo, answer } =
+    router.query;
+  info = info === undefined ? '빈 템플릿' : isKorean ? info : enInfo;
   name = (name instanceof Array ? name.join('') : name) ?? 'None';
   const isDefalut_bool = isDefalut === undefined ? true : isDefalut === '1' ? true : false;
   text =
-    (text instanceof Array ? text.join('') : text) ??
-    '새로운 메모에 오신 것을 환영합니다.<br/>마음껏 메모하세요!';
+    (text instanceof Array ? text.join('') : text) ?? isKorean
+      ? '새로운 메모에 오신 것을 환영합니다.<br/>마음껏 메모하세요!'
+      : 'Welcome to the new memo.<br/>Feel free to memo!';
   geogebra = (geogebra instanceof Array ? geogebra.join('') : geogebra) ?? '';
   defaultCameraPosition =
     (defaultCameraPosition instanceof Array
@@ -61,7 +67,8 @@ export default function Draw() {
           }}
           className="tw-flex tw-p-0"
         >
-          <span>돌아가기</span>
+          <IoIosArrowBack size={20} />
+          <span>{isKorean ? '돌아가기' : 'Go Back'}</span>
         </Button>
         <span>{info}</span>
       </div>
@@ -72,6 +79,7 @@ export default function Draw() {
         <LeftGrid camera={camera} geogebra={geogebra} defaultCameraPosition={defalutCamera} />
         <RightGrid
           text={text}
+          enText={enText}
           camera={camera}
           setCamera={setCamera}
           setZoom={setZoom}

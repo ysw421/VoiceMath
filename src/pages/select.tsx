@@ -1,30 +1,26 @@
 import TTS_box from '@components/ttsBox';
-import { useTensorflow } from '@hooks/use-tensorflow';
 import { useTTS } from '@hooks/use-tts';
 import { useAtomValue } from 'jotai';
+import { useAtom } from 'jotai';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React, { useEffect, useRef, useState } from 'react';
-import { TemplateInfo } from 'typings';
+import React, { useEffect, useState } from 'react';
+import { IoIosArrowBack } from 'react-icons/io';
 
-import { allTemplates } from './items';
+import { Default, koreanUniversityScholasticAbilityTest, mockExam } from './items';
 import { modeAtom } from './mode';
+import { isKoreanAtom } from './mode';
 import styles from './select.module.css';
 
 export default function Select() {
   const mode = useAtomValue(modeAtom);
+  const [isKorean, setIsKorean] = useAtom(isKoreanAtom);
   const router = useRouter();
   const { text, setText, isSpeaking, isPaused, isResumed, isEnded, speak, pause, resume, cancel } =
     useTTS();
-  const { startRecordTeachable, stopRecordTeachable, init, detectedWord } = useTensorflow();
+
   useEffect(() => {
-    init()
-      .then(() => {
-        console.log('Init completed. Starting to record...'); // Added for debugging
-        startRecordTeachable();
-      })
-      .catch((error) => {
-        console.error('An error occurred:', error); // Added for error logging
-      });
+    cancel();
   }, []);
 
   const [exText, setExText] = useState(
@@ -52,56 +48,6 @@ export default function Select() {
       };
     }
   }, [text]);
-  //manual refs
-  const refs = useRef(
-    Array(allTemplates.length + 1)
-      .fill(null)
-      .map(() => React.createRef<HTMLButtonElement>())
-  );
-  useEffect(() => {
-    const actions = {
-      앞: () => {
-        const focusedIndex = refs.current.findIndex(
-          (ref) => ref.current === document.activeElement
-        );
-        const nextIndex = (focusedIndex + 1) % refs.current.length;
-        refs.current[nextIndex].current?.focus();
-      },
-      뒤: () => {
-        const focusedIndex = refs.current.findIndex(
-          (ref) => ref.current === document.activeElement
-        );
-        const prevIndex = (focusedIndex - 1 + refs.current.length) % refs.current.length;
-        refs.current[prevIndex].current?.focus();
-      },
-      선택: () => {
-        const focusedElement = document.activeElement as HTMLElement;
-        focusedElement.click();
-      }
-    };
-    if (actions[detectedWord as keyof typeof actions])
-      actions[detectedWord as keyof typeof actions]();
-    if (detectedWord !== 'Background Noise') console.log(detectedWord);
-  }, [detectedWord]);
-  const renderGroup = (title: String, templates: TemplateInfo[]) => (
-    <div>
-      <h3 className="tw-mb-2">{title}</h3>
-      <div className={styles.group}>
-        {templates.map((item, index) => (
-          <button
-            key={index}
-            ref={refs.current[index]} // Assign ref
-            onClick={() => {
-              router.push({ pathname: '/draw', query: item }, '/draw');
-            }}
-            className={`${styles.box} tw-leading-0.5 tw-whitespace-pre-line`}
-          >
-            {item.info}
-          </button>
-        ))}
-      </div>
-    </div>
-  );
 
   return (
     <>
@@ -117,22 +63,72 @@ export default function Select() {
             width: 'calc(100% - 48px)'
           }}
         >
-          <button
-            onClick={() => {
-              router.push('/mode');
-            }}
-            ref={refs.current[refs.current.length - 1]}
-            className="tw-flex tw-text-black"
-          >
-            돌아가기
-          </button>
+          <Link href={'/mode'} className="tw-flex tw-text-black">
+            <IoIosArrowBack size={20} />
+            <span>{isKorean ? '돌아가기' : 'Go Back'}</span>
+          </Link>
         </div>
         <div className="tw-w-full tw-h-7"></div>
         <div className="tw-flex tw-justify-center tw-w-full tw-mt-10 tw-mb-10 tw-text-3xl tw-font-bold">
-          템플릿을 선택하세요
+          {isKorean ? '템플릿을 선택하세요' : 'Select the template'}
         </div>
         <div className="tw-p-10">
-          <div>{renderGroup('모든 템플릿', allTemplates)}</div>
+          {/* <div className="tw-mb-4 tw-text-xl tw-font-semibold">빈 템플릿</div> */}
+          <h3 className="tw-mb-2">{isKorean ? '빈 템플릿' : 'Blank template'}</h3>
+          <div className={styles.group}>
+            <button
+              onClick={() => {
+                router.push({ pathname: '/draw', query: Default }, '/draw');
+              }}
+              className={`${styles.box} tw-leading-0.5 tw-whitespace-pre-line`}
+            >
+              {isKorean ? Default.info : Default.enInfo}
+            </button>
+          </div>
+          <h3 className="tw-mb-2">{isKorean ? '모의고사' : 'Mock exam'}</h3>
+          <div className={styles.group}>
+            {mockExam.map((item, index) => (
+              <button
+                key={index}
+                onClick={() => {
+                  router.push({ pathname: '/draw', query: item }, '/draw');
+                }}
+                className={`${styles.box} tw-leading-0.5 tw-whitespace-pre-line`}
+              >
+                {isKorean ? item.info : item.enInfo}
+              </button>
+            ))}
+          </div>
+
+          <h3 className="tw-mb-2">{isKorean ? '수능' : 'KSAT'}</h3>
+          <div className={styles.group}>
+            {koreanUniversityScholasticAbilityTest.map((item, index) => (
+              <button
+                key={index}
+                onClick={() => {
+                  router.push({ pathname: '/draw', query: item }, '/draw');
+                }}
+                className={`${styles.box} tw-leading-0.5 tw-whitespace-pre-line`}
+              >
+                {isKorean ? item.info : item.enInfo}
+              </button>
+            ))}
+          </div>
+
+          {/* <h3 className="tw-mb-2">{isKorean ? '모의고사' : 'Mock exam'}</h3>
+          <div className={styles.group}>
+            {mockExam.map((item, index) => (
+              <button
+                key={index}
+                onClick={() => {
+                  router.push({ pathname: '/draw', query: item }, '/draw');
+                }}
+                className={`${styles.box} tw-leading-0.5 tw-whitespace-pre-line`}
+              >
+                {item.info}
+              </button>
+            ))}
+          </div> */}
         </div>
       </div>
       {mode === 2 && (

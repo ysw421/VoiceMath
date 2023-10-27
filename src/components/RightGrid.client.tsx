@@ -4,7 +4,8 @@ import { useTensorflow } from '@hooks/use-tensorflow';
 import { evalCommandGetLabels, getLaTeXString, reset } from '@lib/commands';
 import geogebraCommand from '@lib/geogebraCommand';
 import stt from '@lib/stt';
-import { router } from 'next/client';
+import { isKoreanAtom } from '@pages/mode';
+import { useAtom } from 'jotai';
 import React, { useEffect, useState } from 'react';
 import Latex from 'react-latex-next';
 import { useReactMediaRecorder } from 'react-media-recorder';
@@ -13,8 +14,10 @@ import { Point } from 'typings';
 
 import Button from './Button';
 import ScrollableLatex from './ScrollableLatex';
+
 export default function RightGrid({
   text,
+  enText,
   camera,
   setCamera,
   setZoom,
@@ -23,6 +26,7 @@ export default function RightGrid({
   problemAnswer
 }: {
   text: string;
+  enText: string;
   camera: Point;
   setCamera: Function;
   setZoom: Function;
@@ -32,9 +36,10 @@ export default function RightGrid({
 }) {
   const [command, setCommand] = useState('');
   const [answer, setAnswer] = useState('');
+  const [isKorean, setIsKorean] = useAtom(isKoreanAtom);
   const [latexSentences, setLatexSentences] = useState<string[]>(['']);
   const { isListening, detectedWord, init, stopRecordTeachable, startRecordTeachable } =
-    useTensorflow();
+    useTensorflow(0);
   const AddLatexSentence = (newSentence: string) => {
     const newSentence_Latex = getLaTeXString(newSentence);
     console.log(newSentence_Latex);
@@ -85,11 +90,10 @@ export default function RightGrid({
     const actions = {
       삭제: () => setLatexSentences([]),
       시작: startCodeFairModel,
-      상: () => updateCamera(0, 0.5),
-      하: () => updateCamera(0, -0.5),
-      좌: () => updateCamera(-0.5, 0),
-      우: () => updateCamera(0.5, 0),
-      뒤로: router.back
+      위: () => updateCamera(0, 0.5),
+      아래: () => updateCamera(0, -0.5),
+      왼쪽: () => updateCamera(-0.5, 0),
+      오른쪽: () => updateCamera(0.5, 0)
     };
     if (actions[detectedWord as keyof typeof actions])
       actions[detectedWord as keyof typeof actions]();
@@ -104,7 +108,7 @@ export default function RightGrid({
     stt(blob).then((dialog: JSON) => {
       const objLatex = geogebraCommand(dialog);
       if (objLatex) AddLatexSentence(objLatex.labels[0]);
-      else alert('다시 말해주실 수 있나요?');
+      else alert(isKorean ? '다시 말해주실 수 있나요?' : 'Could you say that again?');
       startRecordTeachable();
     });
   }
@@ -114,7 +118,7 @@ export default function RightGrid({
         className="tw-flex tw-flex-col tw-w-full tw-h-full tw-gap-y-4"
         // style={{ height: '670px' }}
       >
-        <Latex>{text}</Latex>
+        <Latex>{isKorean ? text : enText}</Latex>
         <ScrollableLatex latexSentences={latexSentences} />
         <form
           className="tw-flex tw-flex-row tw-items-center tw-w-full"
@@ -129,7 +133,7 @@ export default function RightGrid({
             <input
               type="text"
               value={command}
-              placeholder="키보드로 입력하세요!"
+              placeholder={isKorean ? '키보드로 입력하세요!' : 'Type on the keyboard!'}
               className="tw-w-full tw-h-full tw-px-2 tw-py-1 tw-border-2 tw-rounded-md"
               onChange={(e) => setCommand(e.target.value)}
             />
@@ -140,7 +144,7 @@ export default function RightGrid({
           <div className={isListening ? 'tw-opacity-60' : 'tw-opacity-100'}>
             <Button onClick={startCodeFairModel} disabled={!isListening}>
               {' '}
-              음성으로 입력하세요!{' '}
+              {isKorean ? '음성으로 입력하세요!' : 'input using your voice!'}{' '}
             </Button>
           </div>
         </div>
@@ -177,7 +181,7 @@ export default function RightGrid({
                   // console.log('맞은');
                   Swal.fire({
                     title: 'Good job!!',
-                    html: '다른 문제도 풀어보세요.',
+                    html: isKorean ? '다른 문제도 풀어보세요.' : 'Try another problem!',
                     icon: 'success',
                     timer: 2000,
                     timerProgressBar: true
@@ -186,7 +190,7 @@ export default function RightGrid({
                   // console.log('맞지 아니한');
                   Swal.fire({
                     title: 'Try Again',
-                    html: '다시 시도해 보세요!',
+                    html: isKorean ? '다시 시도해 보세요!' : 'Try again!',
                     icon: 'error',
                     timer: 2000,
                     timerProgressBar: true
