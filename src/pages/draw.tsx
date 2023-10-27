@@ -37,9 +37,11 @@ export default function Draw() {
   name = (name instanceof Array ? name.join('') : name) ?? 'None';
   const isDefalut_bool = isDefalut === undefined ? true : isDefalut === '1' ? true : false;
   text =
-    (text instanceof Array ? text.join('') : text) ?? isKorean
-      ? '새로운 메모에 오신 것을 환영합니다.<br/>마음껏 메모하세요!'
-      : 'Welcome to the new memo.<br/>Feel free to memo!';
+    (text instanceof Array ? text.join('') : text) ??
+    '새로운 메모에 오신 것을 환영합니다.<br/>마음껏 메모하세요!';
+  enText =
+    (enText instanceof Array ? enText.join('') : enText) ??
+    'Welcome to the new memo.<br/>Feel free to memo!';
   geogebra = (geogebra instanceof Array ? geogebra.join('') : geogebra) ?? '';
   defaultCameraPosition =
     (defaultCameraPosition instanceof Array
