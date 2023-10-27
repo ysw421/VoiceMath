@@ -33,3 +33,13 @@ export type FormState = {
   state: Form;
   message?: string;
 };
+
+export type TemplateInfo = {
+  name: string;
+  info: string;
+  text: string;
+  geogebra: string;
+  defaultCameraPosition: string;
+  isDefault: string;
+  answer: string;
+};

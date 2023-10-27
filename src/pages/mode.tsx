@@ -16,7 +16,7 @@ export default function Mode() {
   const router = useRouter();
   const [gmode, setGmode] = useAtom(modeAtom);
   const [isKorean, setIsKorean] = useAtom(isKoreanAtom);
-  const { startRecordTeachable, stopRecordTeachable, init, detectedWord } = useTensorflow(1);
+  const { startRecordTeachable, stopRecordTeachable, init, detectedWord } = useTensorflow();
   const { text, setText, isSpeaking, isPaused, isResumed, isEnded, speak, pause, resume, cancel } =
     useTTS();
   useEffect(() => {
