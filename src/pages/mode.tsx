@@ -51,7 +51,7 @@ export default function Mode() {
 
   const [exText, setExText] = useState(
     isKorean
-      ? '당신의 소리를 듣고 있어요. 모드를 선택해 주세요. 모드  일, 그래프를 볼 수 없어요. 모드  이, 종이에 필기하기 어려워요. 모드  삼, 말이 정확하지 않아요.'
+      ? '당신의 소리를 듣고 있어요. 모드를 선택해 주세요. 모드  일 종이에 필기하기 어려워요. 모드  이, 그래프를 볼 수 없어요 . 모드  삼, 말이 정확하지 않아요.'
       : 'I am listening to your voice. Please select a mode. first mode, I cannot see the graph. second mode, it is difficult to write on paper. third mode, the words are not accurate.'
   );
 
@@ -81,8 +81,8 @@ export default function Mode() {
   const Modes = memo(() => (
     <div className="tw-flex tw-w-screen tw-h-auto tw-justify-evenly">
       {[
-        isKorean ? '하나: 그래프를 볼 수 없어요' : "one: I can't see the graph",
-        isKorean ? '둘: 종이에 필기하기 어려워요' : 'two: I find it difficult to take notes',
+        isKorean ? '하나: 종이에 필기하기 어려워요' : 'one: I find it difficult to take notes',
+        isKorean ? '둘: 그래프를 볼 수 없어요 ' : "two: I can't see the graph",
         isKorean ? '셋: 말이 정확하지 않아요' : 'three: The words are not precise'
       ].map((caption, index) => (
         <ModeSelect
