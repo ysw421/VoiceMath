@@ -39,7 +39,7 @@ export default function RightGrid({
   const [isKorean, setIsKorean] = useAtom(isKoreanAtom);
   const [latexSentences, setLatexSentences] = useState<string[]>(['']);
   const { isListening, detectedWord, init, stopRecordTeachable, startRecordTeachable } =
-    useTensorflow(0);
+    useTensorflow();
   const AddLatexSentence = (newSentence: string) => {
     const newSentence_Latex = getLaTeXString(newSentence);
     console.log(newSentence_Latex);
