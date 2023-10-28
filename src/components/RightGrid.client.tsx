@@ -170,14 +170,14 @@ export default function RightGrid({
             <Button onClick={startCodeFairModel} disabled={!isListening}>
               {!isListening
                 ? isKorean
-                  ? '7초간 말하세요!'
-                  : 'Talk for 7 seconds!'
+                  ? `${timer}초간 말하세요!`
+                  : `Talk for ${timer} seconds!`
                 : isKorean
                 ? '음성으로 입력하세요!'
                 : 'Input using your voice!'}
             </Button>
           </div>
-          {timer}
+          {/* {timer} */}
         </div>
       </div>
       <div className="tw-flex tw-flex-row-reverse tw-items-end tw-w-full tw-gap-x-4">
