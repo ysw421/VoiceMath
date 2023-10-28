@@ -1,3 +1,4 @@
+import GlobeButton from '@components/GlobeButton';
 import TTS_box from '@components/ttsBox';
 import { useTensorflow } from '@hooks/use-tensorflow';
 import { useTTS } from '@hooks/use-tts';
@@ -7,7 +8,6 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useEffect, useRef, useState } from 'react';
 import { IoIosArrowBack } from 'react-icons/io';
-import { MdLanguage } from 'react-icons/md';
 import { TemplateInfo } from 'typings';
 
 import { allTemplates, Default, koreanUniversityScholasticAbilityTest, mockExam } from './items';
@@ -181,12 +181,7 @@ export default function Select() {
           </div>
         </div>
       )}
-      <div
-        className="tw-absolute tw-z-50 tw-top-3 tw-right-3"
-        onClick={() => setIsKorean((e) => !e)}
-      >
-        <MdLanguage size={30} />
-      </div>
+      <GlobeButton />
     </>
   );
 }

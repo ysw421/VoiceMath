@@ -1,6 +1,7 @@
 import 'katex/dist/katex.min.css';
 
 import Button from '@components/Button';
+import GlobeButton from '@components/GlobeButton';
 import { useTTS } from '@hooks/use-tts';
 import { moveCamera, zoomCamera } from '@lib/commands';
 import { isKoreanAtom } from '@pages/mode';
@@ -9,7 +10,6 @@ import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { IoIosArrowBack } from 'react-icons/io';
-import { MdLanguage } from 'react-icons/md';
 import { Point } from 'typings';
 
 const LeftGrid = dynamic(() => import('@components/LeftGrid'));
@@ -100,12 +100,7 @@ export default function Draw() {
           />
         </div>
       </div>
-      <div
-        className="tw-absolute tw-z-50 tw-top-3 tw-right-3"
-        onClick={() => setIsKorean((e) => !e)}
-      >
-        <MdLanguage size={30} />
-      </div>
+      <GlobeButton />
     </>
   );
 }
