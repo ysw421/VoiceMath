@@ -128,7 +128,7 @@ export default function Select() {
         </div>
         <div className="tw-p-10">
           {mode == 2 ? (
-            renderGroup('전체 템플릿', allTemplates)
+            renderGroup(isKorean ? '전체 템플릿' : 'Template', allTemplates)
           ) : (
             <>
               <h3 className="tw-mb-2">{isKorean ? '빈 템플릿' : 'Blank template'}</h3>

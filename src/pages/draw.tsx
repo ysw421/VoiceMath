@@ -33,7 +33,10 @@ export default function Draw() {
   const router = useRouter();
   let { text, enText, geogebra, name, defaultCameraPosition, isDefalut, info, enInfo, answer } =
     router.query;
-  info = info === undefined ? '빈 템플릿' : isKorean ? info : enInfo;
+  if (enInfo === undefined) {
+    enInfo = 'Blank template';
+    info = '빈 템플릿';
+  }
   name = (name instanceof Array ? name.join('') : name) ?? 'None';
   const isDefalut_bool = isDefalut === undefined ? true : isDefalut === '1' ? true : false;
   text =
@@ -78,7 +81,7 @@ export default function Draw() {
             <IoIosArrowBack size={20} />
             <span>{isKorean ? '돌아가기' : 'Go Back'}</span>
           </Button>
-          <span>{info}</span>
+          <span>{isKorean ? info : enInfo}</span>
         </div>
         <div
           className="tw-flex tw-flex-row tw-w-full tw-h-full tw-grid-flow-col tw-p-6 tw-pt-14 tw-items-full tw-gap-x-10 "
