@@ -11,8 +11,6 @@ import { memo, useEffect, useState } from 'react';
 import { Lang } from 'typings';
 
 export const modeAtom = atom<number>(0);
-// export const isKoreanAtom = atomWithStorage<boolean>('isKorean', true);
-
 export const langAtom = atomWithStorage<Lang>('lang', 'en-US');
 
 const modeTtsText = (lang: Lang) => {

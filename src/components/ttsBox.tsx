@@ -2,11 +2,12 @@ import { useAtom } from 'jotai';
 import { useEffect, useState } from 'react';
 import { FaAssistiveListeningSystems } from 'react-icons/fa';
 
-import { isKoreanAtom } from '../pages/mode';
+import { langAtom } from '../pages/mode';
+import { Lang } from '../typings';
 
 export default function TTS_box() {
   const [textAnimation, setTextAnimation] = useState('');
-  const [isKorean, setIsKorean] = useAtom(isKoreanAtom);
+  const [lang, setLang] = useAtom<Lang>(langAtom);
 
   useEffect(() => {
     let count = 0;
@@ -32,7 +33,11 @@ export default function TTS_box() {
           <FaAssistiveListeningSystems size={30} className="tw-relative tw-bottom-0.5" />
         </div>
         <span className="tw-font-semibold tw-text-left">
-          {isKorean ? '당신의 소리를 듣고 있어요' : 'I am listening to your voice'}
+          {lang === 'ko-KR'
+            ? '당신의 소리를 듣고 있어요'
+            : lang === 'en-US'
+            ? 'I am listening to your voice'
+            : ''}
         </span>
         <span className="tw-w-8 tw-font-semibold tw-text-left">{textAnimation}</span>
       </div>
