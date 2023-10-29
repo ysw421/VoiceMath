@@ -2,9 +2,9 @@ import { TemplateInfo } from 'typings';
 const Default: TemplateInfo = {
   type: 'Default',
   name: 'Default',
-  info: '빈 템플릿',
+  koInfo: '빈 템플릿',
   enInfo: 'Blank template',
-  text: `새로운 메모에 오신 것을 환영합니다.<br/>마음껏 메모하세요!`,
+  koText: `새로운 메모에 오신 것을 환영합니다.<br/>마음껏 메모하세요!`,
   enText: `Welcome to the new memo.<br/>Feel free to memo!`,
   geogebra: '',
   defaultCameraPosition: '0, 0',
@@ -16,9 +16,10 @@ const mockExam: TemplateInfo[] = [
   {
     type: 'mockExam',
     name: 'Template_1',
-    info: '2020 고3\n10월 17번',
+    koInfo: '2020 고3\n10월 17번',
     enInfo: '2020 3rd grade\nOctober 17th',
-    text: '그림과 같이 $\\angle{ABC}={\\pi \\over 2}$인 삼각형 $ABC$에 내접하고 반지름의 길이가 $3$인 원의 중심을 $O$라 하자. 직선 $AO$가 선분 $BC$와 만나는 점을 $D$라 할 때, $\\overline{DB} = 4$이다. 삼각형 $ADC$의 외접원의 넓이는?$\\\\$① ${125\\over 2}\\pi\\quad\\quad\\quad$② 63$\\pi\\quad\\quad\\quad$③ ${127\\over 2}\\pi\\quad\\quad\\quad$④ 64$\\pi\\quad\\quad\\quad$⑤ ${129\\over 2}\\pi$',
+    koText:
+      '그림과 같이 $\\angle{ABC}={\\pi \\over 2}$인 삼각형 $ABC$에 내접하고 반지름의 길이가 $3$인 원의 중심을 $O$라 하자. 직선 $AO$가 선분 $BC$와 만나는 점을 $D$라 할 때, $\\overline{DB} = 4$이다. 삼각형 $ADC$의 외접원의 넓이는?$\\\\$① ${125\\over 2}\\pi\\quad\\quad\\quad$② 63$\\pi\\quad\\quad\\quad$③ ${127\\over 2}\\pi\\quad\\quad\\quad$④ 64$\\pi\\quad\\quad\\quad$⑤ ${129\\over 2}\\pi$',
     enText:
       'In the figure, let $O$ be the center of a circle with radius $3$ that is inscribed in a triangle $ABC$ with $\\angle{ABC}={\\pi \\over 2}$. Let $D$ be the point where the line $AO$ meets the line segment $BC$, and let $\\overline{DB} = 4$. What is the area of the circumcircle of triangle $ADC$?$\\\\$① ${125\\over 2}\\pi\\quad\\quad\\quad$② 63$\\pi\\quad\\quad\\quad$③ ${127\\over 2}\\pi\\quad\\quad\\quad$④ 64$\\pi\\quad\\quad\\quad$⑤ ${129\\over 2}\\pi$',
     geogebra:
@@ -31,9 +32,10 @@ const mockExam: TemplateInfo[] = [
   {
     type: 'mockExam',
     name: 'Template_2',
-    info: '2022 고2\n9월 20번',
+    koInfo: '2022 고2\n9월 20번',
     enInfo: '2022 2nd grade\nSeptember 20th',
-    text: '그림과 같이 양수 $a$에 대하여 $\\overline{AB} = 4, \\overline{BC} = a, \\overline{CA} = 8$인 삼각형 $ABC$가 있다. $\\angle{ABC}$의 이등분선이 선분 $BC$와 만나는 점을 $P$라 하자. $a(\\sin{B}+\\sin{C})=6\\sqrt{3}$일 때, 선분 $AP$의 길이는? (단, $\\angle{BAC} > 90^\\circ$)$\\\\$① ${7\\over 3}\\quad\\quad\\quad$② ${8\\over 3}\\quad\\quad\\quad$③ 3$\\quad\\quad\\quad$④ ${10\\over 3}\\quad\\quad\\quad$⑤ ${11\\over 3}$',
+    koText:
+      '그림과 같이 양수 $a$에 대하여 $\\overline{AB} = 4, \\overline{BC} = a, \\overline{CA} = 8$인 삼각형 $ABC$가 있다. $\\angle{ABC}$의 이등분선이 선분 $BC$와 만나는 점을 $P$라 하자. $a(\\sin{B}+\\sin{C})=6\\sqrt{3}$일 때, 선분 $AP$의 길이는? (단, $\\angle{BAC} > 90^\\circ$)$\\\\$① ${7\\over 3}\\quad\\quad\\quad$② ${8\\over 3}\\quad\\quad\\quad$③ 3$\\quad\\quad\\quad$④ ${10\\over 3}\\quad\\quad\\quad$⑤ ${11\\over 3}$',
     enText:
       'In the figure, let $ABC$ be a triangle with $\\overline{AB} = 4, \\overline{BC} = a, \\overline{CA} = 8$ for a positive number $a$. Let $P$ be the point where the bisector of $\\angle{ABC}$ meets the line segment $BC$. If $a(\\sin{B}+\\sin{C})=6\\sqrt{3}$, what is the length of the line segment $AP$? (Given that $\\angle{BAC} > 90^\\circ$)$\\\\$① ${7\\over 3}\\quad\\quad\\quad$② ${8\\over 3}\\quad\\quad\\quad$③ 3$\\quad\\quad\\quad$④ ${10\\over 3}\\quad\\quad\\quad$⑤ ${11\\over 3}$',
     geogebra:
@@ -46,9 +48,10 @@ const mockExam: TemplateInfo[] = [
   {
     type: 'mockExam',
     name: 'Template_3',
-    info: '2020 고2\n6월 10번',
+    koInfo: '2020 고2\n6월 10번',
     enInfo: '2020 2nd grade\nJune 10th',
-    text: '세 상수 $a, \\, b, \\, c,$에 대하여 함수 $y = a\\sin{bx}+c$의 그래프가 그림과 같을 때, $a+b+c$의 값은? (단, $a > 0, \\, b > 0$)$\\\\$① 4$\\quad\\quad\\quad$② 5$\\quad\\quad\\quad$③ 6$\\quad\\quad\\quad$④ 7$\\quad\\quad\\quad$⑤ 8',
+    koText:
+      '세 상수 $a, \\, b, \\, c,$에 대하여 함수 $y = a\\sin{bx}+c$의 그래프가 그림과 같을 때, $a+b+c$의 값은? (단, $a > 0, \\, b > 0$)$\\\\$① 4$\\quad\\quad\\quad$② 5$\\quad\\quad\\quad$③ 6$\\quad\\quad\\quad$④ 7$\\quad\\quad\\quad$⑤ 8',
     enText:
       'If the graph of the function $y = a\\sin{bx}+c$ is as shown in the figure, what is the value of $a+b+c$? (Given that $a > 0, \\, b > 0$)$\\\\$① 4$\\quad\\quad\\quad$② 5$\\quad\\quad\\quad$③ 6$\\quad\\quad\\quad$④ 7$\\quad\\quad\\quad$⑤ 8',
     geogebra:
@@ -61,9 +64,10 @@ const mockExam: TemplateInfo[] = [
   {
     type: 'mockExam',
     name: 'Template_4',
-    info: '2019 고1\n11월 29번',
+    koInfo: '2019 고1\n11월 29번',
     enInfo: '2019 1st grade\nNovember 29th',
-    text: '그림과 같이 좌표평면 위의 네 점 $O(0,0), A(4,0), B(4,5), C(0,5)$에 대하여 선분 $BA$의 양 끝점이 아닌 서로 다른 두 점 $D, E$가 선분 $BA$ 위에 있다. 직선 $OD$와 직선 $CE$가 만나는 점을 $F(a,b)$라 하면 사각형 $OAEF$의 넓이는 사각형 $BCFD$의 넓이보다 $4$만큼 크고, 직선 $OD$와 직선 $CE$의 기울기의 곱은 $-{7 \\over 9}$이다. 두 상수 $a, b$에 대하여 $22(a + b)$의 값을 구하시오. (단, $0 < a < 4$)',
+    koText:
+      '그림과 같이 좌표평면 위의 네 점 $O(0,0), A(4,0), B(4,5), C(0,5)$에 대하여 선분 $BA$의 양 끝점이 아닌 서로 다른 두 점 $D, E$가 선분 $BA$ 위에 있다. 직선 $OD$와 직선 $CE$가 만나는 점을 $F(a,b)$라 하면 사각형 $OAEF$의 넓이는 사각형 $BCFD$의 넓이보다 $4$만큼 크고, 직선 $OD$와 직선 $CE$의 기울기의 곱은 $-{7 \\over 9}$이다. 두 상수 $a, b$에 대하여 $22(a + b)$의 값을 구하시오. (단, $0 < a < 4$)',
     enText:
       'As shown in the figure, for four points $O(0,0), A(4,0), B(4,5), C(0,5)$ on the coordinate plane, two points $D, E$ are on the line segment $BA$ other than the two end points of the line segment $BA$. If the point where the line $OD$ and the line $CE$ meet is $F(a,b)$, the area of the rectangle $OAEF$ is $4$ larger than the area of the rectangle $BCFD$, and the product of the slope of the line $OD$ and the slope of the line $CE$ is $-{7 \\over 9}$. For two constants $a, b$, find the value of $22(a + b)$. (Given that $0 < a < 4$)',
     geogebra:
@@ -79,9 +83,10 @@ const koreanUniversityScholasticAbilityTest: TemplateInfo[] = [
   {
     type: 'KSAT',
     name: 'Template_5',
-    info: '2023학년도\n10번',
+    koInfo: '2023학년도\n10번',
     enInfo: '2023\n10th',
-    text: '두 곡선 $y=x^3+x^2, y=-x^2+k$와 $y$축으로 둘러싸인 부분의 넓이를 $A$, 두 곡선 $y=x^3+x^2, y=-x^2+k$와 직선 x=2로 둘러싸인 부분의 넓이를 $B$라 하자. $A=B$일 때, 상수 $k$의 값은? (단, $4<k<5$)$\\\\$① ${25\\over{6}}\\quad\\quad\\quad$② ${13\\over{3}}\\quad\\quad\\quad$③ ${9\\over{2}}\\quad\\quad\\quad$④ ${14\\over{3}}\\quad\\quad\\quad$⑤ ${29\\over{6}}$',
+    koText:
+      '두 곡선 $y=x^3+x^2, y=-x^2+k$와 $y$축으로 둘러싸인 부분의 넓이를 $A$, 두 곡선 $y=x^3+x^2, y=-x^2+k$와 직선 x=2로 둘러싸인 부분의 넓이를 $B$라 하자. $A=B$일 때, 상수 $k$의 값은? (단, $4<k<5$)$\\\\$① ${25\\over{6}}\\quad\\quad\\quad$② ${13\\over{3}}\\quad\\quad\\quad$③ ${9\\over{2}}\\quad\\quad\\quad$④ ${14\\over{3}}\\quad\\quad\\quad$⑤ ${29\\over{6}}$',
     enText:
       'The area of the part surrounded by the two curves $y=x^3+x^2, y=-x^2+k$ and the $y$-axis is $A$, and the area of the part surrounded by the two curves $y=x^3+x^2, y=-x^2+k$ and the line $x=2$ is $B$. When $A=B$, what is the value of the constant $k$? (Given that $4<k<5$)$\\\\$① ${25\\over{6}}\\quad\\quad\\quad$② ${13\\over{3}}\\quad\\quad\\quad$③ ${9\\over{2}}\\quad\\quad\\quad$④ ${14\\over{3}}\\quad\\quad\\quad$⑤ ${29\\over{6}}$',
     geogebra:
@@ -94,9 +99,10 @@ const koreanUniversityScholasticAbilityTest: TemplateInfo[] = [
   {
     type: 'KSAT',
     name: 'Template_6',
-    info: '2023학년도\n미적분 27번',
+    koInfo: '2023학년도\n미적분 27번',
     enInfo: '2023\nCalculus 27th',
-    text: '그림과 같이 중심이 $O$, 반지름의 길이가 1이고 중심각의 크기가 ${\\pi\\over{2}}$인 부채꼴 $OA_{1}B_{1}$이 있다. 호 $A_{1}B_{1}$ 위에 점 $P_{1}$, 선분 $OA_{1}$ 위에 점 $C_{1}$, 선분 $OB_{1}$ 위에 점 $D_{a}$을 사각형 $OC_{1}P_{1}D_{1}$이 $\\overline{OC_{1}}:\\overline{OD_{1}}=3:4$인 직사각형이 되도록 잡는다. 부채꼴 $OA_{1}B_{1}$의 내부에 점 $Q_{1}$을 $\\overline{P_{1}Q_{1}} = \\overline{A_{1}Q_{1}}, \\angle P_{1}Q_{1}A_{1}={\\pi\\over{2}}$가 되도록 잡고, 이등변삼각형 $P_{1}Q_{q}A_{q}$에 색칠하여 얻은 그림을 $R_{1}$이라 하자. 그림 $R_{1}$에서 선분 $OA_{1}$ 위의 점 $A_{2}$와 선분 $OB_{1}$ 위의 점 $B_{2}$를 $\\overline{OQ_{1}}=\\overline{OA_{2}}=\\overline{OB_{2}}$가 되도록 잡고, 중심이 $O$, 반지름의 길이가 $\\overline{OQ_{1}}$, 중심각의 크기가 ${\\pi \\over{2}}$인 부채꼴 $OA_{2}B_{2}$를 그린다. 그림 $R_{1}$을 얻은 것과 같은 방법으로 네 점 $P_{2}, C_{2}, D_{2}, Q_{2}$를 잡고, 이등변삼각형 $P_{2}Q_{2}A_{2}$에 색칠하여 얻은 그림을 $R_{2}$라 하자. 이와 같은 과정을 계속하여 $n$번째 얻은 그림 $R_{n}$에 색칠되어 있는 부분의 넓이를 $S_{n}$이라 할 때, $\\lim_{n\\to\\infty}S_{n}$의 값은?$\\\\$① ${9\\over{40}}\\quad\\quad\\quad$② ${1\\over{4}}\\quad\\quad\\quad$③ ${11\\over{40}}\\quad\\quad\\quad$④ ${3\\over{10}}\\quad\\quad\\quad$⑤ ${13\\over{40}}$',
+    koText:
+      '그림과 같이 중심이 $O$, 반지름의 길이가 1이고 중심각의 크기가 ${\\pi\\over{2}}$인 부채꼴 $OA_{1}B_{1}$이 있다. 호 $A_{1}B_{1}$ 위에 점 $P_{1}$, 선분 $OA_{1}$ 위에 점 $C_{1}$, 선분 $OB_{1}$ 위에 점 $D_{a}$을 사각형 $OC_{1}P_{1}D_{1}$이 $\\overline{OC_{1}}:\\overline{OD_{1}}=3:4$인 직사각형이 되도록 잡는다. 부채꼴 $OA_{1}B_{1}$의 내부에 점 $Q_{1}$을 $\\overline{P_{1}Q_{1}} = \\overline{A_{1}Q_{1}}, \\angle P_{1}Q_{1}A_{1}={\\pi\\over{2}}$가 되도록 잡고, 이등변삼각형 $P_{1}Q_{q}A_{q}$에 색칠하여 얻은 그림을 $R_{1}$이라 하자. 그림 $R_{1}$에서 선분 $OA_{1}$ 위의 점 $A_{2}$와 선분 $OB_{1}$ 위의 점 $B_{2}$를 $\\overline{OQ_{1}}=\\overline{OA_{2}}=\\overline{OB_{2}}$가 되도록 잡고, 중심이 $O$, 반지름의 길이가 $\\overline{OQ_{1}}$, 중심각의 크기가 ${\\pi \\over{2}}$인 부채꼴 $OA_{2}B_{2}$를 그린다. 그림 $R_{1}$을 얻은 것과 같은 방법으로 네 점 $P_{2}, C_{2}, D_{2}, Q_{2}$를 잡고, 이등변삼각형 $P_{2}Q_{2}A_{2}$에 색칠하여 얻은 그림을 $R_{2}$라 하자. 이와 같은 과정을 계속하여 $n$번째 얻은 그림 $R_{n}$에 색칠되어 있는 부분의 넓이를 $S_{n}$이라 할 때, $\\lim_{n\\to\\infty}S_{n}$의 값은?$\\\\$① ${9\\over{40}}\\quad\\quad\\quad$② ${1\\over{4}}\\quad\\quad\\quad$③ ${11\\over{40}}\\quad\\quad\\quad$④ ${3\\over{10}}\\quad\\quad\\quad$⑤ ${13\\over{40}}$',
     enText:
       'There is a sector $OA_{1}B_{1}$ with center $O$, radius 1, and central angle ${\\pi\\over{2}}$. Point $P_{1}$ is on the arc $A_{1}B_{1}$, point $C_{1}$ is on the segment $OA_{1}$, and point $D_{1}$ is on the segment $OB_{1}$ such that the rectangle $OC_{1}P_{1}D_{1}$ is a rectangle with $\\overline{OC_{1}}:\\overline{OD_{1}}=3:4$. Point $Q_{1}$ is inside the sector $OA_{1}B_{1}$ such that $\\overline{P_{1}Q_{1}} = \\overline{A_{1}Q_{1}}, \\angle P_{1}Q_{1}A_{1}={\\pi\\over{2}}$, and the isosceles triangle $P_{1}Q_{q}A_{q}$ is colored to obtain the picture $R_{1}$. Point $A_{2}$ on the segment $OA_{1}$ and point $B_{2}$ on the segment $OB_{1}$ are on the picture $R_{1}$ such that $\\overline{OQ_{1}}=\\overline{OA_{2}}=\\overline{OB_{2}}$, and the sector $OA_{2}B_{2}$ with center $O$, radius $\\overline{OQ_{1}}$, and central angle ${\\pi \\over{2}}$ is drawn. Four points $P_{2}, C_{2}, D_{2}, Q_{2}$ are obtained in the same way as the picture $R_{1}$, and the isosceles triangle $P_{2}Q_{2}A_{2}$ is colored to obtain the picture $R_{2}$. Let $S_{n}$ be the area of the colored part in the picture $R_{n}$ obtained by continuing this process. What is the value of $\\lim_{n\\to\\infty}S_{n}$?$\\\\$① ${9\\over{40}}\\quad\\quad\\quad$② ${1\\over{4}}\\quad\\quad\\quad$③ ${11\\over{40}}\\quad\\quad\\quad$④ ${3\\over{10}}\\quad\\quad\\quad$⑤ ${13\\over{40}}$',
     geogebra:

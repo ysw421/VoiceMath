@@ -4,32 +4,32 @@ import Button from '@components/Button';
 import GlobeButton from '@components/GlobeButton';
 import { useTTS } from '@hooks/use-tts';
 import { moveCamera, zoomCamera } from '@lib/commands';
-import { isKoreanAtom } from '@pages/mode';
+import { langAtom } from '@pages/mode';
 import { useAtom } from 'jotai';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { IoIosArrowBack } from 'react-icons/io';
-import { Point } from 'typings';
+import { Lang, Point } from 'typings';
 
 const LeftGrid = dynamic(() => import('@components/LeftGrid'));
 const RightGrid = dynamic(() => import('@components/RightGrid.client'));
 
 export default function Draw() {
   const { isSpeaking, isPaused, isResumed, isEnded, speak, pause, resume, cancel } = useTTS();
-  const [isKorean, setIsKorean] = useAtom(isKoreanAtom);
+  const [lang, setLang] = useAtom<Lang>(langAtom);
 
   const router = useRouter();
-  let { text, enText, geogebra, name, defaultCameraPosition, isDefalut, info, enInfo, answer } =
+  let { koText, enText, geogebra, name, defaultCameraPosition, isDefalut, koInfo, enInfo, answer } =
     router.query;
   if (enInfo === undefined) {
     enInfo = 'Blank template';
-    info = '빈 템플릿';
+    koInfo = '빈 템플릿';
   }
   name = (name instanceof Array ? name.join('') : name) ?? 'None';
   const isDefalut_bool = isDefalut === undefined ? true : isDefalut === '1' ? true : false;
-  text =
-    (text instanceof Array ? text.join('') : text) ??
+  koText =
+    (koText instanceof Array ? koText.join('') : koText) ??
     '새로운 메모에 오신 것을 환영합니다.<br/>마음껏 메모하세요!';
   enText =
     (enText instanceof Array ? enText.join('') : enText) ??
@@ -68,9 +68,9 @@ export default function Draw() {
             className="tw-flex tw-p-0"
           >
             <IoIosArrowBack size={20} />
-            <span>{isKorean ? '돌아가기' : 'Go Back'}</span>
+            <span>{lang === 'ko-KR' ? '돌아가기' : lang === 'en-US' ? 'Go Back' : ''}</span>
           </Button>
-          <span>{isKorean ? info : enInfo}</span>
+          <span>{lang === 'ko-KR' ? koInfo : lang === 'en-US' ? enInfo : ''}</span>
         </div>
         <div
           className="tw-flex tw-flex-row tw-w-full tw-h-full tw-grid-flow-col tw-p-6 tw-pt-14 tw-items-full tw-gap-x-10 "
@@ -78,7 +78,7 @@ export default function Draw() {
         >
           <LeftGrid camera={camera} geogebra={geogebra} defaultCameraPosition={defalutCamera} />
           <RightGrid
-            text={text}
+            koText={koText}
             enText={enText}
             camera={camera}
             setCamera={setCamera}

@@ -8,24 +8,26 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useEffect, useRef, useState } from 'react';
 import { IoIosArrowBack } from 'react-icons/io';
-import { TemplateInfo } from 'typings';
+import { Lang, TemplateInfo } from 'typings';
 
 import { allTemplates, Default, koreanUniversityScholasticAbilityTest, mockExam } from './items';
 import { modeAtom } from './mode';
-import { isKoreanAtom } from './mode';
+import { langAtom } from './mode';
 import styles from './select.module.css';
 
 export default function Select() {
   const mode = useAtomValue(modeAtom);
-  const [isKorean, setIsKorean] = useAtom(isKoreanAtom);
+  const [lang, setLang] = useAtom<Lang>(langAtom);
   const router = useRouter();
   const { isSpeaking, isPaused, isResumed, isEnded, speak, pause, resume, cancel } = useTTS();
   const { startRecordTeachable, stopRecordTeachable, init, detectedWord } = useTensorflow();
 
   const [exText, setExText] = useState(
-    isKorean
+    lang === 'ko-KR'
       ? '원하는 템플릿을 선택하세요. 빈 템플릿를 말하여 빈 템플릿을 선택할 수 있어요. 또는 모의고사를 말한 후 모의고사 문제를 선택해 보세요.'
-      : 'choose your template. You can choose your template using your voice. say go or back to navigate'
+      : lang === 'en-US'
+      ? 'choose your template. You can choose your template using your voice. say go or back to navigate'
+      : ''
   );
 
   useEffect(() => {
@@ -42,17 +44,19 @@ export default function Select() {
   useEffect(() => {
     cancel();
     setExText(
-      isKorean
+      lang === 'ko-KR'
         ? '원하는 템플릿을 선택하세요. 빈 템플릿를 말하여 빈 템플릿을 선택할 수 있어요. 또는 모의고사를 말한 후 모의고사 문제를 선택해 보세요.'
-        : 'choose your template. You can choose your template using your voice. say go or back to navigate'
+        : lang === 'en-US'
+        ? 'choose your template. You can choose your template using your voice. say go or back to navigate'
+        : ''
     );
-  }, [isKorean]);
+  }, [lang]);
 
   useEffect(() => {
     if (mode === 2) {
-      speak(exText, isKorean ? 'ko-KR' : 'en-US');
+      speak(exText, lang);
       const speak_ = setInterval(() => {
-        speak(exText, isKorean ? 'ko-KR' : 'en-US');
+        speak(exText, lang);
       }, 30000);
       return () => {
         clearInterval(speak_);
@@ -79,9 +83,12 @@ export default function Select() {
     const focusedElement = document.activeElement as HTMLElement;
     focusedElement.click();
   };
-  const actionKeys = isKorean
-    ? { left: '앞', right: '뒤', go: '선택' }
-    : { left: 'left', right: 'right', go: 'one' };
+  const actionKeys =
+    lang === 'ko-KR'
+      ? { left: '앞', right: '뒤', go: '선택' }
+      : lang === 'en-US'
+      ? { left: 'left', right: 'right', go: 'one' }
+      : { left: 'left', right: 'right', go: 'one' };
   const actions = {
     [actionKeys.left]: focusNextElement,
     [actionKeys.right]: focusPreviousElement,
@@ -107,7 +114,7 @@ export default function Select() {
             }}
             className={`${styles.box} tw-leading-0.5 tw-whitespace-pre-line`}
           >
-            {isKorean ? item.info : item.enInfo}
+            {lang === 'ko-KR' ? item.koInfo : lang === 'en-US' ? item.enInfo : ''}
           </button>
         ))}
       </div>
@@ -130,19 +137,24 @@ export default function Select() {
         >
           <Link href={'/mode'} className="tw-flex tw-text-black">
             <IoIosArrowBack size={20} />
-            <span>{isKorean ? '돌아가기' : 'Go Back'}</span>
+            <span>{lang === 'ko-KR' ? '돌아가기' : lang === 'en-US' ? 'Go Back' : ''}</span>
           </Link>
         </div>
         <div className="tw-w-full tw-h-7"></div>
         <div className="tw-flex tw-justify-center tw-w-full tw-mt-10 tw-mb-10 tw-text-3xl tw-font-bold">
-          {isKorean ? '템플릿을 선택하세요' : 'Select the template'}
+          {lang === 'ko-KR' ? '템플릿을 선택하세요' : lang === 'en-US' ? 'Select the template' : ''}
         </div>
         <div className="tw-p-10">
           {mode == 2 ? (
-            renderGroup(isKorean ? '전체 템플릿' : 'Template', allTemplates)
+            renderGroup(
+              lang === 'ko-KR' ? '전체 템플릿' : lang === 'en-US' ? 'Template' : '',
+              allTemplates
+            )
           ) : (
             <>
-              <h3 className="tw-mb-2">{isKorean ? '빈 템플릿' : 'Blank template'}</h3>
+              <h3 className="tw-mb-2">
+                {lang === 'ko-KR' ? '빈 템플릿' : lang === 'en-US' ? 'Blank template' : ''}
+              </h3>
               <div className={styles.group}>
                 <button
                   onClick={() => {
@@ -150,10 +162,12 @@ export default function Select() {
                   }}
                   className={`${styles.box} tw-leading-0.5 tw-whitespace-pre-line`}
                 >
-                  {isKorean ? Default.info : Default.enInfo}
+                  {lang === 'ko-KR' ? Default.koInfo : lang === 'en-US' ? Default.enInfo : ''}
                 </button>
               </div>
-              <h3 className="tw-mb-2">{isKorean ? '모의고사' : 'Mock exam'}</h3>
+              <h3 className="tw-mb-2">
+                {lang === 'ko-KR' ? '모의고사' : lang === 'en-US' ? 'Mock exam' : ''}
+              </h3>
               <div className={styles.group}>
                 {mockExam.map((item, index) => (
                   <button
@@ -163,11 +177,13 @@ export default function Select() {
                     }}
                     className={`${styles.box} tw-leading-0.5 tw-whitespace-pre-line`}
                   >
-                    {isKorean ? item.info : item.enInfo}
+                    {lang === 'ko-KR' ? item.koInfo : lang === 'en-US' ? item.enInfo : ''}
                   </button>
                 ))}
               </div>
-              <h3 className="tw-mb-2">{isKorean ? '수능' : 'KSAT'}</h3>
+              <h3 className="tw-mb-2">
+                {lang === 'ko-KR' ? '수능' : lang === 'en-US' ? 'KSAT' : ''}
+              </h3>
               <div className={styles.group}>
                 {koreanUniversityScholasticAbilityTest.map((item, index) => (
                   <button
@@ -177,7 +193,7 @@ export default function Select() {
                     }}
                     className={`${styles.box} tw-leading-0.5 tw-whitespace-pre-line`}
                   >
-                    {isKorean ? item.info : item.enInfo}
+                    {lang === 'ko-KR' ? item.koInfo : lang === 'en-US' ? item.enInfo : ''}
                   </button>
                 ))}
               </div>

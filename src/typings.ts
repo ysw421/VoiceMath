@@ -1,3 +1,5 @@
+export type Lang = 'ko-KR' | 'en-US';
+
 export enum Form {
   Initial,
   Loading,
@@ -36,8 +38,8 @@ export type FormState = {
 
 export type TemplateInfo = {
   name: string;
-  info: string;
-  text: string;
+  koInfo: string;
+  koText: string;
   enInfo: string;
   enText: string;
   geogebra: string;

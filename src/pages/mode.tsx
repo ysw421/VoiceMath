@@ -8,24 +8,30 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { memo, useEffect, useState } from 'react';
+import { Lang } from 'typings';
 
 export const modeAtom = atom<number>(0);
-export const isKoreanAtom = atomWithStorage<boolean>('isKorean', true);
+// export const isKoreanAtom = atomWithStorage<boolean>('isKorean', true);
 
-// todo...
-// export const langAtom = atomWithStorage<'ko-KR' | 'en-En'>('lang', 'ko-KR');
+export const langAtom = atomWithStorage<Lang>('lang', 'en-US');
+
+const modeTtsText = (lang: Lang) => {
+  if (lang === 'ko-KR') {
+    return '당신의 소리를 듣고 있어요. 모드를 선택해 주세요. 모드  하나, 그래프를 볼 수 없어요. 모드  둘, 종이에 필기하기 어려워요. 모드  셋, 말이 정확하지 않아요.';
+  } else if (lang === 'en-US') {
+    return 'I am listening to your voice. Please select a mode. Mode one, I cannot see the graph. Mode two, it is difficult to write on paper. Mode three, the words are not accurate.';
+  }
+  return '';
+};
 
 export default function Mode() {
   const router = useRouter();
   const [gmode, setGmode] = useAtom(modeAtom);
-  const [isKorean, setIsKorean] = useAtom(isKoreanAtom);
+  const [lang, setLang] = useAtom(langAtom);
+  // const [isKorean, setIsKorean] = useAtom(isKoreanAtom);
   const { startRecordTeachable, stopRecordTeachable, init, detectedWord } = useTensorflow();
   const { isSpeaking, isPaused, isResumed, isEnded, speak, pause, resume, cancel } = useTTS();
-  const [exText, setExText] = useState(
-    isKorean
-      ? '당신의 소리를 듣고 있어요. 모드를 선택해 주세요. 모드  하나, 그래프를 볼 수 없어요. 모드  둘, 종이에 필기하기 어려워요. 모드  셋, 말이 정확하지 않아요.'
-      : 'I am listening to your voice. Please select a mode. Mode one, I cannot see the graph. Mode two, it is difficult to write on paper. Mode three, the words are not accurate.'
-  );
+  const [exText, setExText] = useState(modeTtsText(lang));
 
   useEffect(() => {
     cancel();
@@ -56,17 +62,13 @@ export default function Mode() {
 
   useEffect(() => {
     cancel();
-    setExText(
-      isKorean
-        ? '당신의 소리를 듣고 있어요. 모드를 선택해 주세요. 모드  하나, 그래프를 볼 수 없어요. 모드  둘, 종이에 필기하기 어려워요. 모드  셋, 말이 정확하지 않아요.'
-        : "I am listening to your voice. Please select a mode. Mode one, I cannot see. Mode two, it's difficult for me to write on paper. Mode three, my words are not accurate."
-    );
-  }, [isKorean]);
+    setExText(modeTtsText(lang));
+  }, [lang]);
 
   useEffect(() => {
-    speak(exText, isKorean ? 'ko-KR' : 'en-US');
+    speak(exText, lang);
     const speak_ = setInterval(() => {
-      speak(exText, isKorean ? 'ko-KR' : 'en-US');
+      speak(exText, lang);
     }, 30000);
     return () => {
       clearInterval(speak_);
@@ -91,9 +93,21 @@ export default function Mode() {
   const Modes = memo(() => (
     <div className="tw-flex tw-w-screen tw-h-auto tw-justify-evenly">
       {[
-        isKorean ? '그래프를 볼 수 없어요' : "I can't see the graph",
-        isKorean ? '종이에 필기하기 어려워요' : 'I find it difficult to take notes',
-        isKorean ? '말이 정확하지 않아요' : 'The words are not precise'
+        lang === 'ko-KR'
+          ? '그래프를 볼 수 없어요'
+          : lang === 'en-US'
+          ? "I can't see the graph"
+          : '',
+        lang === 'ko-KR'
+          ? '종이에 필기하기 어려워요'
+          : lang === 'en-US'
+          ? 'I find it difficult to take notes'
+          : '',
+        lang === 'ko-KR'
+          ? '말이 정확하지 않아요'
+          : lang === 'en-US'
+          ? 'The words are not precise'
+          : ''
       ].map((caption, index) => (
         <ModeSelect
           key={index.toString()}
@@ -111,7 +125,11 @@ export default function Mode() {
   return (
     <div className="tw-flex tw-flex-col tw-h-screen tw-justify-evenly">
       <div className="tw-flex tw-items-center tw-justify-center tw-text-3xl tw-font-bold">
-        {isKorean ? '원하는 모드를 선택하세요' : 'Select the mode you want'}
+        {lang === 'ko-KR'
+          ? '원하는 모드를 선택하세요'
+          : lang === 'en-US'
+          ? 'Select the mode you want'
+          : ''}
       </div>
       <Modes />
       <TTS_box />
