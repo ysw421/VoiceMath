@@ -3,15 +3,13 @@ import { useAtomValue } from 'jotai';
 import { atomWithStorage } from 'jotai/utils';
 import { useCallback, useState } from 'react';
 
-export const ttsVoiceAtom = atomWithStorage<number>('voice_setting', 331);
+export const ttsVoiceKoAtom = atomWithStorage<number>('voice_setting', 331);
 export const ttsVoiceEnAtom = atomWithStorage<number>('voice_settings_en', 1);
 
 export const useTTS = () => {
-  const voiceAtom = useAtomValue(ttsVoiceAtom);
-  const voiceEnAtom = useAtomValue(ttsVoiceEnAtom);
-  const isKorean = useAtomValue(isKoreanAtom);
-  const [text, setText] = useState<string>('hello');
-  const [enText, setEnText] = useState<string>('hello');
+  const voiceAtom = useAtomValue<number>(ttsVoiceKoAtom);
+  const voiceEnAtom = useAtomValue<number>(ttsVoiceEnAtom);
+  const isKorean = useAtomValue<boolean>(isKoreanAtom);
   const [isSpeaking, setIsSpeaking] = useState<boolean>(false);
   const [isPaused, setIsPaused] = useState<boolean>(false);
   const [isResumed, setIsResumed] = useState<boolean>(false);
@@ -21,25 +19,50 @@ export const useTTS = () => {
     const voices = window.speechSynthesis.getVoices();
     return voices;
   };
-  const speak = useCallback(
-    (sentence, lang) => {
-      const msg = new SpeechSynthesisUtterance();
-      msg.text = sentence;
-      // console.log(window.speechSynthesis.getVoices()[0]);
-      // console.log(text);
-      function speak() {
-        console.log('isKorean', isKorean, lang);
-        msg.voice = window.speechSynthesis.getVoices()[lang ? voiceAtom : voiceEnAtom];
-        console.log(window.speechSynthesis.getVoices().length);
-        console.log(msg.voice.name);
-        window.speechSynthesis.speak(msg);
-      }
-      speak();
-      setIsSpeaking(true);
-      setIsEnded(false);
-    },
-    [text]
-  );
+  // const speak = useCallback(
+  //   (sentence: string, lang: 'en-US' | 'ko-KR') => {
+  //     const msg = new SpeechSynthesisUtterance();
+  //     msg.text = sentence;
+  //     // console.log(window.speechSynthesis.getVoices()[0]);
+  //     // console.log(text);
+  //     // function speak() {
+  //     console.log('isKorean', isKorean, lang);
+  //     if (lang === 'ko-KR') {
+  //       msg.voice = window.speechSynthesis.getVoices()[voiceAtom];
+  //     } else if (lang === 'en-US') {
+  //       msg.voice = window.speechSynthesis.getVoices()[voiceEnAtom];
+  //     }
+  //     console.log(window.speechSynthesis.getVoices().length);
+  //     // console.log(msg.voice.name);
+  //     window.speechSynthesis.speak(msg);
+  //     // }
+  //     // speak();
+  //     setIsSpeaking(true);
+  //     setIsEnded(false);
+  //   },
+  //   [text]
+  // );
+
+  const speak = (sentence: string, lang: 'en-US' | 'ko-KR') => {
+    const msg = new SpeechSynthesisUtterance();
+    msg.text = sentence;
+    // console.log(window.speechSynthesis.getVoices()[0]);
+    // console.log(text);
+    // function speak() {
+    console.log('isKorean', isKorean, lang);
+    if (lang === 'ko-KR') {
+      msg.voice = window.speechSynthesis.getVoices()[voiceAtom];
+    } else if (lang === 'en-US') {
+      msg.voice = window.speechSynthesis.getVoices()[voiceEnAtom];
+    }
+    console.log(window.speechSynthesis.getVoices().length);
+    // console.log(msg.voice.name);
+    window.speechSynthesis.speak(msg);
+    // }
+    // speak();
+    setIsSpeaking(true);
+    setIsEnded(false);
+  };
 
   const pause = useCallback(() => {
     function pause() {
@@ -76,8 +99,6 @@ export const useTTS = () => {
   }, []);
 
   return {
-    text,
-    setText,
     isSpeaking,
     isPaused,
     isResumed,

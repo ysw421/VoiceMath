@@ -1,26 +1,32 @@
+import GlobeButton from '@components/GlobeButton';
 import TTS_box from '@components/ttsBox';
 import { useTensorflow } from '@hooks/use-tensorflow';
 import { useTTS } from '@hooks/use-tts';
 import { atom, useAtom } from 'jotai';
+import { atomWithStorage } from 'jotai/utils';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { memo, useEffect, useState } from 'react';
-import { MdLanguage } from 'react-icons/md';
 
 export const modeAtom = atom<number>(0);
-export const isKoreanAtom = atom<boolean>(false);
+export const isKoreanAtom = atomWithStorage<boolean>('isKorean', true);
 
 export default function Mode() {
   const router = useRouter();
   const [gmode, setGmode] = useAtom(modeAtom);
   const [isKorean, setIsKorean] = useAtom(isKoreanAtom);
   const { startRecordTeachable, stopRecordTeachable, init, detectedWord } = useTensorflow();
-  const { text, setText, isSpeaking, isPaused, isResumed, isEnded, speak, pause, resume, cancel } =
-    useTTS();
+  const { isSpeaking, isPaused, isResumed, isEnded, speak, pause, resume, cancel } = useTTS();
+  const [exText, setExText] = useState(
+    isKorean
+      ? '당신의 소리를 듣고 있어요. 모드를 선택해 주세요. 모드  하나, 그래프를 볼 수 없어요. 모드  둘, 종이에 필기하기 어려워요. 모드  셋, 말이 정확하지 않아요.'
+      : 'I am listening to your voice. Please select a mode. Mode one, I cannot see the graph. Mode two, it is difficult to write on paper. Mode three, the words are not accurate.'
+  );
+
   useEffect(() => {
-    console.log('isKorean on mode', isKorean);
-    init('http://localhost:3000/static/tensorflowmodel-mode-eng/')
+    cancel();
+    init('') // URL
       .then(() => {
         console.log('Init completed. Starting to record...'); // Added for debugging
         startRecordTeachable();
@@ -29,18 +35,14 @@ export default function Mode() {
         console.error('An error occurred:', error); // Added for error logging
       });
   }, []);
+
   useEffect(() => {
-    const wordToGModeMap: { [key: string]: number } = isKorean
-      ? {
-          하나: 0,
-          둘: 1,
-          셋: 2
-        }
-      : {
-          one: 0,
-          two: 1,
-          three: 3
-        };
+    const wordToGModeMap: { [key: string]: number } = {
+      하나: 0,
+      둘: 1,
+      셋: 2
+    };
+
     if (wordToGModeMap.hasOwnProperty(detectedWord)) {
       stopRecordTeachable();
       console.log(detectedWord);
@@ -49,18 +51,23 @@ export default function Mode() {
     }
   }, [detectedWord]);
 
-  const [exText, setExText] = useState(
-    isKorean
-      ? '당신의 소리를 듣고 있어요. 모드를 선택해 주세요. 모드  일 종이에 필기하기 어려워요. 모드  이, 그래프를 볼 수 없어요 . 모드  삼, 말이 정확하지 않아요.'
-      : 'I am listening to your voice. Please select a mode. first mode, I cannot see the graph. second mode, it is difficult to write on paper. third mode, the words are not accurate.'
-  );
-
   useEffect(() => {
     cancel();
-    const timeout = setTimeout(() => {
-      speak(exText, isKorean);
-    }, 5000);
-    return () => clearTimeout(timeout);
+    setExText(
+      isKorean
+        ? '당신의 소리를 듣고 있어요. 모드를 선택해 주세요. 모드  하나, 그래프를 볼 수 없어요. 모드  둘, 종이에 필기하기 어려워요. 모드  셋, 말이 정확하지 않아요.'
+        : "I am listening to your voice. Please select a mode. Mode one, I cannot see. Mode two, it's difficult for me to write on paper. Mode three, my words are not accurate."
+    );
+  }, [isKorean]);
+
+  useEffect(() => {
+    speak(exText, isKorean ? 'ko-KR' : 'en-US');
+    const speak_ = setInterval(() => {
+      speak(exText, isKorean ? 'ko-KR' : 'en-US');
+    }, 30000);
+    return () => {
+      clearInterval(speak_);
+    };
   }, [exText]);
 
   // eslint-disable-next-line react/display-name
@@ -81,9 +88,9 @@ export default function Mode() {
   const Modes = memo(() => (
     <div className="tw-flex tw-w-screen tw-h-auto tw-justify-evenly">
       {[
-        isKorean ? '하나: 종이에 필기하기 어려워요' : 'one: I find it difficult to take notes',
-        isKorean ? '둘: 그래프를 볼 수 없어요 ' : "two: I can't see the graph",
-        isKorean ? '셋: 말이 정확하지 않아요' : 'three: The words are not precise'
+        isKorean ? '그래프를 볼 수 없어요' : "I can't see the graph",
+        isKorean ? '종이에 필기하기 어려워요' : 'I find it difficult to take notes',
+        isKorean ? '말이 정확하지 않아요' : 'The words are not precise'
       ].map((caption, index) => (
         <ModeSelect
           key={index.toString()}
@@ -94,6 +101,10 @@ export default function Mode() {
       ))}
     </div>
   ));
+
+  useEffect(() => {
+    window.speechSynthesis.getVoices();
+  }, []);
   return (
     <div className="tw-flex tw-flex-col tw-h-screen tw-justify-evenly">
       <div className="tw-flex tw-items-center tw-justify-center tw-text-3xl tw-font-bold">
@@ -101,9 +112,7 @@ export default function Mode() {
       </div>
       <Modes />
       <TTS_box />
-      <div className="tw-absolute tw-top-3 tw-right-3" onClick={() => setIsKorean((e) => !e)}>
-        <MdLanguage size={30} />
-      </div>
+      <GlobeButton />
     </div>
   );
 }

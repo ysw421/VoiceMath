@@ -16,18 +16,7 @@ const LeftGrid = dynamic(() => import('@components/LeftGrid'));
 const RightGrid = dynamic(() => import('@components/RightGrid.client'));
 
 export default function Draw() {
-  const {
-    text: ttsText,
-    setText,
-    isSpeaking,
-    isPaused,
-    isResumed,
-    isEnded,
-    speak,
-    pause,
-    resume,
-    cancel
-  } = useTTS();
+  const { isSpeaking, isPaused, isResumed, isEnded, speak, pause, resume, cancel } = useTTS();
   const [isKorean, setIsKorean] = useAtom(isKoreanAtom);
 
   const router = useRouter();

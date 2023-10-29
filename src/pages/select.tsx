@@ -19,9 +19,15 @@ export default function Select() {
   const mode = useAtomValue(modeAtom);
   const [isKorean, setIsKorean] = useAtom(isKoreanAtom);
   const router = useRouter();
-  const { text, setText, isSpeaking, isPaused, isResumed, isEnded, speak, pause, resume, cancel } =
-    useTTS();
+  const { isSpeaking, isPaused, isResumed, isEnded, speak, pause, resume, cancel } = useTTS();
   const { startRecordTeachable, stopRecordTeachable, init, detectedWord } = useTensorflow();
+
+  const [exText, setExText] = useState(
+    isKorean
+      ? '원하는 템플릿을 선택하세요. 빈 템플릿를 말하여 빈 템플릿을 선택할 수 있어요. 또는 모의고사를 말한 후 모의고사 문제를 선택해 보세요.'
+      : 'choose your template. You can choose your template using your voice. say go or back to navigate'
+  );
+
   useEffect(() => {
     init('http://localhost:3000/static/tensorflowmodel-draw-eng/')
       .then(() => {
@@ -35,17 +41,22 @@ export default function Select() {
 
   useEffect(() => {
     cancel();
+    setExText(
+      isKorean
+        ? '원하는 템플릿을 선택하세요. 빈 템플릿를 말하여 빈 템플릿을 선택할 수 있어요. 또는 모의고사를 말한 후 모의고사 문제를 선택해 보세요.'
+        : 'choose your template. You can choose your template using your voice. say go or back to navigate'
+    );
   }, [isKorean]);
-
-  const [exText, setExText] = useState(
-    isKorean
-      ? '원하는 템플릿을 선택하세요. 빈 템플릿를 말하여 빈 템플릿을 선택할 수 있어요. 또는 모의고사를 말한 후 모의고사 문제를 선택해 보세요.'
-      : 'choose your template. You can choose your template using your voice. say go or back to navigate'
-  );
 
   useEffect(() => {
     if (mode === 2) {
-      speak(exText, isKorean);
+      speak(exText, isKorean ? 'ko-KR' : 'en-US');
+      const speak_ = setInterval(() => {
+        speak(exText, isKorean ? 'ko-KR' : 'en-US');
+      }, 30000);
+      return () => {
+        clearInterval(speak_);
+      };
     }
   }, [exText]);
 

@@ -1,16 +1,16 @@
 import Button from '@components/Button';
-import { ttsVoiceAtom, ttsVoiceEnAtom, useTTS } from '@hooks/use-tts';
+import { ttsVoiceEnAtom, ttsVoiceKoAtom, useTTS } from '@hooks/use-tts';
 import { useAtom } from 'jotai';
 import { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
 
 export default function TTS_setting() {
-  const [voiceAtom, setVoiceAtom] = useAtom(ttsVoiceAtom);
+  const [voiceKoAtom, setVoiceKoAtom] = useAtom(ttsVoiceKoAtom);
   const [voiceEnAtom, setVoiceEnAtom] = useAtom(ttsVoiceEnAtom);
-  const { getVoices, speak, setText } = useTTS();
+  const { getVoices, speak } = useTTS();
   const [voice, setVoice] = useState<number>(0);
-  const [inputValue, setInputValue] = useState<number>(voiceAtom);
-  const [inputEnValue, setInputEnValue] = useState<number>(voiceAtom);
+  const [inputValue, setInputValue] = useState<number>(voiceKoAtom);
+  const [inputEnValue, setInputEnValue] = useState<number>(voiceKoAtom);
 
   const [voiceList, setVoiceList] = useState<string>('');
   const handleShowList = () => {
@@ -23,8 +23,7 @@ export default function TTS_setting() {
   };
 
   useEffect(() => {
-    setInputValue(voiceAtom);
-    setText('안녕하세요 hello world');
+    setInputValue(voiceKoAtom);
   }, []);
 
   return (
@@ -41,7 +40,7 @@ export default function TTS_setting() {
           />
           <Button
             onClick={() => {
-              setVoiceAtom(inputValue);
+              setVoiceKoAtom(inputValue);
               Swal.fire({
                 title: '설정!!',
                 html: '설정 되었습니다.',
@@ -55,7 +54,7 @@ export default function TTS_setting() {
           </Button>
         </div>
         {`<=== 이 곳에 id를 입력하여 목소리 설정.`}
-        <p>현재 설정... {voiceAtom}</p>
+        <p>현재 설정... {voiceKoAtom}</p>
         <br />
         <br />
         <br />
@@ -84,11 +83,12 @@ export default function TTS_setting() {
           </Button>
         </div>
         {`<=== 이 곳에 id를 입력하여 목소리 설정.`}
+        <p>현재 설정... {voiceEnAtom}</p>
         <br />
         <br />
         <br />
         <p>
-          현재 설정... {voiceAtom}, {voiceEnAtom}
+          현재 설정... {voiceKoAtom}, {voiceEnAtom}
         </p>
         <pre>
           {`테스트... 테스트 문구는 '안녕하세요 hello world'
@@ -96,8 +96,8 @@ export default function TTS_setting() {
 '안녕하세요'출력 안될 경우 한글 사용 불가
 edge의 177: Microsoft InJoon Online (Natural) - Korean (Korea) 178: Microsoft SunHi Online (Natural) - Korean (Korea) 사용 적극 권장`}
         </pre>
-        <Button onClick={() => speak()}>테스트</Button>
-        <Button onClick={() => speak()}>영어 테스트</Button>
+        <Button onClick={() => speak('안녕하세요 hello world', 'ko-KR')}>테스트</Button>
+        <Button onClick={() => speak('안녕하세요 hello world', 'en-US')}>영어 테스트</Button>
         <div className="tw-h-16"></div>
       </div>
       <p>{`아래 버튼을 클릭하여 사용 가능한 목소리 확인...
