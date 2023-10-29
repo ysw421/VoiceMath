@@ -12,6 +12,9 @@ import { memo, useEffect, useState } from 'react';
 export const modeAtom = atom<number>(0);
 export const isKoreanAtom = atomWithStorage<boolean>('isKorean', true);
 
+// todo...
+// export const langAtom = atomWithStorage<'ko-KR' | 'en-En'>('lang', 'ko-KR');
+
 export default function Mode() {
   const router = useRouter();
   const [gmode, setGmode] = useAtom(modeAtom);
