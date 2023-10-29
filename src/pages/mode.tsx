@@ -92,19 +92,19 @@ export default function Mode() {
     <div className="tw-flex tw-w-screen tw-h-auto tw-justify-evenly">
       {[
         lang === 'ko-KR'
-          ? '그래프를 볼 수 없어요'
+          ? '하나: 그래프를 볼 수 없어요'
           : lang === 'en-US'
-          ? "I can't see the graph"
+          ? "one: I can't see the graph"
           : '',
         lang === 'ko-KR'
-          ? '종이에 필기하기 어려워요'
+          ? '둘: 종이에 필기하기 어려워요'
           : lang === 'en-US'
-          ? 'I find it difficult to take notes'
+          ? 'two: I find it difficult to take notes'
           : '',
         lang === 'ko-KR'
-          ? '말이 정확하지 않아요'
+          ? '셋: 말이 정확하지 않아요'
           : lang === 'en-US'
-          ? 'The words are not precise'
+          ? 'three: The words are not precise'
           : ''
       ].map((caption, index) => (
         <ModeSelect
