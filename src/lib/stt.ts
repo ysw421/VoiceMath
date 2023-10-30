@@ -1,11 +1,10 @@
 export default async function stt(blob: Blob) {
   try {
     const response = await fetch(
-      'https://gakzf5o0h1gg4ky0.us-east-1.aws.endpoints.huggingface.cloud',
+      'https://api-inference.huggingface.co/models/hoonsung/CodeFairModel_asdf',
       {
         headers: {
-          Authorization: 'Bearer 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',
-          'Content-Type': blob.type
+          Authorization: 'Bearer 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'
         },
         method: 'POST',
         body: blob

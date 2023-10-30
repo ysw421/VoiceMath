@@ -45,8 +45,7 @@ export default function RightGrid({
     console.log(newSentence_Latex);
     setLatexSentences((prevSentences) => [...prevSentences, newSentence_Latex]);
   };
-  const [isPressingQ, setIsPressingQ] = useState(false);
-
+  const [timer, setTimer] = useState(7);
   function MoveBtn({ newPoint, text }: { newPoint: Point; text: string }) {
     return (
       <Button
@@ -59,18 +58,31 @@ export default function RightGrid({
   }
   const { status, startRecording, stopRecording, mediaBlobUrl } = useReactMediaRecorder({
     audio: true,
+    onStart: () => {
+      setTimer(7);
+    },
     onStop: (blobUrl, blob) => {
       console.log('Blob: ', blob);
       handlestt(blob);
     }
   });
+  useEffect(() => {
+    if (timer > 0 && !isListening) {
+      const id = setInterval(() => {
+        setTimer(timer - 1);
+      }, 1000);
+      return () => {
+        clearInterval(id);
+      };
+    }
+  }, [timer, isListening]);
   function startCodeFairModel() {
     if (isListening) {
       stopRecordTeachable().then(() => {
         startRecording();
         const id = setInterval(() => {
           stopRecording();
-        }, 10000);
+        }, 7000);
         return () => {
           clearInterval(id);
         };
@@ -86,33 +98,6 @@ export default function RightGrid({
       .catch((error) => {
         console.error('An error occurred:', error); // Added for error logging
       });
-  }, []);
-
-  useEffect(() => {
-    const isListening_ = isListening;
-    const handleKeyDown = (event: any) => {
-      if (event.key === 'q' && isListening_) {
-        console.log('q is pressed');
-        setIsPressingQ(true);
-        startRecording();
-      }
-    };
-
-    const handleKeyUp = (event: any) => {
-      if (event.key === 'q' && !isListening_) {
-        console.log('q is released');
-        setIsPressingQ(false);
-        stopRecording();
-      }
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-    window.addEventListener('keyup', handleKeyUp);
-
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-      window.removeEventListener('keyup', handleKeyUp);
-    };
   }, []);
 
   const clearLatex = () => setLatexSentences([]);
@@ -185,13 +170,14 @@ export default function RightGrid({
             <Button onClick={startCodeFairModel} disabled={!isListening}>
               {!isListening
                 ? isKorean
-                  ? '10초간 말하세요!'
-                  : 'Talk for 10 seconds!'
+                  ? '7초간 말하세요!'
+                  : 'Talk for 7 seconds!'
                 : isKorean
                 ? '음성으로 입력하세요!'
                 : 'Input using your voice!'}
             </Button>
           </div>
+          {timer}
         </div>
       </div>
       <div className="tw-flex tw-flex-row-reverse tw-items-end tw-w-full tw-gap-x-4">
