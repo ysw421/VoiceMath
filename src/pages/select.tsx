@@ -23,7 +23,7 @@ export default function Select() {
     useTTS();
   const { startRecordTeachable, stopRecordTeachable, init, detectedWord } = useTensorflow();
   useEffect(() => {
-    init()
+    init('http://localhost:3000/static/tensorflowmodel-draw-eng/')
       .then(() => {
         console.log('Init completed. Starting to record...'); // Added for debugging
         startRecordTeachable();
