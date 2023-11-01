@@ -22,6 +22,7 @@ export default async function stt(blob: Blob) {
       throw new Error('Received data is not a string');
     }
 
+    console.log(text);
     const dialogResponse = await fetch('/api/dialogflow', {
       method: 'POST',
       body: JSON.stringify({

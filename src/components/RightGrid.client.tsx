@@ -2,7 +2,7 @@ import 'katex/dist/katex.min.css';
 
 import { useTensorflow } from '@hooks/use-tensorflow';
 import { evalCommandGetLabels, getLaTeXString, reset } from '@lib/commands';
-import geogebraCommand from '@lib/geogebraCommand';
+import dialogflowToGeogebraCommand from '@lib/dialogflow-to-geogebra-command';
 import stt from '@lib/stt';
 import { isKoreanAtom } from '@pages/mode';
 import { useAtom } from 'jotai';
@@ -130,10 +130,7 @@ export default function RightGrid({
   function handlestt(blob: Blob) {
     console.log('Blob recieved');
     stt(blob).then((dialog: JSON) => {
-      const objLatex = geogebraCommand(dialog);
-      if (objLatex.labels) AddLatexSentence(objLatex.labels[0]);
-      else if (objLatex.StringValue) AddLatexSentence(objLatex.StringValue);
-      else alert(isKorean ? '다시 말하실 수 있을까요?' : 'Can you try again?');
+      AddLatexSentence(dialogflowToGeogebraCommand(dialog));
       startRecordTeachable();
     });
   }

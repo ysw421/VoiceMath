@@ -49,6 +49,10 @@ export function drawLine(point1: Point, point2: Point) {
   if (hasLoaded()) window.ggbApplet.evalCommand(`Line(${point1.toString()}, ${point2.toString()})`);
 }
 
+export function drawPoint(point1: Point) {
+  if (hasLoaded()) window.ggbApplet.evalCommand(`Point(${point1.toString()})`);
+}
+
 export function drawSegment(point1: Point, point2: Point) {
   if (hasLoaded())
     window.ggbApplet.evalCommand(`Segment(${point1.toString()}, ${point2.toString()})`);
