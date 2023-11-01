@@ -20,7 +20,7 @@ export default function Mode() {
     useTTS();
   useEffect(() => {
     console.log('isKorean on mode', isKorean);
-    init()
+    init('http://localhost:3000/static/tensorflowmodel-mode-eng/')
       .then(() => {
         console.log('Init completed. Starting to record...'); // Added for debugging
         startRecordTeachable();
