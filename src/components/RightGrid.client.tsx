@@ -90,7 +90,7 @@ export default function RightGrid({
     }
   }
   useEffect(() => {
-    init()
+    init('http://localhost:3000/static/tensorflowmodel-draw-eng/')
       .then(() => {
         console.log('Init completed. Starting to record...'); // Added for debugging
         startRecordTeachable();

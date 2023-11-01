@@ -1,23 +1,18 @@
 import '@tensorflow/tfjs';
 
-import { isKoreanAtom } from '@pages/mode';
 import * as speechCommands from '@tensorflow-models/speech-commands';
-import { useAtom } from 'jotai/index';
 import { useRef, useState } from 'react';
 
 export function useTensorflow() {
-  const [isKorean, setIsKorean] = useAtom(isKoreanAtom);
   const [detectedWord, setDetectedWord] = useState<string>('');
   const recognizer = useRef<speechCommands.SpeechCommandRecognizer>();
   const [isListening, setisListening] = useState<boolean>(false);
-  const init = async () => {
-    const URL = 'http://localhost:3000/static/tensorflowmodel-draw-eng/';
+  const init = async (URL: string) => {
     try {
       console.log('Init: Starting to load recognizer...');
       const checkpointURL = URL + 'model.json';
       const metadataURL = URL + 'metadata.json';
       var newRecognizer;
-      console.log('isKorean on use-tensorflow', isKorean);
       newRecognizer = speechCommands.create('BROWSER_FFT', undefined, checkpointURL, metadataURL);
       await newRecognizer.ensureModelLoaded();
       console.log(newRecognizer.wordLabels());
@@ -44,7 +39,6 @@ export function useTensorflow() {
         async (result: any) => {
           const words = recognizer.current?.wordLabels();
           const highestScoreIndex = result.scores.indexOf(Math.max(...result.scores));
-          console.log(result);
           if (words) await setDetectedWord(words[highestScoreIndex]);
           Promise.resolve();
         },
