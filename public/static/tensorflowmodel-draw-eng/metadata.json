@@ -1,6 +1,6 @@
 {
   "tfjsSpeechCommandsVersion": "0.4.0",
   "modelName": "TMv2",
-  "timeStamp": "2023-10-30T11:13:18.653Z",
+  "timeStamp": "2023-11-01T09:45:37.277Z",
   "wordLabels": ["Background Noise", "clear", "down", "go", "left", "right", "up"]
 }
