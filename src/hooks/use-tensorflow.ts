@@ -8,6 +8,7 @@ export function useTensorflow() {
   const recognizer = useRef<speechCommands.SpeechCommandRecognizer>();
   const [isListening, setisListening] = useState<boolean>(false);
   const init = async (URL: string) => {
+    aa;
     try {
       console.log('Init: Starting to load recognizer...');
       const checkpointURL = URL + 'model.json';
