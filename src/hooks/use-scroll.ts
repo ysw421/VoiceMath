@@ -19,7 +19,7 @@ export function useScroll() {
   const [scrollDirection, setScrollDirection] = useState<'up' | 'down'>();
 
   useEffect(() => {
-    const listener = (e: any) => {
+    const listener = () => {
       setBodyOffset(document.body.getBoundingClientRect());
       setScrollY(bodyOffset?.top ? -bodyOffset?.top : 0);
       setScrollX(bodyOffset?.left);

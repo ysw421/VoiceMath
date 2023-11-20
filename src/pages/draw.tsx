@@ -5,7 +5,7 @@ import GlobeButton from '@components/GlobeButton';
 import { useTTS } from '@hooks/use-tts';
 import { moveCamera, zoomCamera } from '@lib/commands';
 import { langAtom } from '@pages/mode';
-import { useAtom } from 'jotai';
+import { useAtomValue } from 'jotai';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
@@ -16,8 +16,10 @@ const LeftGrid = dynamic(() => import('@components/LeftGrid'));
 const RightGrid = dynamic(() => import('@components/RightGrid.client'));
 
 export default function Draw() {
-  const { isSpeaking, isPaused, isResumed, isEnded, speak, pause, resume, cancel } = useTTS();
-  const [lang, setLang] = useAtom<Lang>(langAtom);
+  // const { isSpeaking, isPaused, isResumed, isEnded, speak, pause, resume, cancel } = useTTS();
+  // const [lang, setLang] = useAtom<Lang>(langAtom);
+  const { cancel } = useTTS();
+  const lang = useAtomValue<Lang>(langAtom);
 
   const router = useRouter();
   let { koText, enText, geogebra, name, defaultCameraPosition, isDefalut, koInfo, enInfo, answer } =

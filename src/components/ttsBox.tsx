@@ -1,4 +1,4 @@
-import { useAtom } from 'jotai';
+import { useAtomValue } from 'jotai';
 import { useEffect, useState } from 'react';
 import { FaAssistiveListeningSystems } from 'react-icons/fa';
 
@@ -7,7 +7,7 @@ import { Lang } from '../typings';
 
 export default function TTS_box() {
   const [textAnimation, setTextAnimation] = useState('');
-  const [lang, setLang] = useAtom<Lang>(langAtom);
+  const lang = useAtomValue<Lang>(langAtom);
 
   useEffect(() => {
     let count = 0;

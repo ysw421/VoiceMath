@@ -62,7 +62,7 @@ export async function reset(point: Point) {
 }
 
 // Not working!
-export function undo() {
-  // if (hasLoaded()) window.ggbApplet.registerClientListener();
-  // if (hasLoaded()) window.ggbApplet.undo();
-}
+// export function undo() {
+//   if (hasLoaded()) window.ggbApplet.registerClientListener();
+//   if (hasLoaded()) window.ggbApplet.undo();
+// }

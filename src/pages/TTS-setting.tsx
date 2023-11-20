@@ -8,7 +8,6 @@ export default function TTS_setting() {
   const [voiceKoAtom, setVoiceKoAtom] = useAtom(ttsVoiceKoAtom);
   const [voiceEnAtom, setVoiceEnAtom] = useAtom(ttsVoiceEnAtom);
   const { getVoices, speak } = useTTS();
-  const [voice, setVoice] = useState<number>(0);
   const [inputValue, setInputValue] = useState<number>(voiceKoAtom);
   const [inputEnValue, setInputEnValue] = useState<number>(voiceKoAtom);
 

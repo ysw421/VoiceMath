@@ -2,7 +2,7 @@ import GlobeButton from '@components/GlobeButton';
 import TTS_box from '@components/ttsBox';
 import { useTensorflow } from '@hooks/use-tensorflow';
 import { useTTS } from '@hooks/use-tts';
-import { atom, useAtom } from 'jotai';
+import { atom, useAtomValue, useSetAtom } from 'jotai';
 import { atomWithStorage } from 'jotai/utils';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -24,11 +24,12 @@ const modeTtsText = (lang: Lang) => {
 
 export default function Mode() {
   const router = useRouter();
-  const [gmode, setGmode] = useAtom(modeAtom);
-  const [lang, setLang] = useAtom(langAtom);
-  // const [isKorean, setIsKorean] = useAtom(isKoreanAtom);
+  const setGmode = useSetAtom(modeAtom);
+  const lang = useAtomValue(langAtom);
   const { startRecordTeachable, stopRecordTeachable, init, detectedWord } = useTensorflow();
-  const { isSpeaking, isPaused, isResumed, isEnded, speak, pause, resume, cancel } = useTTS();
+  // const [isKorean, setIsKorean] = useAtom(isKoreanAtom);
+  // const { isSpeaking, isPaused, isResumed, isEnded, speak, pause, resume, cancel } = useTTS();
+  const { speak, cancel } = useTTS();
   const [exText, setExText] = useState(modeTtsText(lang));
 
   useEffect(() => {
@@ -120,6 +121,7 @@ export default function Mode() {
   useEffect(() => {
     window.speechSynthesis.getVoices();
   }, []);
+
   return (
     <div className="tw-flex tw-flex-col tw-h-screen tw-justify-evenly">
       <div className="tw-flex tw-items-center tw-justify-center tw-text-3xl tw-font-bold">

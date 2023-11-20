@@ -5,7 +5,7 @@ import { evalCommandGetLabels, getLaTeXString, reset } from '@lib/commands';
 import geogebraCommand from '@lib/geogebraCommand';
 import stt from '@lib/stt';
 import { langAtom } from '@pages/mode';
-import { useAtom } from 'jotai';
+import { useAtomValue } from 'jotai';
 import React, { useEffect, useState } from 'react';
 import Latex from 'react-latex-next';
 import { useReactMediaRecorder } from 'react-media-recorder';
@@ -36,7 +36,7 @@ export default function RightGrid({
 }) {
   const [command, setCommand] = useState('');
   const [answer, setAnswer] = useState('');
-  const [lang, setLang] = useAtom(langAtom);
+  const lang = useAtomValue(langAtom);
   const [latexSentences, setLatexSentences] = useState<string[]>(['']);
   const { isListening, detectedWord, init, stopRecordTeachable, startRecordTeachable } =
     useTensorflow();

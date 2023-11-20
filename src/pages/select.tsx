@@ -2,8 +2,8 @@ import GlobeButton from '@components/GlobeButton';
 import TTS_box from '@components/ttsBox';
 import { useTensorflow } from '@hooks/use-tensorflow';
 import { useTTS } from '@hooks/use-tts';
+import styles from '@styles/select.module.css';
 import { useAtomValue } from 'jotai';
-import { useAtom } from 'jotai';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useEffect, useRef, useState } from 'react';
@@ -13,14 +13,15 @@ import { Lang, TemplateInfo } from 'typings';
 import { allTemplates, Default, koreanUniversityScholasticAbilityTest, mockExam } from './items';
 import { modeAtom } from './mode';
 import { langAtom } from './mode';
-import styles from './select.module.css';
 
 export default function Select() {
   const mode = useAtomValue(modeAtom);
-  const [lang, setLang] = useAtom<Lang>(langAtom);
+  const lang = useAtomValue<Lang>(langAtom);
   const router = useRouter();
-  const { isSpeaking, isPaused, isResumed, isEnded, speak, pause, resume, cancel } = useTTS();
-  const { startRecordTeachable, stopRecordTeachable, init, detectedWord } = useTensorflow();
+  const { speak, cancel } = useTTS();
+  const { startRecordTeachable, init, detectedWord } = useTensorflow();
+  // const { isSpeaking, isPaused, isResumed, isEnded, speak, pause, resume, cancel } = useTTS();
+  // const { startRecordTeachable, stopRecordTeachable, init, detectedWord } = useTensorflow();
 
   const [exText, setExText] = useState(
     lang === 'ko-KR'

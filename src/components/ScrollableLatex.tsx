@@ -1,16 +1,15 @@
 import 'katex/dist/katex.min.css';
 
+import styles from '@styles/ScrollableLatex.module.css';
 import React, { useEffect, useRef } from 'react';
 import Latex from 'react-latex-next';
-
-import styles from './ScrollableLatex.module.css';
 
 interface ScrollableLatexProps {
   latexSentences: string[];
 }
 
 const ScrollableLatex: React.FC<ScrollableLatexProps> = ({ latexSentences }) => {
-  const containerRef = useRef<HTMLDivElement>(null);
+  // const containerRef = useRef<HTMLDivElement>(null);
   const scrollRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {

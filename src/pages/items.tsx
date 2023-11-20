@@ -1,4 +1,5 @@
 import { TemplateInfo } from 'typings';
+
 const Default: TemplateInfo = {
   type: 'Default',
   name: 'Default',
@@ -113,5 +114,6 @@ const koreanUniversityScholasticAbilityTest: TemplateInfo[] = [
     // 2020 고3 10월 17번
   }
 ];
+
 const allTemplates = [Default, ...mockExam, ...koreanUniversityScholasticAbilityTest];
 export { allTemplates, Default, koreanUniversityScholasticAbilityTest, mockExam };
