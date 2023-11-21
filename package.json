@@ -7,6 +7,7 @@
     "os": false,
     "path": false
   },
+  "main": "electron.tsx",
   "scripts": {
     "start": "NODE_ENV='development' next-remote-watch ./data",
     "dev": "NODE_ENV='development' next dev",
@@ -14,7 +15,8 @@
     "serve": "next start",
     "analyze": "cross-env ANALYZE=true next build",
     "lint": "next lint --fix --dir pages --dir components --dir lib --dir layouts",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "electron": "electron ."
   },
   "dependencies": {
     "@google-cloud/dialogflow": "^5.9.0",
@@ -29,6 +31,7 @@
     "axios": "^0.22.0",
     "classnames": "^2.3.2",
     "date-fns": "^2.30.0",
+    "electron": "^27.1.0",
     "fontfaceobserver": "^2.3.0",
     "fuse.js": "^6.6.2",
     "image-size": "1.0.0",
