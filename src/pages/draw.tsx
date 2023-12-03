@@ -1,7 +1,6 @@
 import 'katex/dist/katex.min.css';
 
 import Button from '@components/Button';
-import GlobeButton from '@components/GlobeButton';
 import { useTTS } from '@hooks/use-tts';
 import { moveCamera, zoomCamera } from '@lib/commands';
 import { langAtom } from '@pages/mode';
@@ -91,7 +90,6 @@ export default function Draw() {
           />
         </div>
       </div>
-      <GlobeButton />
     </>
   );
 }

@@ -9,7 +9,6 @@ import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import { SessionProvider } from 'next-auth/react';
 import { ThemeProvider } from 'next-themes';
-import NextNprogress from 'nextjs-progressbar';
 import React from 'react';
 
 const App = ({ Component, pageProps: { session, ...pageProps } }: AppProps) => {
@@ -22,7 +21,6 @@ const App = ({ Component, pageProps: { session, ...pageProps } }: AppProps) => {
           value={{ dark: 'tw-dark', light: 'tw-light' }}
           disableTransitionOnChange
         >
-          <NextNprogress startPosition={0.3} stopDelayMs={50} height={3} showOnShallow={true} />
           <Head>
             <meta
               name="viewport"
