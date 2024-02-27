@@ -59,7 +59,8 @@ export default function RightGrid({
   function handlestt(blob: Blob) {
     stt(blob).then((dialog: JSON) => {
       console.log('Blob recieved');
-      dialogflowToGeogebraCommand(dialog);
+      const response = dialogflowToGeogebraCommand(dialog);
+      AddLatexSentence(response);
     });
   }
   return (
