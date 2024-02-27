@@ -1,7 +1,7 @@
 import { Point } from 'typings';
 
 function hasLoaded() {
-  return window.ggbApplet ? true : false;
+  return !!window.ggbApplet;
 }
 
 export function evalCommand(str: string) {
@@ -25,6 +25,13 @@ export function evalCommandGetLabels(str: string) {
   if (hasLoaded()) {
     const label = window.ggbApplet.evalCommandGetLabels(str);
     setLabelVisible(label, true);
+    return label;
+  }
+}
+
+export function evalCommandCAS(str: string) {
+  if (hasLoaded()) {
+    const label = window.ggbApplet.evalCommandCAS(str);
     return label;
   }
 }
