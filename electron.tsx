@@ -9,7 +9,7 @@ function createWindow() {
     }
   });
 
-  win.loadURL('http://localhost:3000/mode');
+  win.loadURL('http://localhost:3000');
   // win.loadURL(
   //   url.format({
   //     pathname: path.join(__dirname, './src/pages/mode.tsx'),
