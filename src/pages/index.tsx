@@ -55,7 +55,6 @@ export default function Draw() {
         >
           <LeftGrid camera={camera} geogebra={geogebra} defaultCameraPosition={defalutCamera} />
           <RightGrid
-            koText={koText}
             enText={enText}
             camera={camera}
             setCamera={setCamera}
