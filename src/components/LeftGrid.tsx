@@ -19,7 +19,8 @@ export default function LeftGrid({
     script.onload = function () {
       const parameters = {
         prerelease: false,
-        width: 600,
+        // width: 600,
+        width: window.innerWidth * 0.4,
         showToolBar: false,
         borderColor: false,
         showMenuBar: false,

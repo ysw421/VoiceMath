@@ -1,10 +1,8 @@
 import 'katex/dist/katex.min.css';
 
-import Button from '@components/Button';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import { IoIosArrowBack } from 'react-icons/io';
 import { Point } from 'typings';
 
 const LeftGrid = dynamic(() => import('@components/LeftGrid'));
@@ -40,14 +38,15 @@ export default function Draw() {
     <>
       <div className="tw-relative tw-w-screen tw-h-screen tw-overflow-x-hidden">
         <div className="tw-absolute tw-flex tw-items-center tw-gap-4 tw-px-6 tw-h-14">
-          <Button
+          {/* <Button
             onClick={() => {
               router.push({ pathname: '/select' }, '/select');
             }}
             className="tw-flex tw-p-0"
           >
             <IoIosArrowBack size={20} />
-          </Button>
+          </Button> */}
+          <h1 className="tw-ml-2">VoiceMath</h1>
         </div>
         <div
           className="tw-flex tw-flex-row tw-w-full tw-h-full tw-grid-flow-col tw-p-6 tw-pt-14 tw-items-full tw-gap-x-10 "
