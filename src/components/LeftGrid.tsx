@@ -30,6 +30,9 @@ export default function LeftGrid({
         enableShiftDragZoom: true,
         enableRightClick: false,
         capturingThreshold: null,
+        appletOnLoad: function (api: { evalCommand: (command: string) => void }) {
+          api.evalCommand(`CenterView(${defaultCameraPosition.toString()})`);
+        },
         showToolBarHelp: false,
         errorDialogsActive: true,
         useBrowserForJS: true,
@@ -38,7 +41,7 @@ export default function LeftGrid({
       const applet = new window.GGBApplet('6.0', parameters);
       applet.inject('applet_container');
     };
-  }, [geogebra]);
+  }, [geogebra, defaultCameraPosition]);
 
   useEffect(() => {
     moveCamera(camera);

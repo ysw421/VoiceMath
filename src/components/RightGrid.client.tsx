@@ -53,6 +53,7 @@ export default function RightGrid({
       AddLatexSentence(response);
     });
   }
+
   return (
     <div className="tw-flex tw-flex-col tw-w-full tw-h-full">
       <div className="tw-flex tw-flex-col tw-w-full tw-h-full tw-gap-y-4">
@@ -61,9 +62,17 @@ export default function RightGrid({
           className="tw-flex tw-flex-row tw-items-center tw-w-full"
           onSubmit={(e) => {
             e.preventDefault();
+            if (command === '') return;
+            else if (command === 'clear') {
+              reset(camera);
+              setLatexSentences([]);
+              setCommand('');
+              return;
+            }
             var objLatex = evalCommandGetLabels(command);
             if (objLatex == null) objLatex = command;
             AddLatexSentence(objLatex);
+            setCommand('');
           }}
         >
           <div className="tw-w-full tw-mr-3 tw-h-11">
