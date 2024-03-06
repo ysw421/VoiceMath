@@ -7,8 +7,8 @@ function createWindow() {
     // resizable: false,
     fullscreen: true,
 
-    width: 800,
-    height: 600,
+    width: 1920 * 0.7,
+    height: 1080 * 0.7,
     webPreferences: {
       nodeIntegration: true
     }
