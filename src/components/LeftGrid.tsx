@@ -31,8 +31,6 @@ export default function LeftGrid({
         enableRightClick: false,
         capturingThreshold: null,
         appletOnLoad: function (api: { evalCommand: (command: string) => void }) {
-          console.log(typeof api);
-          console.log(defaultCameraPosition.toString());
           api.evalCommand(`CenterView(${defaultCameraPosition.toString()})`);
         },
         showToolBarHelp: false,
