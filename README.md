@@ -1,14 +1,15 @@
-## VoiceMath
-###### REGENERON ISEF 2024
+# VoiceMath
+##### Korea Code Fair 2023 🥉
+##### REGENERON ISEF 2024
 
-#### Quick Start
+### Quick Start
 ```bash
 # Github CLI
-gh repo clone ysw421/Korea-CodeFair
+gh repo clone ysw421/VoiceMath
 # or
-git clone https://github.com/ysw421/Korea-CodeFair.git
+git clone https://github.com/ysw421/VoiceMath.git
 
-cd Korea-CodeFair
+cd VoiceMath
 pnpm install
 pnpm dev & pnpm electron
 ```
