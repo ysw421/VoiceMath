@@ -13,10 +13,7 @@
     "dev": "NODE_ENV='development' next dev",
     "build": "NODE_ENV='production' next build",
     "serve": "next start",
-    "analyze": "cross-env ANALYZE=true next build",
-    "lint": "next lint --fix --dir pages --dir components --dir lib --dir layouts",
-    "prepare": "husky install",
-    "electron": "electron ."
+    "analyze": "cross-env ANALYZE=true next build"
   },
   "dependencies": {
     "@google-cloud/dialogflow": "^5.9.0",
