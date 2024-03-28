@@ -5,11 +5,13 @@ import { Point } from 'typings';
 export default function LeftGrid({
   geogebra,
   camera,
-  defaultCameraPosition
+  defaultCameraPosition,
+  innerWidthWeight = 0.4
 }: {
   geogebra: string;
   camera: Point;
   defaultCameraPosition: Point;
+  innerWidthWeight: number;
 }) {
   useEffect(() => {
     const script = document.createElement('script');
@@ -20,7 +22,7 @@ export default function LeftGrid({
       const parameters = {
         prerelease: false,
         // width: 600,
-        width: window.innerWidth * 0.4,
+        width: window.innerWidth * innerWidthWeight,
         showToolBar: false,
         borderColor: false,
         showMenuBar: false,

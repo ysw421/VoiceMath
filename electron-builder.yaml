@@ -1,6 +1,6 @@
 appId: 'VoiceMath'
 productName: 'VoiceMath'
-copyright: ''
+copyright: 'Copyright (c) 2024 VoiceMath'
 win:
   target: ['dir', 'portable', 'zip']
   icon: 'resources/icon.ico'

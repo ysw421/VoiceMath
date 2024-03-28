@@ -49,14 +49,14 @@ export default function Draw() {
           <h1 className="tw-ml-2">VoiceMath</h1>
         </div>
         <div
-          className="tw-flex tw-flex-row tw-w-full tw-h-full tw-grid-flow-col tw-p-6 tw-pt-14 tw-items-full tw-gap-x-10 "
+          className="tw-flex tw-flex-col tw-w-full tw-h-full tw-grid-flow-col tw-p-6 tw-pt-14 tw-items-full tw-gap-y-4 "
           // style={{ height: 'calc(100% - 50px)' }}
         >
           <LeftGrid
             camera={camera}
             geogebra={geogebra}
             defaultCameraPosition={defalutCamera}
-            innerWidthWeight={0.4}
+            innerWidthWeight={1}
           />
           <RightGrid
             enText={enText}
