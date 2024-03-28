@@ -28,6 +28,12 @@
     "incremental": true,
     "strictNullChecks": true
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/hooks/use-tts.ts", "electron.js"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "src/hooks/use-tts.ts",
+    "electron/electron.js"
+  ],
   "exclude": ["node_modules"]
 }

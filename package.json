@@ -2,12 +2,25 @@
   "name": "voicemath",
   "version": "v2.1.0",
   "private": true,
+  "description": "A Program To Convert Commonly Spoken Mathematical Speech Into Text",
+  "author": [
+    {
+      "name": "Siwon Yun",
+      "email": "ysw421_@daum.net",
+      "url": "https://www.siwonsw.com"
+    },
+    {
+      "name": "Hoonsunglee Lee",
+      "email": "hoonsunglee5@gmail.com",
+      "url": "https://github.com/hoonsunglee"
+    }
+  ],
   "browser": {
     "fs": false,
     "os": false,
     "path": false
   },
-  "main": "electron.js",
+  "main": "electron/electron.js",
   "scripts": {
     "start": "NODE_ENV='development' next-remote-watch ./data",
     "dev": "NODE_ENV='development' next dev",

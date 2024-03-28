@@ -5,6 +5,33 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { Point } from 'typings';
 
+// const { contextBridge, ipcRenderer } = require('electron');
+
+// contextBridge.exposeInMainWorld('electronAPI', {
+//   on: (channel: any, callback: any) => {
+//     ipcRenderer.on(channel, callback);
+//   },
+//   send: (channel: any, args: any) => {
+//     ipcRenderer.send(channel, args);
+//   }
+// });
+
+// class SomeSpecialError extends Error {}
+
+// const middleware = window.electron ? window.electron.middleware : (fn) => fn();
+
+// try {
+//   await middleware(async function () {
+//     throw new SomeSpecialError();
+//   });
+// } catch (e) {
+//   if (e instanceof SomeSpecialError) {
+//     console.log('works');
+//   } else {
+//     console.log(':-(');
+//   }
+// }
+
 const LeftGrid = dynamic(() => import('@components/LeftGrid'));
 const RightGrid = dynamic(() => import('@components/RightGrid.client'));
 
