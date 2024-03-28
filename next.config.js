@@ -24,8 +24,10 @@ const nextConfig = {
         hostname: '**'
       }
     ],
-    formats: ['image/avif', 'image/webp']
-  }
+    formats: ['image/avif', 'image/webp'],
+    unoptimized: true
+  },
+  output: 'export'
 };
 
 module.exports = () => {
