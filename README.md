@@ -1,6 +1,6 @@
 # VoiceMath
 ##### Korea Code Fair 2023 🥉
-##### REGENERON ISEF 2024
+##### REGENERON ISEF 2024 Finalist
 
 ### Quick Start
 ```bash
@@ -11,7 +11,12 @@ git clone https://github.com/ysw421/VoiceMath.git
 
 cd VoiceMath
 pnpm install
-pnpm dev & pnpm electron
+pnpm build
+./dist/VoiceMath-{version}.AppImage   # run electron
 ```
 
-
+### Settings
+setting file:
+```
+setting-var.js
+```

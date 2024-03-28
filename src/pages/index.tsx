@@ -3,6 +3,7 @@ import 'katex/dist/katex.min.css';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+import { settingVar } from 'setting';
 import { Point } from 'typings';
 
 const LeftGrid = dynamic(() => import('@components/LeftGrid'));
@@ -48,15 +49,40 @@ export default function Draw() {
           </Button> */}
           <h1 className="tw-ml-2">VoiceMath</h1>
         </div>
+        {/* {settingVar.isTopBottomMode ? (
+          <div
+            className="tw-flex tw-flex-col tw-w-full tw-h-full tw-grid-flow-col tw-p-6 tw-pt-14 tw-items-full tw-gap-y-4"
+            // style={{ height: 'calc(100% - 50px)' }}
+          >
+            <LeftGrid
+              camera={camera}
+              geogebra={geogebra}
+              defaultCameraPosition={defalutCamera}
+              innerWidthWeight={1}
+            />
+            <RightGrid
+              enText={enText}
+              camera={camera}
+              setCamera={setCamera}
+              setZoom={setZoom}
+              defalutCamera={defalutCamera}
+              isDefalut={isDefalut_bool}
+              problemAnswer={answer_int}
+            />
+          </div> */}
         <div
-          className="tw-flex tw-flex-row tw-w-full tw-h-full tw-grid-flow-col tw-p-6 tw-pt-14 tw-items-full tw-gap-x-10 "
+          className={
+            settingVar.isTopBottomMode
+              ? 'tw-flex tw-flex-col tw-w-full tw-h-full tw-grid-flow-col tw-p-6 tw-pt-14 tw-items-full tw-gap-y-4'
+              : 'tw-flex tw-flex-row tw-w-full tw-h-full tw-grid-flow-col tw-p-6 tw-pt-14 tw-items-full tw-gap-x-10 '
+          }
           // style={{ height: 'calc(100% - 50px)' }}
         >
           <LeftGrid
             camera={camera}
             geogebra={geogebra}
             defaultCameraPosition={defalutCamera}
-            innerWidthWeight={0.4}
+            innerWidthWeight={settingVar.isTopBottomMode ? 1 : 0.4}
           />
           <RightGrid
             enText={enText}

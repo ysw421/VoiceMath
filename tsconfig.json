@@ -22,7 +22,8 @@
       "@lib/*": ["./src/lib/*"],
       "@styles/*": ["./src/styles/*"],
       "@hooks/*": ["./src/hooks/*"],
-      "@pages/*": ["./src/pages/*"]
+      "@pages/*": ["./src/pages/*"],
+      "setting": ["./setting-var.js"]
     },
     "skipLibCheck": true,
     "incremental": true,
