@@ -1,1 +1,3 @@
-export const settingVar = { isTopBottomMode: false };
+// import { settingVar } from 'setting';
+
+export const settingVar = { isTopBottomMode: true };
