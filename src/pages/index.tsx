@@ -7,7 +7,9 @@ import { settingVar } from 'setting';
 import { Point } from 'typings';
 
 const LeftGrid = dynamic(() => import('@components/LeftGrid'));
-const RightGrid = dynamic(() => import('@components/RightGrid.client'));
+const RightGrid = settingVar.isShowRightGrid
+  ? dynamic(() => import('@components/RightGrid.client'))
+  : null;
 
 export default function Draw() {
   const router = useRouter();
@@ -70,30 +72,48 @@ export default function Draw() {
               problemAnswer={answer_int}
             />
           </div> */}
-        <div
-          className={
-            settingVar.isTopBottomMode
-              ? 'tw-flex tw-flex-col tw-w-full tw-h-full tw-grid-flow-col tw-p-6 tw-pt-14 tw-items-full tw-gap-y-4'
-              : 'tw-flex tw-flex-row tw-w-full tw-h-full tw-grid-flow-col tw-p-6 tw-pt-14 tw-items-full tw-gap-x-10 '
-          }
-          // style={{ height: 'calc(100% - 50px)' }}
-        >
-          <LeftGrid
-            camera={camera}
-            geogebra={geogebra}
-            defaultCameraPosition={defalutCamera}
-            innerWidthWeight={settingVar.isTopBottomMode ? 1 : 0.4}
-          />
-          <RightGrid
-            enText={enText}
-            camera={camera}
-            setCamera={setCamera}
-            setZoom={setZoom}
-            defalutCamera={defalutCamera}
-            isDefalut={isDefalut_bool}
-            problemAnswer={answer_int}
-          />
-        </div>
+        {settingVar.isShowRightGrid && RightGrid ? (
+          <div
+            className={
+              settingVar.isTopBottomMode
+                ? 'tw-flex tw-flex-col tw-w-full tw-h-full tw-grid-flow-col tw-p-6 tw-pt-14 tw-items-full tw-gap-y-4'
+                : 'tw-flex tw-flex-row tw-w-full tw-h-full tw-grid-flow-col tw-p-6 tw-pt-14 tw-items-full tw-gap-x-10 '
+            }
+            // style={{ height: 'calc(100% - 50px)' }}
+          >
+            <LeftGrid
+              camera={camera}
+              geogebra={geogebra}
+              defaultCameraPosition={defalutCamera}
+              innerWidthWeight={settingVar.isTopBottomMode ? 1 : 0.4}
+            />
+            <RightGrid
+              enText={enText}
+              camera={camera}
+              setCamera={setCamera}
+              setZoom={setZoom}
+              defalutCamera={defalutCamera}
+              isDefalut={isDefalut_bool}
+              problemAnswer={answer_int}
+            />
+          </div>
+        ) : (
+          <div
+            className={
+              settingVar.isTopBottomMode
+                ? 'tw-flex tw-flex-col tw-w-full tw-h-full tw-grid-flow-col tw-p-6 tw-pt-14 tw-items-full tw-gap-y-4'
+                : 'tw-flex tw-flex-row tw-w-full tw-h-full tw-grid-flow-col tw-p-6 tw-pt-14 tw-items-full tw-gap-x-10 '
+            }
+            // style={{ height: 'calc(100% - 50px)' }}
+          >
+            <LeftGrid
+              camera={camera}
+              geogebra={geogebra}
+              defaultCameraPosition={defalutCamera}
+              innerWidthWeight={settingVar.isTopBottomMode ? 1 : 0.4}
+            />
+          </div>
+        )}
       </div>
     </>
   );
