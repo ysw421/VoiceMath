@@ -32,19 +32,7 @@ export default async function stt(blob: Blob) {
       throw new Error('Received data is not a string');
     }
     console.log(jsonResponse.text);
-    const text = replaceWords(jsonResponse.text);
-    ``;
-    const dialogResponse = await fetch('/api/dialogflow', {
-      method: 'POST',
-      body: JSON.stringify({
-        query: text
-      })
-    });
-
-    if (!dialogResponse.ok) {
-      throw new Error(`An error occurred: ${dialogResponse.statusText}`);
-    }
-    return await dialogResponse.json();
+    return replaceWords(jsonResponse.text);
   } catch (error) {
     console.error('An error occurred:', error);
     throw error;
