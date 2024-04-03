@@ -1,0 +1,12 @@
+appId: 'VoiceMath'
+productName: 'VoiceMath'
+copyright: 'Copyright (c) 2024 VoiceMath'
+win:
+  target: ['dir', 'portable', 'zip']
+  icon: './public/Logo.png'
+linux:
+  target: ['dir', 'appimage']
+  icon: './public/Logo.png'
+mac:
+  target: ['dir', 'dmg']
+  icon: './public/Logo.png'

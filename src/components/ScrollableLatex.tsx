@@ -19,7 +19,7 @@ const ScrollableLatex: React.FC<ScrollableLatexProps> = ({ latexSentences }) => 
   return (
     <div
       style={{ overflowY: 'scroll' }}
-      className={`tw-p-2 tw-rounded-md tw-border tw-h-3/5 tw-border-gray-300 tw-relative ${styles.scrollBar}`}
+      className={`tw-p-2 tw-h-full tw-rounded-md tw-border tw-border-gray-300 tw-relative ${styles.scrollBar}`}
     >
       {latexSentences.map((sentence, index) => (
         <div key={index} className="tw-mb-2">

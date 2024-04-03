@@ -1,8 +1,11 @@
 # VoiceMath
+
 ##### Korea Code Fair 2023 🥉
+
 ##### REGENERON ISEF 2024 Finalist
 
 ### Quick Start
+
 ```bash
 # Github CLI
 gh repo clone ysw421/VoiceMath
@@ -16,7 +19,9 @@ pnpm build
 ```
 
 ### Settings
+
 setting file:
+
 ```
-setting-var.js
+setting-var.ts
 ```

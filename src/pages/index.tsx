@@ -38,8 +38,9 @@ export default function Draw() {
   return (
     <>
       <div className="tw-relative tw-w-screen tw-h-screen tw-overflow-x-hidden">
-        <div className="tw-absolute tw-flex tw-items-center tw-gap-4 tw-px-6 tw-h-14">
-          {/* <Button
+        {settingVar.isShowLogo && (
+          <div className="tw-absolute tw-flex tw-items-center tw-gap-4 tw-px-6 tw-h-14">
+            {/* <Button
             onClick={() => {
               router.push({ pathname: '/select' }, '/select');
             }}
@@ -47,34 +48,19 @@ export default function Draw() {
           >
             <IoIosArrowBack size={20} />
           </Button> */}
-          <h1 className="tw-ml-2">VoiceMath</h1>
-        </div>
-        {/* {settingVar.isTopBottomMode ? (
-          <div
-            className="tw-flex tw-flex-col tw-w-full tw-h-full tw-grid-flow-col tw-p-6 tw-pt-14 tw-items-full tw-gap-y-4"
-            // style={{ height: 'calc(100% - 50px)' }}
-          >
-            <LeftGrid
-              camera={camera}
-              geogebra={geogebra}
-              defaultCameraPosition={defalutCamera}
-              innerWidthWeight={1}
-            />
-            <RightGrid
-              enText={enText}
-              camera={camera}
-              setCamera={setCamera}
-              setZoom={setZoom}
-              defalutCamera={defalutCamera}
-              isDefalut={isDefalut_bool}
-              problemAnswer={answer_int}
-            />
-          </div> */}
+            <h1 className="tw-ml-2">VoiceMath</h1>
+          </div>
+        )}
         <div
           className={
             settingVar.isTopBottomMode
-              ? 'tw-flex tw-flex-col tw-w-full tw-h-full tw-grid-flow-col tw-p-6 tw-pt-14 tw-items-full tw-gap-y-4'
-              : 'tw-flex tw-flex-row tw-w-full tw-h-full tw-grid-flow-col tw-p-6 tw-pt-14 tw-items-full tw-gap-x-10 '
+              ? 'tw-flex tw-flex-col tw-w-full tw-h-full tw-grid-flow-col tw-p-6 tw-items-full tw-gap-y-4 tw-overflow-hidden'
+              : 'tw-flex tw-flex-row tw-w-full tw-h-full tw-grid-flow-col tw-p-6 tw-items-full tw-gap-x-10 tw-overflow-hidden'
+          }
+          style={
+            settingVar.isShowLogo
+              ? { padding: `${settingVar.screenPaddingSize}rem`, paddingTop: '3.5rem' }
+              : { padding: `${settingVar.screenPaddingSize}rem` }
           }
           // style={{ height: 'calc(100% - 50px)' }}
         >
@@ -84,15 +70,17 @@ export default function Draw() {
             defaultCameraPosition={defalutCamera}
             innerWidthWeight={settingVar.isTopBottomMode ? 1 : 0.4}
           />
-          <RightGrid
-            enText={enText}
-            camera={camera}
-            setCamera={setCamera}
-            setZoom={setZoom}
-            defalutCamera={defalutCamera}
-            isDefalut={isDefalut_bool}
-            problemAnswer={answer_int}
-          />
+          {settingVar.isShowRightGrid && (
+            <RightGrid
+              enText={enText}
+              camera={camera}
+              setCamera={setCamera}
+              setZoom={setZoom}
+              defalutCamera={defalutCamera}
+              isDefalut={isDefalut_bool}
+              problemAnswer={answer_int}
+            />
+          )}
         </div>
       </div>
     </>

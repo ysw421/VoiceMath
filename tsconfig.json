@@ -23,11 +23,12 @@
       "@styles/*": ["./src/styles/*"],
       "@hooks/*": ["./src/hooks/*"],
       "@pages/*": ["./src/pages/*"],
-      "setting": ["./setting-var.js"]
+      "setting": ["setting-var.ts"]
     },
     "skipLibCheck": true,
     "incremental": true,
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "noImplicitAny": true
   },
   "include": [
     "next-env.d.ts",

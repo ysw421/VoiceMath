@@ -43,7 +43,7 @@ export default function LeftGrid({
       const applet = new window.GGBApplet('6.0', parameters);
       applet.inject('applet_container');
     };
-  }, [geogebra, defaultCameraPosition]);
+  }, [geogebra, defaultCameraPosition, innerWidthWeight]);
 
   useEffect(() => {
     moveCamera(camera);
