@@ -1,7 +1,6 @@
 import 'katex/dist/katex.min.css';
 
 import { evalCommandGetLabels, getLaTeXString, reset } from '@lib/commands';
-import dialogflowToGeogebraCommand from '@lib/dialogflowToGeogebraCommand';
 import stt from '@lib/stt';
 import React, { useState } from 'react';
 import { AudioRecorder } from 'react-audio-voice-recorder';
@@ -36,22 +35,9 @@ export default function RightGrid({
     console.log(newSentence_Latex);
     setLatexSentences((prevSentences) => [...prevSentences, newSentence_Latex]);
   };
-
-  // function MoveBtn({ newPoint, text }: { newPoint: Point; text: string }) {
-  //   return (
-  //     <Button
-  //       className="tw-w-32 tw-leading-none tw-whitespace-pre-line"
-  //       onClick={() => setCamera(newPoint)}
-  //     >
-  //       {text}
-  //     </Button>
-  //   );
-  // }
   function handlestt(blob: Blob) {
-    stt(blob).then((dialog: JSON) => {
-      console.log('Blob recieved');
-      const response = dialogflowToGeogebraCommand(dialog);
-      AddLatexSentence(response);
+    stt(blob).then((dialog: string) => {
+      AddLatexSentence(dialog);
     });
   }
 

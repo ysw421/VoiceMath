@@ -22,7 +22,7 @@ interface SettingVarType {
 // Raspberry Pi
 export const settingVar: SettingVarType = {
   isTopBottomMode: true,
-  isShowRightGrid: false,
+  isShowRightGrid: true,
   isShowKeyboardBox: false,
   isShowLogo: false,
   screenPaddingSize: 0
