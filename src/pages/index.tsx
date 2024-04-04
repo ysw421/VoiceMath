@@ -2,12 +2,21 @@ import 'katex/dist/katex.min.css';
 
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { ComponentType, useState } from 'react';
 import { settingVar } from 'setting';
 import { Point } from 'typings';
 
 const LeftGrid = dynamic(() => import('@components/LeftGrid'));
-const RightGrid = dynamic(() => import('@components/RightGrid.client'));
+let RightGrid: null | ComponentType<{
+  enText: string;
+  camera: Point;
+  setCamera: Function;
+  setZoom: Function;
+  defalutCamera: Point;
+  isDefalut: boolean;
+  problemAnswer: number;
+}> = null;
+if (settingVar.isShowRightGrid) RightGrid = dynamic(() => import('@components/RightGrid.client'));
 
 export default function Draw() {
   const router = useRouter();
@@ -70,7 +79,7 @@ export default function Draw() {
             defaultCameraPosition={defalutCamera}
             innerWidthWeight={settingVar.isTopBottomMode ? 1 : 0.4}
           />
-          {settingVar.isShowRightGrid && (
+          {settingVar.isShowRightGrid && RightGrid && (
             <RightGrid
               enText={enText}
               camera={camera}

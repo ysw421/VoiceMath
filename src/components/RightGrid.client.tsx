@@ -75,17 +75,19 @@ export default function RightGrid({
             <Button> {'Submit'}</Button>
           </form>
         )}
-        <div className="tw-flex tw-flex-row tw-items-center tw-gap-x-3">
-          <div>
-            <AudioRecorder
-              onRecordingComplete={handlestt}
-              audioTrackConstraints={{
-                noiseSuppression: true,
-                echoCancellation: true
-              }}
-            />
+        {settingVar.isShowVoiceBtn && (
+          <div className="tw-flex tw-flex-row tw-items-center tw-gap-x-3">
+            <div>
+              <AudioRecorder
+                onRecordingComplete={handlestt}
+                audioTrackConstraints={{
+                  noiseSuppression: true,
+                  echoCancellation: true
+                }}
+              />
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );
