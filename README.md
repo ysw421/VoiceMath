@@ -1,7 +1,7 @@
 # VoiceMath
 
 <p align="center">
-  <img src="assets/introduce_logo.png">
+  <img src="assets/introduce_logo.png" width="350">
 </p>
 <hr>
 
