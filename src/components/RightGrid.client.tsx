@@ -2,8 +2,8 @@ import 'katex/dist/katex.min.css';
 
 import { evalCommandGetLabels, getLaTeXString, reset } from '@lib/commands';
 import stt from '@lib/stt';
+import dynamic from 'next/dynamic';
 import React, { useState } from 'react';
-import { AudioRecorder } from 'react-audio-voice-recorder';
 import { settingVar } from 'setting';
 import { Point } from 'typings';
 
@@ -27,6 +27,10 @@ export default function RightGrid({
   isDefalut: boolean;
   problemAnswer: number;
 }) {
+  const AudioRecorder = settingVar.isShowVoiceBtn
+    ? dynamic(() => import('react-audio-voice-recorder').then((module) => module.AudioRecorder))
+    : null;
+
   const [command, setCommand] = useState('');
   // const [answer, setAnswer] = useState('');
   const [latexSentences, setLatexSentences] = useState<string[]>(['']);
@@ -75,7 +79,7 @@ export default function RightGrid({
             <Button> {'Submit'}</Button>
           </form>
         )}
-        {settingVar.isShowVoiceBtn && (
+        {settingVar.isShowVoiceBtn && AudioRecorder && (
           <div className="tw-flex tw-flex-row tw-items-center tw-gap-x-3">
             <div>
               <AudioRecorder

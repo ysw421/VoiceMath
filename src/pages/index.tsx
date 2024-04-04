@@ -7,7 +7,7 @@ import { settingVar } from 'setting';
 import { Point } from 'typings';
 
 const LeftGrid = dynamic(() => import('@components/LeftGrid'));
-let RightGrid: null | ComponentType<{
+const RightGrid: null | ComponentType<{
   enText: string;
   camera: Point;
   setCamera: Function;
@@ -15,8 +15,7 @@ let RightGrid: null | ComponentType<{
   defalutCamera: Point;
   isDefalut: boolean;
   problemAnswer: number;
-}> = null;
-if (settingVar.isShowRightGrid) RightGrid = dynamic(() => import('@components/RightGrid.client'));
+}> = settingVar.isShowRightGrid ? dynamic(() => import('@components/RightGrid.client')) : null;
 
 export default function Draw() {
   const router = useRouter();
