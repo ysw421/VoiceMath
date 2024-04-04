@@ -1,5 +1,10 @@
 # VoiceMath
 
+<p align="center">
+  <img src="assets/introduce_logo.png">
+</p>
+<hr>
+
 ##### Korea Code Fair 2023 🥉
 
 ##### REGENERON ISEF 2024 Finalist
