@@ -8,6 +8,7 @@ interface SettingVarType {
   isShowLogo: boolean;
   screenPaddingSize: number;
   isShowVoiceBtn: boolean;
+  leftGridWidthRatio: number;
 }
 
 export const settingVar: SettingVarType = {
@@ -16,7 +17,8 @@ export const settingVar: SettingVarType = {
   isShowKeyboardBox: true,
   isShowLogo: true,
   screenPaddingSize: 1.5,
-  isShowVoiceBtn: true
+  isShowVoiceBtn: true,
+  leftGridWidthRatio: 0.4
 };
 
 // Examples...
@@ -27,7 +29,9 @@ export const settingVar: SettingVarType = {
 //   isShowRightGrid: true,
 //   isShowKeyboardBox: false,
 //   isShowLogo: false,
-//   screenPaddingSize: 0
+//   screenPaddingSize: 0,
+//   isShowVoiceBtn: false,
+//   leftGridWidthRatio: 1
 // };
 
 // Laptop
@@ -36,5 +40,7 @@ export const settingVar: SettingVarType = {
 //   isShowRightGrid: true,
 //   isShowKeyboardBox: true,
 //   isShowLogo: true,
-//   screenPaddingSize: 1.5
+//   screenPaddingSize: 1.5,
+//   isShowVoiceBtn: true,
+//   leftGridWidthRatio: 0.4
 // };

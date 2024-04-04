@@ -77,7 +77,7 @@ export default function Draw() {
             camera={camera}
             geogebra={geogebra}
             defaultCameraPosition={defalutCamera}
-            innerWidthWeight={settingVar.isTopBottomMode ? 1 : 0.4}
+            innerWidthWeight={settingVar.isTopBottomMode ? 1 : settingVar.leftGridWidthRatio}
           />
           {settingVar.isShowRightGrid && RightGrid && (
             <RightGrid
