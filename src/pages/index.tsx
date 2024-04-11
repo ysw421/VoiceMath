@@ -33,7 +33,8 @@ export default function Draw() {
   enText =
     (enText instanceof Array ? enText.join('') : enText) ??
     'Welcome to a new memo.<br/>Feel free to write anything!';
-  geogebra = (geogebra instanceof Array ? geogebra.join('') : geogebra) ?? '';
+  // geogebra = (geogebra instanceof Array ? geogebra.join('') : geogebra) ?? '';
+  geogebra = settingVar.geogebra ?? '';
   defaultCameraPosition =
     (defaultCameraPosition instanceof Array
       ? defaultCameraPosition.join('')
