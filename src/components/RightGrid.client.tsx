@@ -9,13 +9,7 @@ import { Point } from 'typings';
 import ScrollableLatex from './ScrollableLatex';
 
 export default function RightGrid({
-  enText,
-  camera,
-  setCamera,
-  setZoom,
-  defalutCamera,
-  isDefalut,
-  problemAnswer
+  camera
 }: {
   enText: string;
   camera: Point;
@@ -55,7 +49,7 @@ export default function RightGrid({
                 setCommand('');
                 return;
               }
-              var objLatex = evalCommandGetLabels(command);
+              let objLatex = evalCommandGetLabels(command);
               if (objLatex == null) objLatex = command;
               AddLatexSentence(objLatex);
               setCommand('');
