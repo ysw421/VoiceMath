@@ -2,27 +2,17 @@ import { moveCamera } from '@lib/commands';
 import { useEffect } from 'react';
 import { Point } from 'typings';
 
-export default function LeftGrid({
-  geogebra,
-  camera,
-  defaultCameraPosition,
-  innerWidthWeight = 0.4
-}: {
-  geogebra: string;
-  camera: Point;
-  defaultCameraPosition: Point;
-  innerWidthWeight: number;
-}) {
+export default function LeftGrid({ camera }: { camera: Point }) {
   useEffect(() => {
     const script = document.createElement('script');
-    script.src = '/Users/hoonsungle88/Dev/GeoGebra';
+    script.src = 'https://cdn.geogebra.org/apps/deployggb.js';
     script.async = true;
     document.body.appendChild(script);
     script.onload = function () {
       const parameters = {
         prerelease: false,
-        // width: 600,
-        width: window.innerWidth * innerWidthWeight,
+        width: 480,
+        height: 280,
         showToolBar: false,
         borderColor: false,
         showMenuBar: false,
@@ -32,18 +22,14 @@ export default function LeftGrid({
         enableShiftDragZoom: true,
         enableRightClick: false,
         capturingThreshold: null,
-        appletOnLoad: function (api: { evalCommand: (command: string) => void }) {
-          api.evalCommand(`CenterView(${defaultCameraPosition.toString()})`);
-        },
         showToolBarHelp: false,
         errorDialogsActive: true,
-        useBrowserForJS: true,
-        ggbBase64: geogebra
+        useBrowserForJS: true
       };
-      const applet = new window.GGBApplet('5.0', parameters);
+      const applet = new window.GGBApplet('6.0', parameters);
       applet.inject('applet_container');
     };
-  }, [geogebra, defaultCameraPosition, innerWidthWeight]);
+  }, []);
 
   useEffect(() => {
     moveCamera(camera);
