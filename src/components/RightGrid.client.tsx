@@ -22,15 +22,6 @@ export default function RightGrid() {
       eventSource.onmessage = (event) => {
         stt(event.data);
       };
-
-      eventSource.onerror = (error) => {
-        console.error('EventSource failed:', error);
-        eventSource.close();
-      };
-
-      return () => {
-        eventSource.close();
-      };
     }
   }, []);
 
