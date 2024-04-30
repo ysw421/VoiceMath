@@ -22,10 +22,7 @@ function replaceWords(inputString: string) {
   return modifiedString;
 }
 
-export default async function stt(data: string) {
-  try {
-    return replaceWords(data);
-  } catch (error) {
-    console.error('Failed to fetch NER data:', error);
-  }
+export default function stt(data: string) {
+  data = replaceWords(data);
+  return data;
 }
