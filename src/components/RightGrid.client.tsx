@@ -21,11 +21,9 @@ export default function RightGrid() {
       const eventSource = new EventSource('http://localhost:8000/events');
       eventSource.onmessage = (event) => {
         // @ts-ignore
-        stt(event.data).then((commandLists: string[]) => {
-          commandLists.forEach((commandGGB) => {
-            evalCommand(commandGGB);
-            AddLatexSentence(commandGGB);
-          });
+        stt(event.data).then((command: string) => {
+          evalCommand(command);
+          AddLatexSentence(command);
         });
       };
     }

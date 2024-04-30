@@ -1,14 +1,3 @@
-interface Entity {
-  text: string;
-  start: number;
-  end: number;
-  label: string;
-}
-
-interface NerResponse {
-  entities: Entity[];
-}
-
 // Define replacements for transcription text
 const replacements: { [key: string]: any } = {
   equals: '=',
@@ -33,34 +22,9 @@ function replaceWords(inputString: string) {
   return modifiedString;
 }
 
-function spacyToGeogebra(data: NerResponse) {
-  const commands: string[] = [];
-  data.entities.forEach((entity) => {
-    if (entity.label == 'EQUATION') {
-      entity.text = replaceWords(entity.text);
-      commands.push(entity.text);
-    }
-  });
-  return commands;
-}
-
 export default async function stt(data: string) {
   try {
-    const response = await fetch('/api/spacy', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ text: data })
-    });
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    const result = await response.json();
-    console.log('NER results:', result);
-    return spacyToGeogebra(result);
+    return replaceWords(data);
   } catch (error) {
     console.error('Failed to fetch NER data:', error);
   }
