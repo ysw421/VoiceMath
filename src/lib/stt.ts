@@ -46,6 +46,7 @@ function replaceWords(inputString: string) {
 
 export default async function stt(data: string) {
   try {
+    console.log(data);
     const response = await fetch('/api/spacy', {
       method: 'POST',
       headers: {
