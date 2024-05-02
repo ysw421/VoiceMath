@@ -10,9 +10,10 @@ const RightGrid = dynamic(() => import('@components/RightGrid.client'));
 
 export default function Draw() {
   const [camera, setCamera] = useState<Point>(new Point(0, 0));
+  console.log(camera.toString());
   return (
     <>
-      <LeftGrid camera={camera} />
+      <LeftGrid camera={camera} defaultCameraPosition={camera} />
       <RightGrid />
     </>
   );

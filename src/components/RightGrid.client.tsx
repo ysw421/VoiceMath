@@ -32,7 +32,7 @@ export default function RightGrid() {
   }, []);
 
   return (
-    <div className="tw-flex tw-flex-col tw-w-full tw-h-full">
+    <div className="tw-w-full tw-h-full" style={{ height: '30px', overflowY: 'auto' }}>
       <ScrollableLatex latexSentences={latexSentences} />
     </div>
   );

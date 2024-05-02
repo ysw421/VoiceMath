@@ -9,24 +9,25 @@ interface ScrollableLatexProps {
 }
 
 const ScrollableLatex: React.FC<ScrollableLatexProps> = ({ latexSentences }) => {
-  // const containerRef = useRef<HTMLDivElement>(null);
-  const scrollRef = useRef<HTMLDivElement | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (scrollRef.current !== null) scrollRef.current.scrollIntoView({ behavior: 'smooth' });
+    if (containerRef.current) {
+      containerRef.current.scrollTop = containerRef.current.scrollHeight;
+    }
   }, [latexSentences]);
 
   return (
     <div
-      style={{ overflowY: 'scroll' }}
-      className={`tw-p-2 tw-h-full tw-rounded-md tw-border tw-border-gray-300 tw-relative ${styles.scrollBar}`}
+      ref={containerRef}
+      style={{ overflowY: 'scroll', maxHeight: '30px' }}
+      className={`tw-p-2 tw-rounded-md tw-border tw-border-gray-300 tw-relative ${styles.scrollBar}`}
     >
       {latexSentences.map((sentence, index) => (
         <div key={index} className="tw-mb-2">
           <Latex>{sentence}</Latex>
         </div>
       ))}
-      <div ref={scrollRef}></div>
     </div>
   );
 };

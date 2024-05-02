@@ -2,7 +2,13 @@ import { moveCamera } from '@lib/commands';
 import { useEffect } from 'react';
 import { Point } from 'typings';
 
-export default function LeftGrid({ camera }: { camera: Point }) {
+export default function LeftGrid({
+  camera,
+  defaultCameraPosition
+}: {
+  camera: Point;
+  defaultCameraPosition: Point;
+}) {
   useEffect(() => {
     const script = document.createElement('script');
     script.src = 'https://cdn.geogebra.org/apps/deployggb.js';
@@ -12,7 +18,7 @@ export default function LeftGrid({ camera }: { camera: Point }) {
       const parameters = {
         prerelease: false,
         width: 480,
-        height: 280,
+        height: 290,
         showToolBar: false,
         borderColor: false,
         showMenuBar: false,
@@ -24,7 +30,10 @@ export default function LeftGrid({ camera }: { camera: Point }) {
         capturingThreshold: null,
         showToolBarHelp: false,
         errorDialogsActive: true,
-        useBrowserForJS: true
+        useBrowserForJS: true,
+        appletOnLoad: function (api: { evalCommand: (command: string) => void }) {
+          api.evalCommand(`CenterView(${defaultCameraPosition.toString()})`);
+        }
       };
       const applet = new window.GGBApplet('6.0', parameters);
       applet.inject('applet_container');
