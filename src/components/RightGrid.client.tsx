@@ -7,7 +7,11 @@ import React, { useEffect, useState } from 'react';
 
 import ScrollableLatex from './ScrollableLatex';
 
-export default function RightGrid() {
+interface RightGridProps {
+  setIsRecording: (recording: boolean) => void;
+}
+
+const RightGrid: React.FC<RightGridProps> = ({ setIsRecording }) => {
   const [latexSentences, setLatexSentences] = useState<string[]>(['']);
 
   const AddLatexSentence = (newSentence: string) => {
@@ -20,13 +24,17 @@ export default function RightGrid() {
     if (typeof window !== 'undefined') {
       const eventSource = new EventSource('http://localhost:8000/events');
       eventSource.onmessage = (event) => {
-        // @ts-ignore
-        stt(event.data).then((commandLists: string[]) => {
-          commandLists.forEach((commandGGB) => {
-            evalCommand(commandGGB);
-            AddLatexSentence(commandGGB);
+        if (event.data == 'started') {
+          setIsRecording(true);
+        } else {
+          // @ts-ignore
+          stt(event.data).then((commandLists: string[]) => {
+            commandLists.forEach((commandGGB) => {
+              evalCommand(commandGGB);
+              AddLatexSentence(commandGGB);
+            });
           });
-        });
+        }
       };
     }
   }, []);
@@ -36,4 +44,6 @@ export default function RightGrid() {
       <ScrollableLatex latexSentences={latexSentences} />
     </div>
   );
-}
+};
+
+export default RightGrid;
