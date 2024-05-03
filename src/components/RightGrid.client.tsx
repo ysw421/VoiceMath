@@ -26,6 +26,9 @@ const RightGrid: React.FC<RightGridProps> = ({ setIsRecording }) => {
       eventSource.onmessage = (event) => {
         if (event.data == 'started') {
           setIsRecording(true);
+        }
+        if (event.data == 'ended') {
+          setIsRecording(false);
         } else {
           // @ts-ignore
           stt(event.data).then((commandLists: string[]) => {
