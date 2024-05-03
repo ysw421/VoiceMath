@@ -11,7 +11,7 @@ const Popup = dynamic(() => import('reactjs-popup').then((module) => module.defa
 
 export default function Draw() {
   const [camera, setCamera] = useState<Point>(new Point(0, 0));
-  const [isRecording, setIsRecording] = useState(true);
+  const [isRecording, setIsRecording] = useState(false);
   console.log(camera.toString());
   return (
     <>
