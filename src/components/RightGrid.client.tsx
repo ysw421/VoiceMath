@@ -10,23 +10,7 @@ import { Point } from 'typings';
 import Button from './Button';
 import ScrollableLatex from './ScrollableLatex';
 
-export default function RightGrid({
-  enText,
-  camera,
-  setCamera,
-  setZoom,
-  defalutCamera,
-  isDefalut,
-  problemAnswer
-}: {
-  enText?: string;
-  camera: Point;
-  setCamera?: Function;
-  setZoom?: Function;
-  defalutCamera?: Point;
-  isDefalut?: boolean;
-  problemAnswer?: number;
-}) {
+export default function RightGrid() {
   const AudioRecorder = settingVar.isShowVoiceBtn
     ? dynamic(() => import('react-audio-voice-recorder').then((module) => module.AudioRecorder))
     : null;
@@ -56,7 +40,7 @@ export default function RightGrid({
               e.preventDefault();
               if (command === '') return;
               else if (command === 'clear') {
-                reset(camera);
+                reset(new Point(0, 0));
                 setLatexSentences([]);
                 setCommand('');
                 return;
