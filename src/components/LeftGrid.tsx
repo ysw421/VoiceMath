@@ -34,13 +34,13 @@ export default function LeftGrid({
   useEffect(() => {
     const script = document.createElement('script');
     script.src = 'https://cdn.geogebra.org/apps/deployggb.js';
-
+    script.async = true;
     document.body.appendChild(script);
     script.onload = function () {
       let parameters: parameters = {
         prerelease: false,
-        // width: 600,
-        width: window.innerWidth * innerWidthWeight,
+        width: 480,
+        height: 290,
         showToolBar: false,
         borderColor: false,
         showMenuBar: false,
@@ -56,7 +56,9 @@ export default function LeftGrid({
         showToolBarHelp: false,
         errorDialogsActive: true,
         useBrowserForJS: true,
-        ggbBase64: geogebra
+        appletOnLoad: function (api: { evalCommand: (command: string) => void }) {
+          api.evalCommand(`CenterView(${defaultCameraPosition.toString()})`);
+        }
       };
       if (settingVar.rightGridHeight) {
         parameters.height = window.innerHeight - convertRemToPixels(settingVar.rightGridHeight);

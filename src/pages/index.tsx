@@ -1,4 +1,5 @@
 import 'katex/dist/katex.min.css';
+import 'reactjs-popup/dist/index.css';
 
 import dynamic from 'next/dynamic';
 import { settingVar } from 'setting';

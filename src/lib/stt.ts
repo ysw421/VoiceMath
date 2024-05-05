@@ -1,40 +1,68 @@
-export default async function stt(blob: Blob) {
-  const replacements: { [key: string]: string } = {
-    equals: '=',
-    squared: '^2',
-    'to the power of': '^',
-    plus: '+',
-    minus: '-',
-    times: '*',
-    over: '/',
-    cubed: '^3',
-    'divided by': '/',
-    comma: ''
-  };
-  console.log(blob.type);
+interface Entity {
+  text: string;
+  start: number;
+  end: number;
+  label: string;
+}
 
-  function replaceWords(inputString: string): string {
-    let modifiedString = inputString;
-    Object.keys(replacements).forEach((key) => {
-      modifiedString = modifiedString.replace(new RegExp(key, 'g'), replacements[key]);
-    });
-    return modifiedString;
-  }
-  try {
-    const response = await fetch('http://localhost:8000/transcribe', {
-      method: 'POST',
-      body: blob
-    });
+interface NerResponse {
+  entities: Entity[];
+}
 
-    const jsonResponse = await response.json();
-    console.log(jsonResponse);
-    if (typeof jsonResponse.text !== 'string') {
-      throw new Error('Received data is not a string');
+function spacyToGeogebra(data: NerResponse) {
+  const commands: string[] = [];
+  data.entities.forEach((entity) => {
+    if (entity.label == 'EQUATION') {
+      entity.text = replaceWords(entity.text);
+      commands.push(entity.text);
     }
-    console.log(jsonResponse.text);
-    return replaceWords(jsonResponse.text);
+  });
+  return commands;
+}
+
+// Define replacements for transcription text
+const replacements: { [key: string]: any } = {
+  equals: '=',
+  squared: '^2',
+  'to the power of': '^',
+  plus: '+',
+  minus: '-',
+  times: '*',
+  over: '/',
+  cubed: '^3',
+  'divided by': '/',
+  comma: ''
+};
+
+// Function to replace specified words in the transcription text
+function replaceWords(inputString: string) {
+  let modifiedString = inputString;
+  Object.keys(replacements).forEach((key) => {
+    const pattern = new RegExp(key, 'gi'); // 'gi' for global and case-insensitive matching
+    modifiedString = modifiedString.replace(pattern, replacements[key]);
+  });
+  return modifiedString;
+}
+
+export default async function stt(data: string) {
+  try {
+    console.log(data);
+    const response = await fetch('/api/spacy', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ text: data })
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const result = await response.json();
+    console.log('NER results:', result);
+    return spacyToGeogebra(result);
   } catch (error) {
-    console.error('An error occurred:', error);
-    throw error;
+    console.error('Failed to fetch NER data:', error);
   }
 }

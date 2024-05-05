@@ -10,11 +10,12 @@ interface ScrollableLatexProps {
 }
 
 const ScrollableLatex: React.FC<ScrollableLatexProps> = ({ latexSentences }) => {
-  // const containerRef = useRef<HTMLDivElement>(null);
-  const scrollRef = useRef<HTMLDivElement | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (scrollRef.current !== null) scrollRef.current.scrollIntoView({ behavior: 'smooth' });
+    if (containerRef.current) {
+      containerRef.current.scrollTop = containerRef.current.scrollHeight;
+    }
   }, [latexSentences]);
 
   return (

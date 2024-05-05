@@ -1,13 +1,13 @@
+'use client';
 import 'katex/dist/katex.min.css';
 
-import { evalCommandGetLabels, getLaTeXString, reset } from '@lib/commands';
+import { evalCommand, getLaTeXString } from '@lib/commands';
 import stt from '@lib/stt';
 import dynamic from 'next/dynamic';
 import React, { useState } from 'react';
 import { settingVar } from 'setting';
 import { Point } from 'typings';
 
-import Button from './Button';
 import ScrollableLatex from './ScrollableLatex';
 
 export default function RightGrid() {
@@ -18,16 +18,34 @@ export default function RightGrid() {
   const [command, setCommand] = useState('');
   // const [answer, setAnswer] = useState('');
   const [latexSentences, setLatexSentences] = useState<string[]>(['']);
+
   const AddLatexSentence = (newSentence: string) => {
     const newSentence_Latex = getLaTeXString(newSentence);
     console.log(newSentence_Latex);
     setLatexSentences((prevSentences) => [...prevSentences, newSentence_Latex]);
   };
-  function handlestt(blob: Blob) {
-    stt(blob).then((dialog: string) => {
-      AddLatexSentence(dialog);
-    });
-  }
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const eventSource = new EventSource('http://localhost:8000/events');
+      eventSource.onmessage = (event) => {
+        if (event.data == 'started') {
+          setIsRecording(true);
+        }
+        if (event.data == 'ended') {
+          setIsRecording(false);
+        } else {
+          // @ts-ignore
+          stt(event.data).then((commandLists: string[]) => {
+            commandLists.forEach((commandGGB) => {
+              evalCommand(commandGGB);
+              AddLatexSentence(commandGGB);
+            });
+          });
+        }
+      };
+    }
+  }, []);
 
   return (
     <div className="tw-flex tw-flex-col tw-w-full tw-h-full tw-overflow-hidden">
@@ -79,4 +97,6 @@ export default function RightGrid() {
       </div>
     </div>
   );
-}
+};
+
+export default RightGrid;
