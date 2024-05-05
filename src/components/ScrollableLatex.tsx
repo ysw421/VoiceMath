@@ -3,6 +3,7 @@ import 'katex/dist/katex.min.css';
 import styles from '@styles/ScrollableLatex.module.css';
 import React, { useEffect, useRef } from 'react';
 import Latex from 'react-latex-next';
+import { settingVar } from 'setting';
 
 interface ScrollableLatexProps {
   latexSentences: string[];
@@ -19,15 +20,21 @@ const ScrollableLatex: React.FC<ScrollableLatexProps> = ({ latexSentences }) => 
 
   return (
     <div
-      ref={containerRef}
-      style={{ overflowY: 'scroll', maxHeight: '30px' }}
-      className={`tw-p-2 tw-rounded-md tw-border tw-border-gray-300 tw-relative ${styles.scrollBar}`}
+      style={{ overflowY: 'scroll' }}
+      className={`tw-px-2 tw-h-full tw-rounded-md tw-border tw-border-gray-300 tw-relative ${styles.scrollBar}`}
     >
-      {latexSentences.map((sentence, index) => (
-        <div key={index} className="tw-mb-2">
-          <Latex>{sentence}</Latex>
+      {settingVar.isShowOneCommand && latexSentences.length > 0 ? (
+        <div>
+          <Latex>{latexSentences[latexSentences.length - 1]}</Latex>
         </div>
-      ))}
+      ) : (
+        latexSentences.map((sentence, index) => (
+          <div key={index}>
+            <Latex>{sentence}</Latex>
+          </div>
+        ))
+      )}
+      <div ref={scrollRef}></div>
     </div>
   );
 };

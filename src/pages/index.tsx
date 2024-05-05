@@ -2,28 +2,46 @@ import 'katex/dist/katex.min.css';
 import 'reactjs-popup/dist/index.css';
 
 import dynamic from 'next/dynamic';
-import { useState } from 'react';
-import { Point } from 'typings';
+import { settingVar } from 'setting';
 
 const LeftGrid = dynamic(() => import('@components/LeftGrid'));
-const RightGrid = dynamic(() => import('@components/RightGrid.client'));
-const Popup = dynamic(() => import('reactjs-popup').then((module) => module.default), {});
+const RightGrid = settingVar.isShowRightGrid
+  ? dynamic(() => import('@components/RightGrid.client'))
+  : null;
 
 export default function Draw() {
-  const [camera, setCamera] = useState<Point>(new Point(0, 0));
-  const [isRecording, setIsRecording] = useState(false);
-  console.log(camera.toString());
+  const geogebra = settingVar.geogebra ?? '';
   return (
     <>
-      {typeof window !== 'undefined' && (
-        <Popup open={isRecording} closeOnDocumentClick={false} position="right center">
-          <div className="bg-black bg-opacity-75 flex items-center justify-center p-5 rounded-lg text-white">
-            Recording...
+      <div className="tw-relative tw-w-screen tw-h-screen tw-overflow-x-hidden">
+        {settingVar.isShowLogo && (
+          <div className="tw-absolute tw-flex tw-items-center tw-gap-4 tw-px-6 tw-h-14">
+            <h1 className="tw-ml-2">VoiceMath</h1>
           </div>
-        </Popup>
-      )}
-      <LeftGrid camera={camera} defaultCameraPosition={camera} />
-      <RightGrid setIsRecording={setIsRecording} />
+        )}
+        <div
+          className={
+            settingVar.isTopBottomMode
+              ? 'tw-flex tw-flex-col tw-w-full tw-h-full tw-grid-flow-col tw-items-full tw-gap-y-4 tw-overflow-hidden'
+              : 'tw-flex tw-flex-row tw-w-full tw-h-full tw-grid-flow-col tw-items-full tw-gap-x-10 tw-overflow-hidden'
+          }
+          style={
+            settingVar.isShowLogo
+              ? {
+                  padding: `${settingVar.screenPaddingSize}rem`,
+                  paddingTop: '3.5rem',
+                  gap: `${settingVar.gapGrid}rem`
+                }
+              : { padding: `${settingVar.screenPaddingSize}rem`, gap: `${settingVar.gapGrid}rem` }
+          }
+        >
+          <LeftGrid
+            geogebra={geogebra}
+            innerWidthWeight={settingVar.isTopBottomMode ? 1 : settingVar.leftGridWidthRatio}
+          />
+          {settingVar.isShowRightGrid && RightGrid && <RightGrid />}
+        </div>
+      </div>
     </>
   );
 }
