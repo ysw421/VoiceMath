@@ -1,7 +1,5 @@
-import { moveCamera } from '@lib/commands';
 import { useEffect } from 'react';
 import { settingVar } from 'setting';
-import { Point } from 'typings';
 
 type parameters = {
   prerelease: boolean;
@@ -25,13 +23,9 @@ type parameters = {
 
 export default function LeftGrid({
   geogebra,
-  camera,
-  defaultCameraPosition,
   innerWidthWeight = 0.4
 }: {
   geogebra: string;
-  camera: Point;
-  defaultCameraPosition: Point;
   innerWidthWeight: number;
 }) {
   function convertRemToPixels(rem: number) {
@@ -57,7 +51,7 @@ export default function LeftGrid({
         enableRightClick: false,
         capturingThreshold: null,
         appletOnLoad: function (api: { evalCommand: (command: string) => void }) {
-          api.evalCommand(`CenterView(${defaultCameraPosition.toString()})`);
+          api.evalCommand(`CenterView((0, 0))`);
         },
         showToolBarHelp: false,
         errorDialogsActive: true,
@@ -70,11 +64,7 @@ export default function LeftGrid({
       const applet = new window.GGBApplet('6.0', parameters);
       applet.inject('applet_container');
     };
-  }, [geogebra, defaultCameraPosition, innerWidthWeight]);
-
-  useEffect(() => {
-    moveCamera(camera);
-  }, [camera]);
+  }, [geogebra, innerWidthWeight]);
 
   return <div id="applet_container" className="tw-w-full tw-h-full" />;
 }
