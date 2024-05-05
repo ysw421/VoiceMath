@@ -8,13 +8,13 @@ import { Point } from 'typings';
 
 const LeftGrid = dynamic(() => import('@components/LeftGrid'));
 const RightGrid: null | ComponentType<{
-  enText: string;
+  enText?: string;
   camera: Point;
-  setCamera: Function;
-  setZoom: Function;
-  defalutCamera: Point;
-  isDefalut: boolean;
-  problemAnswer: number;
+  setCamera?: Function;
+  setZoom?: Function;
+  defalutCamera?: Point;
+  isDefalut?: boolean;
+  problemAnswer?: number;
 }> = settingVar.isShowRightGrid ? dynamic(() => import('@components/RightGrid.client')) : null;
 
 export default function Draw() {
@@ -27,23 +27,23 @@ export default function Draw() {
   }
   name = (name instanceof Array ? name.join('') : name) ?? 'None';
   const isDefalut_bool = isDefalut === undefined ? true : isDefalut === '1';
-  koText =
-    (koText instanceof Array ? koText.join('') : koText) ??
-    '새로운 메모에 오신 것을 환영합니다.<br/>마음껏 메모하세요!';
-  enText =
-    (enText instanceof Array ? enText.join('') : enText) ??
-    'Welcome to a new memo.<br/>Feel free to write anything!';
+  // koText =
+  //   (koText instanceof Array ? koText.join('') : koText) ??
+  //   '새로운 메모에 오신 것을 환영합니다.<br/>마음껏 메모하세요!';
+  // enText =
+  //   (enText instanceof Array ? enText.join('') : enText) ??
+  //   'Welcome to a new memo.<br/>Feel free to write anything!';
   // geogebra = (geogebra instanceof Array ? geogebra.join('') : geogebra) ?? '';
   geogebra = settingVar.geogebra ?? '';
   defaultCameraPosition =
     (defaultCameraPosition instanceof Array
       ? defaultCameraPosition.join('')
       : defaultCameraPosition) ?? '0,0';
-  const answer_int = answer === undefined ? 0 : parseInt(answer[0]);
+  // const answer_int = answer === undefined ? 0 : parseInt(answer[0]);
   const defalutCamera_list = defaultCameraPosition.split(',').map(parseFloat);
   const defalutCamera = new Point(defalutCamera_list[0], defalutCamera_list[1]);
   const [camera, setCamera] = useState<Point>(defalutCamera);
-  const [zoom, setZoom] = useState(1);
+  // const [zoom, setZoom] = useState(1);
   return (
     <>
       <div className="tw-relative tw-w-screen tw-h-screen tw-overflow-x-hidden">
@@ -63,13 +63,17 @@ export default function Draw() {
         <div
           className={
             settingVar.isTopBottomMode
-              ? 'tw-flex tw-flex-col tw-w-full tw-h-full tw-grid-flow-col tw-p-6 tw-items-full tw-gap-y-4 tw-overflow-hidden'
-              : 'tw-flex tw-flex-row tw-w-full tw-h-full tw-grid-flow-col tw-p-6 tw-items-full tw-gap-x-10 tw-overflow-hidden'
+              ? 'tw-flex tw-flex-col tw-w-full tw-h-full tw-grid-flow-col tw-items-full tw-gap-y-4 tw-overflow-hidden'
+              : 'tw-flex tw-flex-row tw-w-full tw-h-full tw-grid-flow-col tw-items-full tw-gap-x-10 tw-overflow-hidden'
           }
           style={
             settingVar.isShowLogo
-              ? { padding: `${settingVar.screenPaddingSize}rem`, paddingTop: '3.5rem' }
-              : { padding: `${settingVar.screenPaddingSize}rem` }
+              ? {
+                  padding: `${settingVar.screenPaddingSize}rem`,
+                  paddingTop: '3.5rem',
+                  gap: `${settingVar.gapGrid}rem`
+                }
+              : { padding: `${settingVar.screenPaddingSize}rem`, gap: `${settingVar.gapGrid}rem` }
           }
           // style={{ height: 'calc(100% - 50px)' }}
         >
@@ -81,13 +85,12 @@ export default function Draw() {
           />
           {settingVar.isShowRightGrid && RightGrid && (
             <RightGrid
-              enText={enText}
               camera={camera}
-              setCamera={setCamera}
-              setZoom={setZoom}
-              defalutCamera={defalutCamera}
-              isDefalut={isDefalut_bool}
-              problemAnswer={answer_int}
+              // setCamera={setCamera}
+              // setZoom={setZoom}
+              // defalutCamera={defalutCamera}
+              // isDefalut={isDefalut_bool}
+              // problemAnswer={answer_int}
             />
           )}
         </div>

@@ -19,13 +19,13 @@ export default function RightGrid({
   isDefalut,
   problemAnswer
 }: {
-  enText: string;
+  enText?: string;
   camera: Point;
-  setCamera: Function;
-  setZoom: Function;
-  defalutCamera: Point;
-  isDefalut: boolean;
-  problemAnswer: number;
+  setCamera?: Function;
+  setZoom?: Function;
+  defalutCamera?: Point;
+  isDefalut?: boolean;
+  problemAnswer?: number;
 }) {
   const AudioRecorder = settingVar.isShowVoiceBtn
     ? dynamic(() => import('react-audio-voice-recorder').then((module) => module.AudioRecorder))
@@ -46,7 +46,7 @@ export default function RightGrid({
   }
 
   return (
-    <div className="tw-flex tw-flex-col tw-w-full tw-h-full">
+    <div className="tw-flex tw-flex-col tw-w-full tw-h-full tw-overflow-hidden">
       <div className="tw-flex tw-flex-col tw-w-full tw-h-full tw-gap-y-4">
         <ScrollableLatex latexSentences={latexSentences} />
         {settingVar.isShowKeyboardBox && (
