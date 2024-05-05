@@ -21,13 +21,16 @@ const ScrollableLatex: React.FC<ScrollableLatexProps> = ({ latexSentences }) => 
     <div
       ref={containerRef}
       style={{ overflowY: 'scroll', maxHeight: '30px' }}
-      className={`tw-p-2 tw-rounded-md tw-border tw-border-gray-300 tw-relative ${styles.scrollBar}`}
+      className={`tw-h-10 tw-px-2 tw-rounded-md tw-border tw-border-gray-300 tw-relative ${styles.scrollBar}`}
     >
-      {latexSentences.map((sentence, index) => (
+      <div>
+        <Latex>{latexSentences[latexSentences.length - 1]}</Latex>
+      </div>
+      {/* {latexSentences.map((sentence, index) => (
         <div key={index} className="tw-mb-2">
           <Latex>{sentence}</Latex>
         </div>
-      ))}
+      ))} */}
     </div>
   );
 };
