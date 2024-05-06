@@ -23,7 +23,7 @@ export default function LeftGrid({
         borderColor: false,
         showMenuBar: false,
         showAlgebraInput: false,
-        showResetIcon: true,
+        showResetIcon: false,
         enableLabelDrags: false,
         enableShiftDragZoom: true,
         enableRightClick: false,
