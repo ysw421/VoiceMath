@@ -44,6 +44,10 @@ export default function RightGrid() {
                 setLatexSentences(['']);
                 setCommand('');
                 return;
+              } else if (command === 'center') {
+                if (!!window.ggbApplet) window.ggbApplet.evalCommand('CenterView((0, 0))');
+              } else if (command === 'undo') {
+                if (!!window.ggbApplet) window.ggbApplet.undo();
               }
               var objLatex = evalCommandGetLabels(command);
               if (objLatex == null) objLatex = command;

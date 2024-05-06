@@ -10,10 +10,14 @@ type parameters = {
   showAlgebraInput: boolean;
   showResetIcon: boolean;
   enableLabelDrags: boolean;
+  enableDragMode: boolean;
   enableShiftDragZoom: boolean;
   enableRightClick: boolean;
   capturingThreshold: null;
-  appletOnLoad: (api: { evalCommand: (command: string) => void }) => void;
+  appletOnLoad: (api: {
+    evalCommand: (command: string) => void;
+    setMode: (tool: number) => void;
+  }) => void;
   showToolBarHelp: boolean;
   errorDialogsActive: boolean;
   useBrowserForJS: boolean;
@@ -47,11 +51,17 @@ export default function LeftGrid({
         showAlgebraInput: false,
         showResetIcon: true,
         enableLabelDrags: false,
+        enableDragMode: true,
         enableShiftDragZoom: true,
         enableRightClick: false,
         capturingThreshold: null,
-        appletOnLoad: function (api: { evalCommand: (command: string) => void }) {
+        appletOnLoad: function (api: {
+          evalCommand: (command: string) => void;
+          setMode: (tool: number) => void;
+        }) {
           api.evalCommand(`CenterView((0, 0))`);
+          api.setMode(40);
+          // api.setMode(0);
         },
         showToolBarHelp: false,
         errorDialogsActive: true,
