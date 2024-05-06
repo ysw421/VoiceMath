@@ -2,8 +2,8 @@ import 'katex/dist/katex.min.css';
 
 import { evalCommandGetLabels, getLaTeXString, reset } from '@lib/commands';
 import stt from '@lib/stt';
-import dynamic from 'next/dynamic';
 import React, { useState } from 'react';
+import { AudioRecorder } from 'react-audio-voice-recorder';
 import { settingVar } from 'setting';
 import { Point } from 'typings';
 
@@ -11,9 +11,9 @@ import Button from './Button';
 import ScrollableLatex from './ScrollableLatex';
 
 export default function RightGrid() {
-  const AudioRecorder = settingVar.isShowVoiceBtn
-    ? dynamic(() => import('react-audio-voice-recorder').then((module) => module.AudioRecorder))
-    : null;
+  // const AudioRecorder = settingVar.isShowVoiceBtn
+  //   ? dynamic(() => import('react-audio-voice-recorder').then((module) => module.AudioRecorder))
+  //   : null;
 
   const [command, setCommand] = useState('');
   // const [answer, setAnswer] = useState('');
@@ -41,7 +41,7 @@ export default function RightGrid() {
               if (command === '') return;
               else if (command === 'clear') {
                 reset(new Point(0, 0));
-                setLatexSentences([]);
+                setLatexSentences(['']);
                 setCommand('');
                 return;
               }
@@ -64,7 +64,7 @@ export default function RightGrid() {
           </form>
         )}
         {settingVar.isShowVoiceBtn && AudioRecorder && (
-          <div className="tw-flex tw-flex-row tw-items-center tw-gap-x-3">
+          <div className="tw-flex tw-flex-row tw-items-center tw-p-2 tw-gap-x-3">
             <div>
               <AudioRecorder
                 onRecordingComplete={handlestt}

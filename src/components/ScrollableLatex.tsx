@@ -10,30 +10,31 @@ interface ScrollableLatexProps {
 }
 
 const ScrollableLatex: React.FC<ScrollableLatexProps> = ({ latexSentences }) => {
-  // const containerRef = useRef<HTMLDivElement>(null);
-  const scrollRef = useRef<HTMLDivElement | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (scrollRef.current !== null) scrollRef.current.scrollIntoView({ behavior: 'smooth' });
+    if (containerRef.current) {
+      containerRef.current.scrollTop = containerRef.current.scrollHeight;
+    }
   }, [latexSentences]);
 
   return (
     <div
+      ref={containerRef}
       style={{ overflowY: 'scroll' }}
-      className={`tw-px-2 tw-h-full tw-rounded-md tw-border tw-border-gray-300 tw-relative ${styles.scrollBar}`}
+      className={`tw-h-full tw-px-2 tw-rounded-md tw-border tw-border-gray-300 tw-relative ${styles.scrollBar}`}
     >
-      {settingVar.isShowOneCommand && latexSentences.length > 0 ? (
+      {settingVar.isShowOneCommand ? (
         <div>
           <Latex>{latexSentences[latexSentences.length - 1]}</Latex>
         </div>
       ) : (
         latexSentences.map((sentence, index) => (
-          <div key={index}>
+          <div key={index} className="tw-mb-2">
             <Latex>{sentence}</Latex>
           </div>
         ))
       )}
-      <div ref={scrollRef}></div>
     </div>
   );
 };
