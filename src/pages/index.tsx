@@ -23,7 +23,7 @@ export default function Draw() {
         </Popup>
       )}
       <LeftGrid camera={camera} defaultCameraPosition={camera} />
-      <RightGrid setIsRecording={setIsRecording} />
+      <RightGrid setIsRecording={setIsRecording} currentCamera={camera} />
     </>
   );
 }

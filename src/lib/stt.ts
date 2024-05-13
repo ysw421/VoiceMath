@@ -7,16 +7,54 @@ interface Entity {
 
 interface NerResponse {
   entities: Entity[];
+  original_text: string;
+}
+
+function findPointValues(input: string): number[] {
+  const regex = /-?\d*\.?\d+/g;
+  const matches = input.match(regex);
+  if (matches && matches.length >= 2) {
+    return [parseFloat(matches[0]), parseFloat(matches[1])];
+  }
+  return [2, 2];
+}
+
+function findNumberValue(input: string): number {
+  const regex = /\b\d+(\.\d+)?\b/g;
+  const matches = input.match(regex);
+  if (matches) return parseFloat(matches[0]);
+  return 2;
 }
 
 function spacyToGeogebra(data: NerResponse) {
   const commands: string[] = [];
-  data.entities.forEach((entity) => {
-    if (entity.label == 'EQUATION') {
-      entity.text = replaceWords(entity.text);
-      commands.push(entity.text);
+  if (data.original_text.includes('circle')) {
+    const point = data.entities.filter((entity) => entity.label === 'POINT');
+    const radi = data.entities.filter((entity) => entity.label === 'CIRCLE_RADIUS');
+    const temp = findPointValues(point[0].text);
+    const tempRadi = findNumberValue(radi[0].text);
+    commands.push(`Circle((${temp[0]}, ${temp[1]}),${tempRadi})`);
+  } else {
+    const points = data.entities.filter((entity) => entity.label === 'POINT');
+    if (points.length == 1) {
+      const temp = findPointValues(points[0].text);
+      commands.push(`(${temp[0]}, ${temp[1]})`);
     }
-  });
+    for (let i = 0; i < points.length - 1; i++) {
+      // @ts-ignore
+      const temp = findPointValues(points[i].text);
+      const temp2 = findPointValues(points[i + 1].text);
+
+      commands.push(`Segment((${temp[0]},${temp[1]}),(${temp2[0]},${temp2[1]}))`);
+    }
+    data.entities.forEach((entity) => {
+      if (entity.label == 'EQUATION') {
+        entity.text = replaceWords(entity.text);
+        commands.push(entity.text);
+      }
+    });
+  }
+  console.log(commands);
   return commands;
 }
 

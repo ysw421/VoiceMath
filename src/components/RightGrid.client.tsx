@@ -4,14 +4,16 @@ import 'katex/dist/katex.min.css';
 import { evalCommand, getLaTeXString } from '@lib/commands';
 import stt from '@lib/stt';
 import React, { useEffect, useState } from 'react';
+import { Point } from 'typings';
 
 import ScrollableLatex from './ScrollableLatex';
 
 interface RightGridProps {
   setIsRecording: (recording: boolean) => void;
+  currentCamera: Point;
 }
 
-const RightGrid: React.FC<RightGridProps> = ({ setIsRecording }) => {
+const RightGrid: React.FC<RightGridProps> = ({ setIsRecording, currentCamera }) => {
   const [latexSentences, setLatexSentences] = useState<string[]>(['']);
 
   const AddLatexSentence = (newSentence: string) => {
@@ -26,8 +28,7 @@ const RightGrid: React.FC<RightGridProps> = ({ setIsRecording }) => {
       eventSource.onmessage = (event) => {
         if (event.data == 'started') {
           setIsRecording(true);
-        }
-        if (event.data == 'ended') {
+        } else if (event.data == 'ended') {
           setIsRecording(false);
         } else {
           // @ts-ignore
