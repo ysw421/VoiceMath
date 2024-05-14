@@ -1,7 +1,7 @@
 'use client';
 import 'katex/dist/katex.min.css';
 
-import { evalCommand, getLaTeXString } from '@lib/commands';
+import { evalCommand, getLaTeXString, reset } from '@lib/commands';
 import stt from '@lib/stt';
 import React, { useEffect, useState } from 'react';
 import { Point } from 'typings';
@@ -30,6 +30,9 @@ const RightGrid: React.FC<RightGridProps> = ({ setIsRecording, currentCamera }) 
           setIsRecording(true);
         } else if (event.data == 'ended') {
           setIsRecording(false);
+        } else if (event.data.includes('Reset') || event.data.includes('reset')) {
+          reset(currentCamera);
+          setLatexSentences(['']);
         } else {
           stt(event.data).then((commandLists: string[] | undefined) => {
             if (commandLists)
