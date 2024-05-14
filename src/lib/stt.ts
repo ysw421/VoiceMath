@@ -30,7 +30,7 @@ function spacyToGeogebra(data: NerResponse) {
   const commands: string[] = [];
   if (data.original_text.includes('circle')) {
     const point = data.entities.filter((entity) => entity.label === 'POINT');
-    const radi = data.entities.filter((entity) => entity.label === 'CIRCLE_RADIUS');
+    const radi = data.entities.filter((entity) => entity.label === 'CIRCLE_RADIUSnpm r');
     const temp = findPointValues(point[0].text);
     const tempRadi = findNumberValue(radi[0].text);
     commands.push(`Circle((${temp[0]}, ${temp[1]}),${tempRadi})`);

@@ -31,12 +31,12 @@ const RightGrid: React.FC<RightGridProps> = ({ setIsRecording, currentCamera }) 
         } else if (event.data == 'ended') {
           setIsRecording(false);
         } else {
-          // @ts-ignore
-          stt(event.data).then((commandLists: string[]) => {
-            commandLists.forEach((commandGGB) => {
-              evalCommand(commandGGB);
-              AddLatexSentence(commandGGB);
-            });
+          stt(event.data).then((commandLists: string[] | undefined) => {
+            if (commandLists)
+              commandLists.forEach((commandGGB) => {
+                evalCommand(commandGGB);
+                AddLatexSentence(commandGGB);
+              });
           });
         }
       };

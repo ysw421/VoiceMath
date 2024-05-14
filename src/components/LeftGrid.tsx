@@ -1,3 +1,4 @@
+'use client';
 import { moveCamera } from '@lib/commands';
 import { useEffect } from 'react';
 import { Point } from 'typings';
