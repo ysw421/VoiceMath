@@ -30,7 +30,7 @@ function spacyToGeogebra(data: NerResponse) {
   const commands: string[] = [];
   if (data.original_text.includes('circle')) {
     const point = data.entities.filter((entity) => entity.label === 'POINT');
-    const radi = data.entities.filter((entity) => entity.label === 'CIRCLE_RADIUSnpm r');
+    const radi = data.entities.filter((entity) => entity.label === 'CIRCLE_RADIUS');
     const temp = findPointValues(point[0].text);
     const tempRadi = findNumberValue(radi[0].text);
     commands.push(`Circle((${temp[0]}, ${temp[1]}),${tempRadi})`);
@@ -59,10 +59,10 @@ function spacyToGeogebra(data: NerResponse) {
 }
 
 // Define replacements for transcription text
-const replacements: { [key: string]: any } = {
-  equals: '=',
+const replacements = {
+  equals: ' = ',
   squared: '^2',
-  'to the power of': '^',
+  'to the power of': ' ^ ',
   plus: '+',
   minus: '-',
   times: '*',
@@ -72,13 +72,27 @@ const replacements: { [key: string]: any } = {
   comma: ''
 };
 
-// Function to replace specified words in the transcription text
 function replaceWords(inputString: string) {
   let modifiedString = inputString;
+
+  // Replace all other words first
   Object.keys(replacements).forEach((key) => {
     const pattern = new RegExp(key, 'gi'); // 'gi' for global and case-insensitive matching
     modifiedString = modifiedString.replace(pattern, replacements[key]);
   });
+
+  // Handle the "bracket" replacement with context
+  let bracketCount = 0;
+  modifiedString = modifiedString.replace(/bracket/gi, (match) => {
+    if (bracketCount % 2 === 0) {
+      bracketCount++;
+      return '(';
+    } else {
+      bracketCount++;
+      return ')';
+    }
+  });
+
   return modifiedString;
 }
 

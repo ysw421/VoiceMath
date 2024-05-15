@@ -18,7 +18,6 @@ const RightGrid: React.FC<RightGridProps> = ({ setIsRecording, currentCamera }) 
 
   const AddLatexSentence = (newSentence: string) => {
     const newSentence_Latex = getLaTeXString(newSentence);
-    console.log(newSentence_Latex);
     setLatexSentences((prevSentences) => [...prevSentences, newSentence_Latex]);
   };
 
@@ -28,23 +27,20 @@ const RightGrid: React.FC<RightGridProps> = ({ setIsRecording, currentCamera }) 
       eventSource.onmessage = (event) => {
         if (event.data == 'started') {
           setIsRecording(true);
-        }
-        if (event.data == 'ended') {
+        } else if (event.data == 'ended') {
           setIsRecording(false);
-        }
-        if (event.data.includes('Reset') || event.data.includes('reset')) {
+        } else if (event.data.includes('Reset') || event.data.includes('reset')) {
           reset(currentCamera);
           setLatexSentences(['']);
-        }
-        if (event.data.includes('increase') || event.data.includes('Increase')) {
+        } else if (event.data.includes('increase') || event.data.includes('Increase')) {
           zoomCamera(5, currentCamera);
-        }
-        if (event.data.includes('decrease') || event.data.includes('Decrease')) {
+        } else if (event.data.includes('decrease') || event.data.includes('Decrease')) {
           zoomCameraOut(5, currentCamera);
         } else {
           stt(event.data).then((commandLists: string[] | undefined) => {
             if (commandLists)
               commandLists.forEach((commandGGB) => {
+                console.log(commandGGB);
                 evalCommand(commandGGB);
                 AddLatexSentence(commandGGB);
               });
@@ -52,7 +48,7 @@ const RightGrid: React.FC<RightGridProps> = ({ setIsRecording, currentCamera }) 
         }
       };
     }
-  }, []);
+  }, [currentCamera, setIsRecording]);
 
   return (
     <div className="tw-w-full tw-h-full" style={{ height: '30px', overflowY: 'auto' }}>
