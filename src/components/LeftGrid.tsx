@@ -11,9 +11,10 @@ export default function LeftGrid({
 }) {
   useEffect(() => {
     const script = document.createElement('script');
-    script.src = 'https://www.geogebra.org/apps/deployggb.js';
+    script.src = '/GeoGebra/deployggbs.js'; // Updated to use local file
     script.async = true;
     document.body.appendChild(script);
+
     script.onload = function () {
       const parameters = {
         prerelease: false,
@@ -35,10 +36,11 @@ export default function LeftGrid({
           api.evalCommand(`CenterView(${defaultCameraPosition.toString()})`);
         }
       };
-      const applet = new window.GGBApplet('6.0', parameters);
+      const applet = new (window as any).GGBApplet('5.0', parameters);
+      applet.setHTML5Codebase('/GeoGebra/HTML5/5.0/web3d/'); // Set the local base URL
       applet.inject('applet_container');
     };
-  }, []);
+  }, [defaultCameraPosition]);
 
   useEffect(() => {
     moveCamera(camera);
