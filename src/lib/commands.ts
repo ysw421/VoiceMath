@@ -47,7 +47,9 @@ export function moveCamera(point: Point) {
 export function zoomCamera(zoom: number, point: Point) {
   if (hasLoaded()) window.ggbApplet.evalCommand(`ZoomIn(${zoom}, ${point.toString()})`);
 }
-
+export function zoomCameraOut(zoom: number, point: Point) {
+  if (hasLoaded()) window.ggbApplet.evalCommand(`ZoomOut(${zoom}, ${point.toString()})`);
+}
 export function drawCircle(point: Point, radius: number) {
   if (hasLoaded()) window.ggbApplet.evalCommand(`Circle(${point.toString()}, ${radius})`);
 }

@@ -1,7 +1,7 @@
 'use client';
 import 'katex/dist/katex.min.css';
 
-import { evalCommand, getLaTeXString, reset, zoomCamera } from '@lib/commands';
+import { evalCommand, getLaTeXString, reset, zoomCamera, zoomCameraOut } from '@lib/commands';
 import stt from '@lib/stt';
 import React, { useEffect, useState } from 'react';
 import { Point } from 'typings';
@@ -28,17 +28,19 @@ const RightGrid: React.FC<RightGridProps> = ({ setIsRecording, currentCamera }) 
       eventSource.onmessage = (event) => {
         if (event.data == 'started') {
           setIsRecording(true);
-        } else if (event.data == 'ended') {
+        }
+        if (event.data == 'ended') {
           setIsRecording(false);
-        } else if (event.data.includes('Reset') || event.data.includes('reset')) {
+        }
+        if (event.data.includes('Reset') || event.data.includes('reset')) {
           reset(currentCamera);
           setLatexSentences(['']);
-        } else if (event.data.includes('increase') || event.data.includes('Increase')) {
+        }
+        if (event.data.includes('increase') || event.data.includes('Increase')) {
           zoomCamera(5, currentCamera);
-          setLatexSentences(['']);
-        } else if (event.data.includes('decrease') || event.data.includes('Decrease')) {
-          zoomCamera(-5, currentCamera);
-          setLatexSentences(['']);
+        }
+        if (event.data.includes('decrease') || event.data.includes('Decrease')) {
+          zoomCameraOut(5, currentCamera);
         } else {
           stt(event.data).then((commandLists: string[] | undefined) => {
             if (commandLists)
