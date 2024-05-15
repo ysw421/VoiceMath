@@ -11,8 +11,8 @@ export default function LeftGrid({
 }) {
   useEffect(() => {
     const script = document.createElement('script');
-    // script.src = 'static/GeoGebra/deployggb.js';
-    script.src = 'https://cdn.geogebra.org/apps/deployggb.js';
+    script.src = 'static/GeoGebra/deployggb.js';
+    // script.src = 'https://cdn.geogebra.org/apps/deployggb.js';
     script.async = true;
     document.body.appendChild(script);
     script.onload = function () {
