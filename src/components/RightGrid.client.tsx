@@ -19,13 +19,13 @@ const RightGrid: React.FC<RightGridProps> = ({ setIsRecording, currentCamera }) 
   const AddLatexSentence = (newSentence: string) => {
     const newSentence_Latex = getLaTeXString(newSentence);
     console.log(newSentence_Latex);
-    setLatexSentences(prevSentences => [...prevSentences, newSentence_Latex]);
+    setLatexSentences((prevSentences) => [...prevSentences, newSentence_Latex]);
   };
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const eventSource = new EventSource('http://localhost:8000/events');
-      eventSource.onmessage = event => {
+      eventSource.onmessage = (event) => {
         if (event.data == 'started') {
           setIsRecording(true);
         } else if (event.data == 'ended') {
@@ -36,13 +36,13 @@ const RightGrid: React.FC<RightGridProps> = ({ setIsRecording, currentCamera }) 
         } else if (event.data.includes('increase') || event.data.includes('Increase')) {
           zoomCamera(5, currentCamera);
           setLatexSentences(['']);
-        } else if (event.data.includes('decrease') || event.data.includes('decrease')) {
+        } else if (event.data.includes('decrease') || event.data.includes('Decrease')) {
           zoomCamera(-5, currentCamera);
           setLatexSentences(['']);
         } else {
           stt(event.data).then((commandLists: string[] | undefined) => {
             if (commandLists)
-              commandLists.forEach(commandGGB => {
+              commandLists.forEach((commandGGB) => {
                 evalCommand(commandGGB);
                 AddLatexSentence(commandGGB);
               });
