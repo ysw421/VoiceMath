@@ -29,7 +29,11 @@ const RightGrid: React.FC<RightGridProps> = ({ setIsRecording, currentCamera }) 
           setIsRecording(true);
         } else if (event.data == 'ended') {
           setIsRecording(false);
-        } else if (event.data.includes('Reset') || event.data.includes('reset')) {
+        } else if (
+          event.data.includes('clear') ||
+          event.data.includes('Clear') ||
+          event.data.includes('Clean')
+        ) {
           reset(currentCamera);
           setLatexSentences(['']);
         } else if (event.data.includes('increase') || event.data.includes('Increase')) {

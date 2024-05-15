@@ -36,7 +36,7 @@ export default function LeftGrid({
           api.evalCommand(`CenterView(${defaultCameraPosition.toString()})`);
         }
       };
-      const applet = new window.GGBApplet('6.0', parameters);
+      const applet = new window.GGBApplet('5.0', parameters);
       applet.inject('applet_container');
     };
   }, []);
